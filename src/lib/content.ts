@@ -1,5 +1,6 @@
 export const site = {
-  name: "Анна Воронова",
+  name: "Сосновский Алексей",
+  givenName: "Алексей",
   title: "сертифицированный массажист",
   tagline: "Возвращаю телу лёгкость и покой",
   description:
@@ -8,7 +9,7 @@ export const site = {
   address: "Минск, ул. Немига, 12, каб. 4",
   phone: "+375 (29) 123-45-67",
   phoneHref: "tel:+375291234567",
-  email: "anna.voronova@example.by",
+  email: "alexey.sosnovsky@example.by",
   hours: "Пн–Сб 10:00–20:00",
   social: {
     instagram: "https://instagram.com",
@@ -84,7 +85,7 @@ export const processSteps = [
 export const testimonials = [
   {
     id: "1",
-    text: "После нескольких сеансов ушла боль в шее, которую мучила годами. Анна работает очень внимательно и профессионально.",
+    text: "После нескольких сеансов ушла боль в шее, которую мучила годами. Алексей работает очень внимательно и профессионально.",
     author: "Мария К.",
     role: "Дизайнер",
   },
@@ -123,7 +124,7 @@ export const galleryImages = [
   },
   {
     id: "4",
-    src: "https://images.unsplash.com/photo-1596178065887-1191b6148b33?w=800&q=80",
+    src: "https://images.unsplash.com/photo-1709755491926-f7aa83748967?w=800&q=80",
     alt: "Профессиональный массаж спины",
     span: "wide" as const,
   },
@@ -135,7 +136,7 @@ export const galleryImages = [
   },
   {
     id: "6",
-    src: "https://images.unsplash.com/photo-1540555700478-4be289fbecff?w=800&q=80",
+    src: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80",
     alt: "Детали кабинета",
     span: "tall" as const,
   },

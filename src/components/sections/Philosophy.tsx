@@ -4,7 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { philosophy } from "@/lib/content";
+import { philosophy, site } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
@@ -72,7 +72,7 @@ export function Philosophy() {
               </p>
               <div className="mt-8 flex items-center gap-4">
                 <div className="h-px flex-1 bg-border" />
-                <span className="text-sm text-accent">Анна Воронова</span>
+                <span className="text-sm text-accent">{site.name}</span>
               </div>
             </div>
           </RevealText>

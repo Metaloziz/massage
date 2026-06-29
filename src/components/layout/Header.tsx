@@ -42,7 +42,7 @@ export function Header() {
           onClick={() => handleNavClick("#hero")}
           className="font-serif text-xl font-medium tracking-tight md:text-2xl"
         >
-          {site.name.split(" ")[0]}
+          {site.givenName}
           <span className="text-accent">.</span>
         </button>
 
