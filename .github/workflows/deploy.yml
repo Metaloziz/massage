@@ -30,6 +30,7 @@ jobs:
       - run: npm run build
         env:
           BASE_PATH: /massage
+          SITE_URL: https://metaloziz.github.io/massage
 
       - uses: actions/upload-pages-artifact@v3
         with:

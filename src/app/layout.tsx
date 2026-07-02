@@ -3,7 +3,9 @@ import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { site } from "@/lib/content";
+import { ogImageUrl, seo, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -19,13 +21,40 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: `${site.name} — массажист в Минске`,
-  description: site.description,
+  metadataBase: new URL(siteUrl),
+  title: seo.title,
+  description: seo.description,
+  keywords: [...seo.keywords],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
-    title: `${site.name} — массажист в Минске`,
-    description: site.tagline,
+    title: seo.title,
+    description: seo.description,
     locale: "ru_BY",
     type: "website",
+    url: siteUrl,
+    siteName: site.name,
+    images: [
+      {
+        url: ogImageUrl,
+        alt: `${site.name} — массажный кабинет`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seo.title,
+    description: seo.description,
+    images: [ogImageUrl],
+  },
+  other: {
+    "geo.region": "BY-MI",
+    "geo.placename": "Минск, Молодечно",
   },
 };
 
@@ -37,6 +66,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${cormorant.variable} ${dmSans.variable}`}>
       <body className="min-h-screen antialiased">
+        <JsonLd />
         <SmoothScroll>
           <Header />
           {children}

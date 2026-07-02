@@ -4,7 +4,6 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Clock } from "lucide-react";
 import { services } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
@@ -58,7 +57,7 @@ export function Services() {
             Подберём технику под ваше состояние
           </h2>
           <p className="mt-4 text-muted">
-            Цены указаны для кабинета в Тюрлях и отдельно для Минска.
+            Стоимость зависит от кабинета — уточняйте при записи.
           </p>
         </RevealText>
 
@@ -72,27 +71,25 @@ export function Services() {
               <p className="mt-4 text-sm leading-relaxed text-muted">
                 {service.description}
               </p>
-              <div className="mt-6 flex items-center gap-2 text-sm text-muted">
-                <Clock size={16} className="text-accent" />
-                {service.duration}
-              </div>
 
-              <div className="mt-6 space-y-3 border-t border-border pt-6">
-                <div className="flex items-center justify-between gap-4">
-                  <span className="text-sm text-muted">Тюрли</span>
-                  <span className="rounded-full bg-accent-light px-3 py-1 text-sm font-medium text-accent">
-                    {service.priceTyurli}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between gap-4">
-                  <span className="text-sm text-muted">Минск</span>
-                  <span className="rounded-full bg-accent-light px-3 py-1 text-sm font-medium text-accent">
-                    {service.priceMinsk}
-                    {"priceMinskNote" in service && service.priceMinskNote
-                      ? ` ${service.priceMinskNote}`
-                      : ""}
-                  </span>
-                </div>
+              <div className="mt-6 space-y-4 border-t border-border pt-6">
+                {service.pricing.map((tier) => (
+                  <div key={tier.location}>
+                    <p className="text-sm font-medium text-foreground">
+                      {tier.location}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {tier.items.map((price) => (
+                        <span
+                          key={price}
+                          className="rounded-full bg-accent-light px-3 py-1 text-sm font-medium text-accent"
+                        >
+                          {price}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </article>
           ))}

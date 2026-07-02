@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { galleryImages } from "@/lib/content";
+import { assetPath } from "@/lib/assetPath";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useIsMobile, useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
@@ -82,11 +83,10 @@ export function Gallery() {
             id="gallery-heading"
             className="font-serif text-4xl font-medium md:text-5xl"
           >
-            Кабинет в Минске
+            Пространство для отдыха
           </h2>
           <p className="mt-4 text-muted">
-            Уютное пространство на ул. Тепличная — всё для спокойного и
-            комфортного сеанса.
+            Уютная атмосфера кабинета — всё для спокойного и комфортного сеанса.
           </p>
         </RevealText>
 
@@ -97,7 +97,7 @@ export function Gallery() {
               className={`gallery-item relative overflow-hidden rounded-2xl ${spanClasses[image.span]}`}
             >
               <Image
-                src={image.src}
+                src={assetPath(image.src)}
                 alt={image.alt}
                 fill
                 loading="lazy"

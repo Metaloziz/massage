@@ -57,3 +57,22 @@ BASE_PATH=/massage npm run build
 ```
 
 Статические файлы появятся в папке `out/`.
+
+## SEO и смена домена
+
+Сайт оптимизирован для поиска по запросам в **Минске** и **Молодечно**: meta-теги, Open Graph, JSON-LD, `robots.txt` и `sitemap.xml`.
+
+### Переменные окружения при сборке
+
+| Переменная | Назначение | Значение для GitHub Pages |
+|------------|----------|-------------------------|
+| `BASE_PATH` | Префикс путей на сервере | `/massage` |
+| `SITE_URL` | Canonical, sitemap, Open Graph | `https://metaloziz.github.io/massage` |
+
+При переезде на свой домен измените `SITE_URL` в [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) (и `BASE_PATH`, если сайт будет в корне домена), затем пересоберите проект.
+
+### После деплоя
+
+1. [Яндекс Вебмастер](https://webmaster.yandex.ru/) — добавьте сайт, подтвердите владение, укажите sitemap: `https://ваш-домен/sitemap.xml`
+2. [Google Search Console](https://search.google.com/search-console) — то же самое
+3. Проверьте, что в карточках на Яндекс и Google Картах указана актуальная ссылка на сайт

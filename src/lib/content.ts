@@ -4,7 +4,7 @@ export const site = {
   title: "сертифицированный массажист",
   tagline: "Возвращаю телу лёгкость и покой",
   description:
-    "Индивидуальный подход к каждому клиенту. Работаю с телом бережно, помогая снять напряжение и восстановить естественный баланс.",
+    "Индивидуальный подход к каждому клиенту. Кинезиомассаж и классический массаж — бережная работа с телом, помощь снять напряжение и восстановить естественный баланс.",
   experience: "8 лет практики",
   regionLabel: "Массажист · Минск · Молодечно",
   phone: "+375 (29) 570-56-37",
@@ -33,6 +33,7 @@ export const locations = [
     name: "Кинезиомассаж",
     city: "Минская область",
     district: "д. Тюрли",
+    seoArea: "Молодечно",
     address: "ул. Южная, 6",
     fullAddress: "д. Тюрли, ул. Южная, 6",
     directions:
@@ -45,7 +46,7 @@ export const locations = [
   },
   {
     id: "minsk",
-    label: "Кабинет в Минске",
+    label: "Кабинет на ул. Тепличная",
     name: "Кинезиомассаж",
     city: "Минск",
     district: "ул. Тепличная",
@@ -60,7 +61,7 @@ export const locations = [
       cabinet: [
         {
           src: "/locations/minsk/cabinet-1.jpg",
-          alt: "Массажный кабинет в Минске — рабочее пространство",
+          alt: "Массажный кабинет — рабочее пространство",
         },
         {
           src: "/locations/minsk/cabinet-2.jpg",
@@ -116,19 +117,32 @@ export const services = [
     title: "Кинезиология + массаж",
     description:
       "Входит диагностика на всех этапах работы и сам кинезиомассаж.",
-    duration: "60 мин",
-    priceTyurli: "120 руб.",
-    priceMinsk: "150 руб.",
+    pricing: [
+      {
+        location: "Тюрли",
+        items: ["120 руб. за 60 мин"],
+      },
+      {
+        location: "ул. Тепличная",
+        items: ["150 руб. за 60 мин"],
+      },
+    ],
   },
   {
     id: "massage",
     title: "Массаж",
     description:
       "Классический, лимфодренажный, глубокотканный или спортивный.",
-    duration: "60 / 30 мин",
-    priceTyurli: "100 / 50 руб.",
-    priceMinsk: "110 руб.",
-    priceMinskNote: "за 60 мин",
+    pricing: [
+      {
+        location: "Тюрли",
+        items: ["100 руб. за 60 мин", "50 руб. за 30 мин"],
+      },
+      {
+        location: "ул. Тепличная",
+        items: ["110 руб. за 60 мин"],
+      },
+    ],
   },
 ] as const;
 
@@ -195,7 +209,7 @@ export const galleryImages = [
   {
     id: "minsk-cabinet-1",
     src: "/locations/minsk/cabinet-1.jpg",
-    alt: "Уютный массажный кабинет в Минске",
+    alt: "Уютный массажный кабинет",
     span: "tall" as const,
   },
   {

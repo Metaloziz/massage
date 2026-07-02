@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ArrowDown } from "lucide-react";
 import { heroImage, heroVideo, site } from "@/lib/content";
+import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { useIsMobile, useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
@@ -86,15 +87,15 @@ export function Hero() {
               loop
               muted
               playsInline
-              poster={heroImage}
+              poster={assetPath(heroImage)}
               className="absolute inset-0 h-full w-full object-cover"
               aria-label={`${site.name} — видео кабинета`}
             >
-              <source src={heroVideo} type="video/mp4" />
+              <source src={assetPath(heroVideo)} type="video/mp4" />
             </video>
           ) : (
             <Image
-              src={heroImage}
+              src={assetPath(heroImage)}
               alt={`${site.name} — массажный кабинет`}
               fill
               priority

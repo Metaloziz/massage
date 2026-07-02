@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { locations } from "@/lib/content";
+import { assetPath } from "@/lib/assetPath";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
@@ -59,8 +60,7 @@ export function Locations() {
             Два пространства для вашего комфорта
           </h2>
           <p className="mt-6 text-lg text-muted">
-            Принимаю в Минске и в Минской области — выбирайте кабинет, который
-            удобнее по расположению.
+            Два кабинета — выбирайте тот, который удобнее по расположению.
           </p>
         </RevealText>
 
@@ -80,7 +80,7 @@ export function Locations() {
                 {images?.cabinet[0] && (
                   <div className="relative aspect-[16/10] w-full">
                     <Image
-                      src={images.cabinet[0].src}
+                      src={assetPath(images.cabinet[0].src)}
                       alt={images.cabinet[0].alt}
                       fill
                       className="object-cover"
@@ -141,7 +141,7 @@ export function Locations() {
         {minskImages && (
           <RevealText className="mt-16">
             <h3 className="font-serif text-2xl font-medium md:text-3xl">
-              Как найти кабинет в Минске
+              Как найти кабинет на ул. Тепличная
             </h3>
             <p className="mt-4 max-w-2xl text-muted">
               Здание с розово-белым фасадом на ул. Тепличная, 1. Вход — по
@@ -154,7 +154,7 @@ export function Locations() {
                   className="relative aspect-[4/3] overflow-hidden rounded-2xl"
                 >
                   <Image
-                    src={image.src}
+                    src={assetPath(image.src)}
                     alt={image.alt}
                     fill
                     className="object-cover"
