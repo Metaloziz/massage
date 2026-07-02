@@ -119,11 +119,11 @@ export const services = [
       "Входит диагностика на всех этапах работы и сам кинезиомассаж.",
     pricing: [
       {
-        location: "Тюрли",
+        locationId: "tyurli",
         items: ["120 руб. за 60 мин"],
       },
       {
-        location: "ул. Тепличная",
+        locationId: "minsk",
         items: ["150 руб. за 60 мин"],
       },
     ],
@@ -135,11 +135,11 @@ export const services = [
       "Классический, лимфодренажный, глубокотканный или спортивный.",
     pricing: [
       {
-        location: "Тюрли",
+        locationId: "tyurli",
         items: ["100 руб. за 60 мин", "50 руб. за 30 мин"],
       },
       {
-        location: "ул. Тепличная",
+        locationId: "minsk",
         items: ["110 руб. за 60 мин"],
       },
     ],

@@ -9,6 +9,9 @@ import { siteUrl } from "@/lib/seo";
 
 const tyurliLocation = locations.find((location) => location.id === "tyurli");
 const minskLocation = locations.find((location) => location.id === "minsk");
+const locationById = Object.fromEntries(
+  locations.map((location) => [location.id, location]),
+);
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -83,7 +86,7 @@ const serviceSchemas = services.map((service) => ({
   offers: service.pricing.flatMap((tier) =>
     tier.items.map((price) => ({
       "@type": "Offer",
-      description: `${tier.location} — ${price}`,
+      description: `${locationById[tier.locationId].fullAddress} — ${price}`,
       priceCurrency: "BYN",
     })),
   ),

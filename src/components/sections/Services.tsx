@@ -4,12 +4,16 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { services } from "@/lib/content";
+import { locations, services } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const locationById = Object.fromEntries(
+  locations.map((location) => [location.id, location]),
+);
 
 export function Services() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -74,9 +78,9 @@ export function Services() {
 
               <div className="mt-6 space-y-4 border-t border-border pt-6">
                 {service.pricing.map((tier) => (
-                  <div key={tier.location}>
+                  <div key={tier.locationId}>
                     <p className="text-sm font-medium text-foreground">
-                      {tier.location}
+                      {locationById[tier.locationId].fullAddress}
                     </p>
                     <div className="mt-2 flex flex-wrap gap-2">
                       {tier.items.map((price) => (
