@@ -29,8 +29,31 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Деплой на GitHub Pages
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Сайт публикуется автоматически при пуше в ветку `master` через GitHub Actions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**URL после деплоя:** https://metaloziz.github.io/massage/
+
+### Первоначальная настройка
+
+1. Запушьте изменения в `master`.
+2. В репозитории на GitHub: **Settings → Pages → Build and deployment → Source** → выберите **GitHub Actions**.
+3. Дождитесь завершения workflow во вкладке **Actions**.
+4. Откройте https://metaloziz.github.io/massage/
+
+### Ручной перезапуск деплоя
+
+Во вкладке **Actions** выберите workflow «Deploy to GitHub Pages» и нажмите **Run workflow**.
+
+### Локальная проверка сборки
+
+```bash
+# Windows (PowerShell)
+$env:BASE_PATH="/massage"; npm run build
+
+# macOS / Linux
+BASE_PATH=/massage npm run build
+```
+
+Статические файлы появятся в папке `out/`.

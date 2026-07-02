@@ -82,11 +82,15 @@ export function Gallery() {
             id="gallery-heading"
             className="font-serif text-4xl font-medium md:text-5xl"
           >
-            Пространство для отдыха
+            Кабинет в Минске
           </h2>
+          <p className="mt-4 text-muted">
+            Уютное пространство на ул. Тепличная — всё для спокойного и
+            комфортного сеанса.
+          </p>
         </RevealText>
 
-        <div className="grid auto-rows-[200px] grid-cols-1 gap-4 sm:auto-rows-[180px] sm:grid-cols-2 md:auto-rows-[220px] lg:grid-cols-3">
+        <div className="grid auto-rows-[220px] grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[280px]">
           {galleryImages.map((image) => (
             <div
               key={image.id}

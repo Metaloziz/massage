@@ -1,5 +1,5 @@
-import { Camera, Mail, MapPin, Phone, Send } from "lucide-react";
-import { navLinks, site } from "@/lib/content";
+import { Camera, MapPin, Phone, Send } from "lucide-react";
+import { locations, navLinks, site } from "@/lib/content";
 
 export function Footer() {
   return (
@@ -35,24 +35,52 @@ export function Footer() {
             <p className="mb-4 text-xs font-medium tracking-widest text-accent uppercase">
               Контакты
             </p>
-            <ul className="space-y-3 text-sm text-muted">
-              <li className="flex items-start gap-2">
-                <MapPin size={16} className="mt-0.5 shrink-0 text-accent" />
-                {site.address}
-              </li>
+            <ul className="space-y-4 text-sm text-muted">
+              {locations.map((location) => (
+                <li key={location.id} className="flex items-start gap-2">
+                  <MapPin size={16} className="mt-0.5 shrink-0 text-accent" />
+                  <div>
+                    <p className="font-medium text-foreground">{location.label}</p>
+                    <p>{location.fullAddress}</p>
+                    {location.mapUrl && (
+                      <a
+                        href={location.mapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-1 inline-block text-accent hover:text-foreground"
+                      >
+                        На карте
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
               <li className="flex items-center gap-2">
                 <Phone size={16} className="shrink-0 text-accent" />
                 <a href={site.phoneHref} className="hover:text-foreground">
                   {site.phone}
                 </a>
               </li>
-              <li className="flex items-center gap-2">
-                <Mail size={16} className="shrink-0 text-accent" />
-                <a href={`mailto:${site.email}`} className="hover:text-foreground">
-                  {site.email}
-                </a>
-              </li>
+              <li className="text-sm">{site.payment}</li>
             </ul>
+            <div className="mt-6 flex flex-col gap-2 text-sm">
+              <a
+                href={site.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted transition-colors hover:text-foreground"
+              >
+                {site.social.instagramHandle}
+              </a>
+              <a
+                href={site.social.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted transition-colors hover:text-foreground"
+              >
+                {site.social.telegramHandle}
+              </a>
+            </div>
             <div className="mt-6 flex gap-3">
               <a
                 href={site.social.instagram}

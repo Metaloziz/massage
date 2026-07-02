@@ -3,6 +3,7 @@ import { Philosophy } from "@/components/sections/Philosophy";
 import { Services } from "@/components/sections/Services";
 import { Process } from "@/components/sections/Process";
 import { Gallery } from "@/components/sections/Gallery";
+import { Locations } from "@/components/sections/Locations";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Booking } from "@/components/sections/Booking";
 
@@ -14,6 +15,7 @@ export default function Home() {
       <Services />
       <Process />
       <Gallery />
+      <Locations />
       <Testimonials />
       <Booking />
     </main>

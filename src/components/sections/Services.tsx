@@ -23,13 +23,17 @@ export function Services() {
 
       ScrollTrigger.batch(".service-card", {
         onEnter: (batch) =>
-          gsap.from(batch, {
-            y: 50,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: "power3.out",
-          }),
+          gsap.fromTo(
+            batch,
+            { y: 50, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.8,
+              stagger: 0.12,
+              ease: "power3.out",
+            },
+          ),
         start: "top 85%",
         once: true,
       });
@@ -53,6 +57,9 @@ export function Services() {
           >
             Подберём технику под ваше состояние
           </h2>
+          <p className="mt-4 text-muted">
+            Цены указаны для кабинета в Тюрлях и отдельно для Минска.
+          </p>
         </RevealText>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -61,18 +68,31 @@ export function Services() {
               key={service.id}
               className="service-card group rounded-2xl border border-border bg-background p-8 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5"
             >
-              <div className="mb-4 flex items-start justify-between gap-4">
-                <h3 className="font-serif text-2xl font-medium">{service.title}</h3>
-                <span className="shrink-0 rounded-full bg-accent-light px-3 py-1 text-sm font-medium text-accent">
-                  {service.price}
-                </span>
-              </div>
-              <p className="mb-6 text-sm leading-relaxed text-muted">
+              <h3 className="font-serif text-2xl font-medium">{service.title}</h3>
+              <p className="mt-4 text-sm leading-relaxed text-muted">
                 {service.description}
               </p>
-              <div className="flex items-center gap-2 text-sm text-muted">
+              <div className="mt-6 flex items-center gap-2 text-sm text-muted">
                 <Clock size={16} className="text-accent" />
                 {service.duration}
+              </div>
+
+              <div className="mt-6 space-y-3 border-t border-border pt-6">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-sm text-muted">Тюрли</span>
+                  <span className="rounded-full bg-accent-light px-3 py-1 text-sm font-medium text-accent">
+                    {service.priceTyurli}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-sm text-muted">Минск</span>
+                  <span className="rounded-full bg-accent-light px-3 py-1 text-sm font-medium text-accent">
+                    {service.priceMinsk}
+                    {"priceMinskNote" in service && service.priceMinskNote
+                      ? ` ${service.priceMinskNote}`
+                      : ""}
+                  </span>
+                </div>
               </div>
             </article>
           ))}

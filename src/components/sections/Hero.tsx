@@ -6,7 +6,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ArrowDown } from "lucide-react";
-import { heroImage, site } from "@/lib/content";
+import { heroImage, heroVideo, site } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { useIsMobile, useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
@@ -26,6 +26,7 @@ export function Hero() {
   const mounted = useMounted();
 
   const showBlob = mounted && !reducedMotion && !isMobile;
+  const showVideo = mounted && !reducedMotion;
 
   useGSAP(
     () => {
@@ -53,7 +54,7 @@ export function Hero() {
       <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 md:px-8 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-24">
         <div className="flex flex-col justify-center">
           <p className="hero-label mb-4 text-xs font-medium tracking-[0.2em] text-accent uppercase">
-            Массажист · Минск
+            {site.regionLabel}
           </p>
           <h1
             id="hero-heading"
@@ -79,14 +80,28 @@ export function Hero() {
         </div>
 
         <div className="hero-image relative aspect-[4/5] w-full max-w-lg justify-self-center overflow-hidden rounded-3xl lg:max-w-none">
-          <Image
-            src={heroImage}
-            alt={`${site.name} — массажный кабинет`}
-            fill
-            priority
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 50vw"
-          />
+          {showVideo ? (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster={heroImage}
+              className="absolute inset-0 h-full w-full object-cover"
+              aria-label={`${site.name} — видео кабинета`}
+            >
+              <source src={heroVideo} type="video/mp4" />
+            </video>
+          ) : (
+            <Image
+              src={heroImage}
+              alt={`${site.name} — массажный кабинет`}
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/10 to-transparent" />
         </div>
       </div>
