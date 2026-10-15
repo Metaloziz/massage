@@ -57,9 +57,6 @@ export function Hero() {
 
       <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 md:px-8 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-24">
         <div className="flex flex-col justify-center">
-          <p className="hero-label mb-4 text-xs font-medium tracking-[0.2em] text-accent uppercase">
-            {site.regionLabel}
-          </p>
           <h1
             id="hero-heading"
             className="hero-title font-serif text-5xl leading-[1.1] font-medium tracking-tight md:text-6xl lg:text-7xl"
@@ -68,6 +65,9 @@ export function Hero() {
           </h1>
           <p className="hero-subtitle mt-4 text-lg text-muted md:text-xl">
             {site.tagline}
+          </p>
+          <p className="hero-label mt-3 text-base font-medium text-accent md:text-lg">
+            {site.metaLine}
           </p>
           <p className="hero-desc mt-6 max-w-md text-base leading-relaxed text-muted">
             {site.description}
