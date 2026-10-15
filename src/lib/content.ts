@@ -117,6 +117,18 @@ export const locations = [
     mapLabel: "Яндекс Карты",
     hours: "По предварительной записи",
     available: true,
+    images: {
+      cabinet: [
+        {
+          src: "/locations/tyurli/cabinet-1.jpg",
+          alt: "Кабинет в д. Тюрли — фото скоро",
+        },
+        {
+          src: "/locations/tyurli/cabinet-2.jpg",
+          alt: "Вход в кабинет в д. Тюрли — фото скоро",
+        },
+      ],
+    },
   },
   {
     id: "minsk",
