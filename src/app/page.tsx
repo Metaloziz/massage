@@ -1,23 +1,19 @@
 import { Hero } from "@/components/sections/Hero";
-import { Philosophy } from "@/components/sections/Philosophy";
-import { Services } from "@/components/sections/Services";
-import { Process } from "@/components/sections/Process";
+import { Prep } from "@/components/sections/Prep";
+import { HomeServiceCards } from "@/components/sections/HomeServiceCards";
 import { Gallery } from "@/components/sections/Gallery";
 import { Locations } from "@/components/sections/Locations";
 import { Testimonials } from "@/components/sections/Testimonials";
-import { Booking } from "@/components/sections/Booking";
 
 export default function Home() {
   return (
     <main>
       <Hero />
-      <Philosophy />
-      <Services />
-      <Process />
+      <Prep />
+      <HomeServiceCards />
       <Gallery />
       <Locations />
       <Testimonials />
-      <Booking />
     </main>
   );
 }

@@ -9,6 +9,7 @@ import { ArrowDown } from "lucide-react";
 import { heroImage, heroVideo, site } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
+import { useBooking } from "@/components/booking/BookingProvider";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { useIsMobile, useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -25,6 +26,7 @@ export function Hero() {
   const reducedMotion = useReducedMotion();
   const isMobile = useIsMobile();
   const mounted = useMounted();
+  const { openSessionBooking, openTrainingBooking } = useBooking();
 
   const showBlob = mounted && !reducedMotion && !isMobile;
   const showVideo = mounted && !reducedMotion;
@@ -37,6 +39,7 @@ export function Hero() {
       tl.from(".hero-label", { y: 20, opacity: 0, duration: 0.8 })
         .from(".hero-title", { y: 40, opacity: 0, duration: 1 }, "-=0.5")
         .from(".hero-subtitle", { y: 30, opacity: 0, duration: 0.8 }, "-=0.6")
+        .from(".hero-desc", { y: 20, opacity: 0, duration: 0.7 }, "-=0.5")
         .from(".hero-cta", { y: 20, opacity: 0, duration: 0.6 }, "-=0.4")
         .from(".hero-image", { scale: 1.05, opacity: 0, duration: 1.2 }, "-=0.8");
     },
@@ -66,18 +69,21 @@ export function Hero() {
           <p className="hero-subtitle mt-4 text-lg text-muted md:text-xl">
             {site.tagline}
           </p>
-          <p className="mt-6 max-w-md text-base leading-relaxed text-muted">
+          <p className="hero-desc mt-6 max-w-md text-base leading-relaxed text-muted">
             {site.description}
           </p>
-          <div className="hero-cta mt-10 flex flex-wrap items-center gap-4">
-            <Button onClick={() => scrollToElement("#booking")}>
-              Записаться
+          <div className="hero-cta mt-10 grid w-full max-w-md grid-cols-1 gap-3 sm:grid-cols-2">
+            <Button className="w-full px-5" onClick={() => openSessionBooking()}>
+              Записаться на сеанс
             </Button>
-            <Button variant="outline" onClick={() => scrollToElement("#services")}>
-              Услуги
+            <Button
+              variant="outline"
+              className="w-full px-5"
+              onClick={openTrainingBooking}
+            >
+              Записаться на обучение
             </Button>
           </div>
-          <p className="mt-8 text-sm text-muted">{site.experience}</p>
         </div>
 
         <div className="hero-image relative aspect-[4/5] w-full max-w-lg justify-self-center overflow-hidden rounded-3xl lg:max-w-none">
@@ -109,7 +115,7 @@ export function Hero() {
 
       <button
         type="button"
-        onClick={() => scrollToElement("#philosophy")}
+        onClick={() => scrollToElement("#prep")}
         className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-bounce text-muted transition-colors hover:text-accent md:flex"
         aria-label="Прокрутить вниз"
       >

@@ -77,7 +77,7 @@ const serviceSchemas = services.map((service) => ({
   "@context": "https://schema.org",
   "@type": "Service",
   name: service.title,
-  description: service.description,
+  description: service.shortDescription,
   provider: {
     "@type": "Person",
     name: site.name,

@@ -3,6 +3,7 @@ import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { BookingProvider } from "@/components/booking/BookingProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { site } from "@/lib/content";
 import { ogImageUrl, seo, siteUrl } from "@/lib/seo";
@@ -68,9 +69,11 @@ export default function RootLayout({
       <body className="min-h-screen antialiased">
         <JsonLd />
         <SmoothScroll>
-          <Header />
-          {children}
-          <Footer />
+          <BookingProvider>
+            <Header />
+            {children}
+            <Footer />
+          </BookingProvider>
         </SmoothScroll>
       </body>
     </html>

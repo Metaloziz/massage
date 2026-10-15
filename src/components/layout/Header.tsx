@@ -1,13 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
+import { useBooking } from "@/components/booking/BookingProvider";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
+
+function resolveNavHref(href: string) {
+  if (href.startsWith("/#")) {
+    return { pathname: "/", hash: href.slice(2) };
+  }
+  return { pathname: href, hash: null as string | null };
+}
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const { openSessionBooking } = useBooking();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -25,8 +38,36 @@ export function Header() {
 
   const handleNavClick = (href: string) => {
     setMenuOpen(false);
-    scrollToElement(href);
+    const { pathname: targetPath, hash } = resolveNavHref(href);
+
+    if (hash) {
+      if (pathname === "/" || pathname === "") {
+        scrollToElement(`#${hash}`);
+      } else {
+        router.push(`/#${hash}`);
+      }
+      return;
+    }
+
+    if (targetPath === pathname) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    router.push(targetPath);
   };
+
+  useEffect(() => {
+    if (pathname !== "/" && pathname !== "") return;
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const timer = window.setTimeout(() => {
+      scrollToElement(hash);
+    }, 100);
+
+    return () => window.clearTimeout(timer);
+  }, [pathname]);
 
   return (
     <header
@@ -37,14 +78,14 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-20 md:px-8">
-        <button
-          type="button"
-          onClick={() => handleNavClick("#hero")}
+        <Link
+          href="/"
           className="font-serif text-xl font-medium tracking-tight md:text-2xl"
+          onClick={() => setMenuOpen(false)}
         >
           {site.givenName}
           <span className="text-accent">.</span>
-        </button>
+        </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Основная навигация">
           {navLinks.map((link) => (
@@ -61,7 +102,7 @@ export function Header() {
 
         <button
           type="button"
-          onClick={() => handleNavClick("#booking")}
+          onClick={() => openSessionBooking()}
           className="hidden rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80 lg:inline-flex"
         >
           Записаться
@@ -96,7 +137,10 @@ export function Header() {
           ))}
           <button
             type="button"
-            onClick={() => handleNavClick("#booking")}
+            onClick={() => {
+              setMenuOpen(false);
+              openSessionBooking();
+            }}
             className="mt-4 rounded-full bg-foreground px-6 py-4 text-base font-medium text-background"
           >
             Записаться

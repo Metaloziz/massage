@@ -73,7 +73,7 @@ export function Services() {
             >
               <h3 className="font-serif text-2xl font-medium">{service.title}</h3>
               <p className="mt-4 text-sm leading-relaxed text-muted">
-                {service.description}
+                {service.shortDescription}
               </p>
 
               <div className="mt-6 space-y-4 border-t border-border pt-6">

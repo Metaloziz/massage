@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Camera, MapPin, Phone, Send } from "lucide-react";
 import { locations, navLinks, site } from "@/lib/content";
 
@@ -20,12 +21,12 @@ export function Footer() {
             <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-sm text-muted transition-colors hover:text-foreground"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
