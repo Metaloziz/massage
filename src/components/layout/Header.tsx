@@ -8,6 +8,7 @@ import { navLinks, site } from "@/lib/content";
 import { useBooking } from "@/components/booking/BookingProvider";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { lockBodyScroll } from "@/lib/scrollLock";
 
 function resolveNavHref(href: string) {
   if (href.startsWith("/#")) {
@@ -32,10 +33,8 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (!menuOpen) return;
+    return lockBodyScroll();
   }, [menuOpen]);
 
   const handleNavClick = (href: string) => {
@@ -82,6 +81,7 @@ export function Header() {
             ? "border-b border-border/60 bg-background/95 backdrop-blur-md"
             : "border-b border-transparent bg-transparent"
       }`}
+      style={{ paddingRight: "var(--scrollbar-compensation, 0px)" }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-20 md:px-8">
         <Link
