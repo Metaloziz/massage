@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MessageCircle, Phone, Send } from "lucide-react";
 import {
   bookingChannels,
@@ -11,6 +11,7 @@ import {
   type BookingChannelId,
   type SessionServiceId,
 } from "@/lib/content";
+import { sessionSchedule } from "@/data/schedule";
 import { BookingModal } from "@/components/booking/BookingModal";
 import { Button } from "@/components/ui/Button";
 
@@ -27,6 +28,13 @@ const channelIcons = {
   phone: Phone,
 } as const;
 
+function todayIsoDate() {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
 export function SessionBooking({
   open,
   initialServiceId,
@@ -36,27 +44,45 @@ export function SessionBooking({
   const [serviceId, setServiceId] = useState<SessionServiceId | null>(
     initialServiceId ?? null,
   );
+  const [preferredDate, setPreferredDate] = useState("");
+  const [preferredTime, setPreferredTime] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const minDate = useMemo(() => todayIsoDate(), []);
 
   useEffect(() => {
     if (!open) return;
     setChannelId(null);
     setServiceId(initialServiceId ?? null);
+    setPreferredDate("");
+    setPreferredTime(null);
     setCopied(false);
   }, [open, initialServiceId]);
 
   const step = !channelId ? 1 : !serviceId ? 2 : 3;
   const selectedService = serviceId ? getServiceById(serviceId) : undefined;
-  const message = serviceId ? sessionBookingMessage(serviceId) : "";
+  const canOpenChannel = Boolean(preferredDate && preferredTime);
+  const message =
+    serviceId && preferredDate && preferredTime
+      ? sessionBookingMessage(serviceId, {
+          date: preferredDate,
+          time: preferredTime,
+        })
+      : serviceId
+        ? "Выберите удобные дату и время — текст сообщения появится здесь."
+        : "";
 
   const handleOpenChannel = async () => {
-    if (!channelId || !serviceId) return;
+    if (!channelId || !serviceId || !preferredDate || !preferredTime) return;
 
-    const href = buildChannelHref(channelId, message);
+    const finalMessage = sessionBookingMessage(serviceId, {
+      date: preferredDate,
+      time: preferredTime,
+    });
+    const href = buildChannelHref(channelId, finalMessage);
 
     if (channelId === "viber") {
       try {
-        await navigator.clipboard.writeText(message);
+        await navigator.clipboard.writeText(finalMessage);
         setCopied(true);
       } catch {
         setCopied(false);
@@ -118,7 +144,11 @@ export function SessionBooking({
               </p>
             </button>
           ))}
-          <Button variant="ghost" className="mt-2 w-full" onClick={() => setChannelId(null)}>
+          <Button
+            variant="ghost"
+            className="mt-2 w-full"
+            onClick={() => setChannelId(null)}
+          >
             Назад
           </Button>
         </div>
@@ -126,6 +156,40 @@ export function SessionBooking({
 
       {channelId && serviceId && (
         <div className="space-y-5">
+          <label className="block space-y-2">
+            <span className="text-sm font-medium">Удобная дата</span>
+            <input
+              type="date"
+              min={minDate}
+              value={preferredDate}
+              onChange={(event) => setPreferredDate(event.target.value)}
+              className="w-full rounded-2xl border border-border bg-card px-4 py-3 outline-none transition-colors focus:border-accent"
+            />
+          </label>
+
+          <div className="space-y-2">
+            <span className="text-sm font-medium">Удобное время</span>
+            <div className="grid grid-cols-3 gap-2">
+              {sessionSchedule.timeSlots.map((slot) => {
+                const selected = preferredTime === slot.label;
+                return (
+                  <button
+                    key={slot.id}
+                    type="button"
+                    onClick={() => setPreferredTime(slot.label)}
+                    className={`rounded-2xl border px-3 py-3 text-sm font-medium transition-all ${
+                      selected
+                        ? "border-accent bg-accent-light text-foreground"
+                        : "border-border bg-card hover:border-accent/40"
+                    }`}
+                  >
+                    {slot.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <div className="rounded-2xl border border-border bg-card p-5">
             <p className="text-xs font-medium tracking-widest text-accent uppercase">
               Текст сообщения
@@ -145,12 +209,20 @@ export function SessionBooking({
 
           {channelId === "phone" && (
             <p className="text-sm text-muted">
-              При звонке укажите услугу: {selectedService?.title}.
+              При звонке укажите: {selectedService?.title}
+              {canOpenChannel
+                ? `, ${preferredDate.split("-").reverse().join(".")}, ${preferredTime}`
+                : ""}
+              .
             </p>
           )}
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button className="flex-1" onClick={handleOpenChannel}>
+            <Button
+              className="flex-1"
+              disabled={!canOpenChannel}
+              onClick={handleOpenChannel}
+            >
               {channelId === "phone" ? "Позвонить" : "Открыть мессенджер"}
             </Button>
             <Button

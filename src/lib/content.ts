@@ -1,13 +1,15 @@
 export const site = {
   name: "Сосновский Алексей",
   givenName: "Алексей",
+  brandLatin: "Sasnouski",
   title: "сертифицированный массажист",
-  tagline: "Кинезиомассаж · Общеоздоровительный массаж · Обучение",
+  tagline: "Кинезиомассаж · Обучение",
+  slogan: "Оздоровиться и обучиться",
   description:
-    "Кинезиомассаж — это массаж с диагностикой: через мышечное тестирование нахожу причину боли и корректирую её, а не просто разминаю проблемную зону.",
-  experience: "8 лет практики",
+    "Кинезиомассаж и обучение массажу: работаю с причиной боли и передаю практику дальше.",
+  experience: "10+ лет",
   regionLabel: "Молодечно · Минск",
-  metaLine: "Молодечно · Минск · 8 лет практики",
+  metaLine: "Молодечно · Минск · 10+ лет в профессии",
   phone: "+375 (29) 570-56-37",
   phoneHref: "tel:+375295705637",
   phoneDigits: "375295705637",
@@ -46,12 +48,24 @@ export const bookingChannels = [
   },
 ] as const;
 
-export function sessionBookingMessage(serviceId: SessionServiceId): string {
+export function formatSessionDate(dateIso: string): string {
+  const date = new Date(`${dateIso}T12:00:00`);
+  return new Intl.DateTimeFormat("ru-RU", {
+    day: "numeric",
+    month: "long",
+  }).format(date);
+}
+
+export function sessionBookingMessage(
+  serviceId: SessionServiceId,
+  options: { date: string; time: string },
+): string {
   const label =
     serviceId === "kinesio"
       ? "кинезиомассаж"
       : "общеоздоровительный массаж";
-  return `Здравствуйте! Хочу записаться на ${label}. Удобное время: ___`;
+  const when = `${formatSessionDate(options.date)}, ${options.time}`;
+  return `Здравствуйте! Хочу записаться на ${label}. Удобно: ${when}`;
 }
 
 export function buildChannelHref(
@@ -190,11 +204,56 @@ export const reviewSources = {
 
 export const navLinks = [
   { label: "Главная", href: "/" },
+  { label: "О специалисте", href: "/#about" },
+  { label: "Школа", href: "/#school" },
   { label: "Услуги", href: "/services" },
   { label: "Обучение", href: "/education" },
   { label: "Кабинеты", href: "/#locations" },
   { label: "Отзывы", href: "/#testimonials" },
 ] as const;
+
+export const heroDirections = [
+  { label: "кинезиомассаж", href: "/services#kinesio" },
+  { label: "обучение", href: "/education" },
+] as const;
+
+export const heroHighlights = [
+  {
+    id: "experience",
+    title: "10+ лет",
+    subtitle: "в профессии",
+    href: "/#about",
+  },
+  {
+    id: "teaching",
+    title: "Обучение",
+    subtitle:
+      "По программам школы массажа «Ясность». Более 1000 довольных студентов",
+    href: "/#school",
+  },
+  {
+    id: "sessions",
+    title: "Провожу сеансы кинезиомассажа",
+    subtitle: "Это массаж, который лечит причину, а не симптом.",
+    href: "/services#kinesio",
+  },
+] as const;
+
+export const about = {
+  title: "О специалисте",
+  photo: "/about/specialist.jpg",
+  quote:
+    "Тело помнит всё. Моя задача — мягко напомнить ему, каково это — быть в покое.",
+  text: "Я верю, что массаж — это не просто механическая проработка мышц. Это диалог с телом, в котором важны доверие, внимание и уважение к вашим границам. Каждый сеанс я начинаю с того, чтобы услышать, что говорит ваше тело сегодня.",
+} as const;
+
+export const schoolYasnost = {
+  title: "О школе «Ясность»",
+  photo: "/school/yasnost-group.jpg",
+  blurb: null as string | null,
+  website: null as string | null,
+  instagram: null as string | null,
+};
 
 export const services = [
   {
@@ -402,14 +461,11 @@ export const galleryImages = [
   },
 ] as const;
 
-export const heroImage = "/locations/minsk/cabinet-1.jpg";
-
-export const heroVideo = "/preview/video-preview.mp4";
+export const heroImage = "/hero/sasnouski-hero.jpg";
 
 export const philosophy = {
-  quote:
-    "Тело помнит всё. Моя задача — мягко напомнить ему, каково это — быть в покое.",
-  text: "Я верю, что массаж — это не просто механическая проработка мышц. Это диалог с телом, в котором важны доверие, внимание и уважение к вашим границам. Каждый сеанс я начинаю с того, чтобы услышать, что говорит ваше тело сегодня.",
+  quote: about.quote,
+  text: about.text,
 } as const;
 
 export function getServiceById(id: SessionServiceId) {

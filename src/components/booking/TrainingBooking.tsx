@@ -2,6 +2,11 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { bookingInfo, education } from "@/lib/content";
+import {
+  formatTrainingGroupLabel,
+  getTrainingGroupById,
+  trainingGroups,
+} from "@/data/schedule";
 import { BookingModal } from "@/components/booking/BookingModal";
 import { Button } from "@/components/ui/Button";
 
@@ -16,23 +21,25 @@ export function TrainingBooking({ open, onClose }: TrainingBookingProps) {
   const [step, setStep] = useState<Step>("course");
   const [courseId, setCourseId] = useState<string | null>(null);
   const [dateId, setDateId] = useState<string | null>(null);
+  const [groupId, setGroupId] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [preferredTime, setPreferredTime] = useState("");
 
   useEffect(() => {
     if (!open) return;
     setStep("course");
     setCourseId(null);
     setDateId(null);
+    setGroupId(null);
     setName("");
     setPhone("");
-    setPreferredTime("");
   }, [open]);
+
+  const selectedGroup = groupId ? getTrainingGroupById(groupId) : undefined;
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (!name.trim() || !phone.trim() || !preferredTime.trim()) return;
+    if (!name.trim() || !phone.trim() || !groupId) return;
     setStep("success");
   };
 
@@ -86,7 +93,11 @@ export function TrainingBooking({ open, onClose }: TrainingBookingProps) {
               {option.label}
             </button>
           ))}
-          <Button variant="ghost" className="mt-2 w-full" onClick={() => setStep("course")}>
+          <Button
+            variant="ghost"
+            className="mt-2 w-full"
+            onClick={() => setStep("course")}
+          >
             Назад
           </Button>
         </div>
@@ -124,19 +135,33 @@ export function TrainingBooking({ open, onClose }: TrainingBookingProps) {
             />
           </label>
 
-          <label className="block space-y-2">
-            <span className="text-sm font-medium">Удобное время</span>
-            <input
-              required
-              value={preferredTime}
-              onChange={(event) => setPreferredTime(event.target.value)}
-              className="w-full rounded-2xl border border-border bg-card px-4 py-3 outline-none transition-colors focus:border-accent"
-              placeholder="Например, будни после 18:00"
-            />
-          </label>
+          <div className="space-y-2">
+            <span className="text-sm font-medium">Группа</span>
+            <div className="space-y-2">
+              {trainingGroups.map((group) => {
+                const selected = groupId === group.id;
+                return (
+                  <button
+                    key={group.id}
+                    type="button"
+                    onClick={() => setGroupId(group.id)}
+                    className={`w-full rounded-2xl border px-5 py-4 text-left transition-all ${
+                      selected
+                        ? "border-accent bg-accent-light"
+                        : "border-border bg-card hover:border-accent/40"
+                    }`}
+                  >
+                    <span className="font-medium">
+                      {formatTrainingGroupLabel(group)}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
           <div className="flex flex-col gap-3 pt-2 sm:flex-row">
-            <Button type="submit" className="flex-1">
+            <Button type="submit" className="flex-1" disabled={!groupId}>
               Записаться
             </Button>
             <Button
@@ -159,6 +184,11 @@ export function TrainingBooking({ open, onClose }: TrainingBookingProps) {
         <div className="space-y-5 text-center">
           <p className="font-serif text-2xl font-medium">Заявка принята</p>
           <p className="text-muted">{bookingInfo.trainingNote}</p>
+          {selectedGroup && (
+            <p className="text-sm text-muted">
+              {formatTrainingGroupLabel(selectedGroup)}
+            </p>
+          )}
           <Button className="w-full" onClick={onClose}>
             Закрыть
           </Button>

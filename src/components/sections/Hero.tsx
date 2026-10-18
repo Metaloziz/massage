@@ -1,126 +1,184 @@
 "use client";
 
-import { useRef } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ArrowDown } from "lucide-react";
-import { heroImage, heroVideo, site } from "@/lib/content";
+import {
+  heroDirections,
+  heroHighlights,
+  heroImage,
+  site,
+} from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
 import { useBooking } from "@/components/booking/BookingProvider";
-import { scrollToElement } from "@/components/layout/SmoothScroll";
-import { useIsMobile, useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
+import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
 
 gsap.registerPlugin(useGSAP);
-
-const AmbientBlob = dynamic(
-  () =>
-    import("@/components/three/AmbientBlob").then((mod) => mod.AmbientBlob),
-  { ssr: false },
-);
 
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
-  const isMobile = useIsMobile();
   const mounted = useMounted();
   const { openSessionBooking, openTrainingBooking } = useBooking();
+  const [overlayReady, setOverlayReady] = useState(false);
 
-  const showBlob = mounted && !reducedMotion && !isMobile;
-  const showVideo = mounted && !reducedMotion;
+  useEffect(() => {
+    if (!mounted) return;
+    if (reducedMotion) {
+      setOverlayReady(true);
+      return;
+    }
+    const timer = window.setTimeout(() => setOverlayReady(true), 1000);
+    return () => window.clearTimeout(timer);
+  }, [mounted, reducedMotion]);
 
   useGSAP(
     () => {
-      if (!mounted || reducedMotion) return;
+      if (!mounted || reducedMotion || !overlayReady) return;
 
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from(".hero-label", { y: 20, opacity: 0, duration: 0.8 })
-        .from(".hero-title", { y: 40, opacity: 0, duration: 1 }, "-=0.5")
-        .from(".hero-subtitle", { y: 30, opacity: 0, duration: 0.8 }, "-=0.6")
-        .from(".hero-desc", { y: 20, opacity: 0, duration: 0.7 }, "-=0.5")
-        .from(".hero-cta", { y: 20, opacity: 0, duration: 0.6 }, "-=0.4")
-        .from(".hero-image", { scale: 1.05, opacity: 0, duration: 1.2 }, "-=0.8");
+      gsap.fromTo(
+        ".hero-reveal",
+        { y: 24, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: "power3.out",
+        },
+      );
     },
-    { scope: containerRef, dependencies: [mounted, reducedMotion] },
+    { scope: containerRef, dependencies: [mounted, reducedMotion, overlayReady] },
   );
 
   return (
     <section
       id="hero"
       ref={containerRef}
-      className="relative flex min-h-screen items-center overflow-hidden pt-20"
+      className="relative flex min-h-[100dvh] items-end overflow-hidden bg-[#1f1b18]"
       aria-labelledby="hero-heading"
     >
-      {showBlob && <AmbientBlob />}
+      <Image
+        src={assetPath(heroImage)}
+        alt={`${site.brandLatin} — кинезиомассаж и обучение`}
+        fill
+        priority
+        className={`object-cover object-center transition-[filter,transform] duration-1000 ease-out md:object-top ${
+          overlayReady ? "scale-[1.02] blur-[2px]" : "scale-100 blur-0"
+        }`}
+        sizes="100vw"
+      />
+      <div
+        className={`absolute inset-0 transition-opacity duration-1000 ${
+          overlayReady ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ background: "var(--hero-overlay)" }}
+        aria-hidden
+      />
 
-      <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 md:px-8 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-24">
-        <div className="flex flex-col justify-center">
+      <div
+        className={`relative z-10 mx-auto flex w-full max-w-7xl flex-col px-5 pb-10 pt-28 md:px-8 md:pb-14 ${
+          overlayReady || reducedMotion ? "" : "pointer-events-none"
+        }`}
+      >
+        <div
+          className={`hero-reveal mb-8 ${overlayReady ? "opacity-100" : "opacity-0"}`}
+        >
+          <p
+            className="font-serif text-3xl font-medium tracking-tight md:text-4xl"
+            style={{ color: "var(--hero-text)" }}
+          >
+            {site.brandLatin}
+          </p>
+          <p
+            className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm uppercase tracking-[0.14em] md:text-base"
+            style={{ color: "var(--hero-muted)" }}
+          >
+            {heroDirections.map((item, index) => (
+              <span key={item.href} className="inline-flex items-center gap-2">
+                {index > 0 && <span aria-hidden>·</span>}
+                <Link
+                  href={item.href}
+                  className="underline-offset-4 transition-opacity hover:opacity-80 hover:underline"
+                  style={{ color: "var(--hero-text)" }}
+                >
+                  {item.label}
+                </Link>
+              </span>
+            ))}
+          </p>
+        </div>
+
+        <div className="hero-reveal max-w-3xl">
           <h1
             id="hero-heading"
-            className="hero-title font-serif text-5xl leading-[1.1] font-medium tracking-tight md:text-6xl lg:text-7xl"
+            className={`font-serif text-4xl leading-[1.1] font-medium tracking-tight md:text-6xl lg:text-7xl ${
+              overlayReady ? "opacity-100" : "opacity-0"
+            }`}
+            style={{ color: "var(--hero-text)" }}
           >
-            {site.name}
+            {site.slogan}
           </h1>
-          <p className="hero-subtitle mt-4 text-lg text-muted md:text-xl">
-            {site.tagline}
-          </p>
-          <p className="hero-label mt-3 text-base font-medium text-accent md:text-lg">
-            {site.metaLine}
-          </p>
-          <p className="hero-desc mt-6 max-w-md text-base leading-relaxed text-muted">
+          <p
+            className={`mt-5 max-w-xl text-base leading-relaxed md:text-lg ${
+              overlayReady ? "opacity-100" : "opacity-0"
+            }`}
+            style={{ color: "var(--hero-muted)" }}
+          >
             {site.description}
           </p>
-          <div className="hero-cta mt-10 grid w-full max-w-md grid-cols-1 gap-3 sm:grid-cols-2">
-            <Button className="w-full px-5" onClick={() => openSessionBooking()}>
-              Записаться на сеанс
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full px-5"
-              onClick={openTrainingBooking}
-            >
-              Записаться на обучение
-            </Button>
-          </div>
         </div>
 
-        <div className="hero-image relative aspect-[4/5] w-full max-w-lg justify-self-center overflow-hidden rounded-3xl lg:max-w-none">
-          {showVideo ? (
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster={assetPath(heroImage)}
-              className="absolute inset-0 h-full w-full object-cover"
-              aria-label={`${site.name} — видео кабинета`}
+        <div
+          className={`hero-reveal mt-8 flex w-full max-w-md flex-col gap-3 sm:flex-row ${
+            overlayReady ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Button
+            className="w-full bg-[var(--hero-text)] text-[#2a2420] hover:opacity-90"
+            onClick={() => openSessionBooking()}
+          >
+            Записаться на сеанс
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full border-[var(--hero-text)] text-[var(--hero-text)] hover:border-[var(--hero-text)] hover:bg-white/10 hover:text-[var(--hero-text)]"
+            onClick={openTrainingBooking}
+          >
+            Записаться на обучение
+          </Button>
+        </div>
+
+        <div
+          className={`hero-reveal mt-12 grid gap-6 border-t border-white/20 pt-8 sm:grid-cols-3 ${
+            overlayReady ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {heroHighlights.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              className="group block transition-opacity hover:opacity-85"
             >
-              <source src={assetPath(heroVideo)} type="video/mp4" />
-            </video>
-          ) : (
-            <Image
-              src={assetPath(heroImage)}
-              alt={`${site.name} — массажный кабинет`}
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/10 to-transparent" />
+              <p
+                className="font-serif text-2xl font-medium md:text-3xl"
+                style={{ color: "var(--hero-text)" }}
+              >
+                {item.title}
+              </p>
+              <p
+                className="mt-2 text-sm leading-relaxed md:text-base"
+                style={{ color: "var(--hero-muted)" }}
+              >
+                {item.subtitle}
+              </p>
+            </Link>
+          ))}
         </div>
       </div>
-
-      <button
-        type="button"
-        onClick={() => scrollToElement("#prep")}
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-bounce text-muted transition-colors hover:text-accent md:flex"
-        aria-label="Прокрутить вниз"
-      >
-        <ArrowDown size={24} />
-      </button>
     </section>
   );
 }
