@@ -67,7 +67,12 @@ export const locations = [
     address: "ул. Южная, 6",
     fullAddress: "д. Тюрли, ул. Южная, 6",
     directions:
-      "Въезд через открытые зелёные ворота. Вход с правой стороны дома, дверь с надписью «Массаж».",
+      "Въезд через открытые серые ворота. Вход с правой стороны дома, дверь с надписью «Массаж».",
+    howToFind: {
+      city: "Молодечно",
+      addressLine: "В деревне Тюрли ул. Южная, 6",
+      text: "Въезд через открытые серые ворота. Вход с правой стороны дома, дверь с надписью «Массаж».",
+    },
     mapUrl: "https://share.google/cL4fGeluIFwokK6oB",
     mapLabel: "Google Карты",
     hours: "По предварительной записи",
@@ -91,6 +96,12 @@ export const locations = [
           alt: "Коридор кабинета в Молодечно",
         },
       ],
+      directions: [
+        {
+          src: "/locations/tyurli/directions-1.jpg",
+          alt: "Въезд через серые ворота к кабинету в Молодечно",
+        },
+      ],
     },
   },
   {
@@ -101,6 +112,11 @@ export const locations = [
     district: "ул. Тепличная",
     address: "1",
     fullAddress: "Минск, ул. Тепличная, 1",
+    howToFind: {
+      city: "г. Минск",
+      addressLine: "ул. Тепличная, 1",
+      text: "Здание с розово-белым фасадом на ул. Тепличная, 1. Вход — по лестнице к стеклянной двери, первый кабинет слева.",
+    },
     mapUrl:
       "https://www.google.com/maps/place/%D0%9A%D0%B8%D0%BD%D0%B5%D0%B7%D0%B8%D0%BE%D0%BC%D0%B0%D1%81%D1%81%D0%B0%D0%B6/@53.920126,27.6420763,17z/data=!3m1!4b1!4m6!3m5!1s0x46dbcfc95d05015b:0xba1b19984bea59b0!8m2!3d53.920126!4d27.6420763!16s%2Fg%2F11p9dht2lz!18m1!1e1?entry=ttu",
     mapLabel: "Google Карты",

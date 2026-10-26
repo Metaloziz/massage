@@ -20,10 +20,6 @@ type GalleryImage = {
   alt: string;
 };
 
-const minskLocation = locations.find((location) => location.id === "minsk");
-const minskImages =
-  minskLocation && "images" in minskLocation ? minskLocation.images : null;
-
 function ImageLightbox({
   images,
   index,
@@ -120,11 +116,10 @@ function ImageLightbox({
             priority
           />
         </div>
-        {hasMany && (
-          <p className="mt-4 text-center text-sm text-white/80">
-            {index + 1} / {images.length}
-          </p>
-        )}
+        <p className="mt-4 text-center text-sm text-white/80">
+          {current.alt}
+          {hasMany ? ` · ${index + 1} / ${images.length}` : ""}
+        </p>
       </div>
     </div>
   );
@@ -242,8 +237,11 @@ export function Locations() {
                     <MapPin size={18} className="mt-1 shrink-0 text-accent" />
                     <div>
                       <p className="font-medium text-foreground">{location.city}</p>
-                      <p>{location.district}</p>
-                      <p className="mt-1">{location.address}</p>
+                      <p className="mt-1">
+                        {[location.district, location.address]
+                          .filter(Boolean)
+                          .join(", ")}
+                      </p>
                     </div>
                   </div>
 
@@ -272,41 +270,79 @@ export function Locations() {
           })}
         </div>
 
-        {minskImages && (
-          <RevealText className="mt-16">
-            <h3 className="font-serif text-2xl font-medium md:text-3xl">
-              Как найти кабинет на ул. Тепличная
+        <div className="mt-16">
+          <RevealText className="mb-8 max-w-2xl">
+            <h3 className="font-serif text-3xl font-medium md:text-4xl">
+              Как найти кабинет
             </h3>
-            <p className="mt-4 max-w-2xl text-muted">
-              Здание с розово-белым фасадом на ул. Тепличная, 1. Вход — по
-              лестнице к стеклянной двери.
-            </p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {minskImages.directions.map((image, index) => (
-                <button
-                  key={image.src}
-                  type="button"
-                  onClick={() =>
-                    setLightbox({
-                      images: minskImages.directions,
-                      index,
-                    })
-                  }
-                  className="relative aspect-[4/3] cursor-zoom-in overflow-hidden rounded-2xl"
-                  aria-label={`Открыть фото: ${image.alt}`}
-                >
-                  <Image
-                    src={assetPath(image.src)}
-                    alt={image.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, 50vw"
-                  />
-                </button>
-              ))}
-            </div>
           </RevealText>
-        )}
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {locations.map((location, locationIndex) => {
+              if (!("howToFind" in location) || !location.howToFind) return null;
+
+              const directionImages =
+                "images" in location &&
+                location.images &&
+                "directions" in location.images
+                  ? location.images.directions
+                  : [];
+              const preview = directionImages[0];
+
+              return (
+                <RevealText key={`howto-${location.id}`} delay={locationIndex * 0.08}>
+                  <article className="flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card">
+                    {preview && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setLightbox({
+                            images: directionImages,
+                            index: 0,
+                          })
+                        }
+                        className="group relative aspect-[16/10] w-full cursor-zoom-in overflow-hidden text-left"
+                        aria-label={
+                          directionImages.length > 1
+                            ? `Открыть фото проезда, ${directionImages.length} фото`
+                            : `Открыть фото: ${preview.alt}`
+                        }
+                      >
+                        <Image
+                          src={assetPath(preview.src)}
+                          alt={preview.alt}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                        {directionImages.length > 1 && (
+                          <span className="absolute right-3 bottom-3 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                            {directionImages.length} фото
+                          </span>
+                        )}
+                      </button>
+                    )}
+
+                    <div className="flex flex-1 flex-col p-8 md:p-10">
+                      <h4 className="font-serif text-2xl font-medium md:text-3xl">
+                        Как найти кабинет в{" "}
+                        <strong className="font-semibold">
+                          {location.howToFind.city}
+                        </strong>
+                      </h4>
+                      <p className="mt-3 text-base font-medium text-foreground">
+                        {location.howToFind.addressLine}
+                      </p>
+                      <p className="mt-4 text-sm leading-relaxed text-muted md:text-base">
+                        {location.howToFind.text}
+                      </p>
+                    </div>
+                  </article>
+                </RevealText>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {lightbox && (

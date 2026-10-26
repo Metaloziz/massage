@@ -76,6 +76,9 @@ export function Testimonials() {
     return stopAutoplay;
   }, [mounted, reducedMotion]);
 
+  const active = testimonials[activeIndex];
+  const activeSource = reviewSources[active.source];
+
   return (
     <section
       id="testimonials"
@@ -109,35 +112,20 @@ export function Testimonials() {
         </RevealText>
 
         <div className="mx-auto max-w-3xl text-center">
-          <div className="grid">
-            {testimonials.map((item, index) => {
-              const source = reviewSources[item.source];
-              const isActive = index === activeIndex;
-
-              return (
-                <div
-                  key={item.id}
-                  className={`col-start-1 row-start-1 transition-opacity duration-500 ${
-                    isActive ? "opacity-100" : "pointer-events-none opacity-0"
-                  }`}
-                  aria-hidden={!isActive}
-                >
-                  <blockquote>
-                    <p className="font-serif text-2xl leading-relaxed font-medium md:text-3xl">
-                      &ldquo;{item.text}&rdquo;
-                    </p>
-                  </blockquote>
-                  <footer className="mt-8">
-                    <cite className="not-italic">
-                      <span className="block font-medium">{item.author}</span>
-                      <span className="mt-1 block text-sm text-muted">
-                        {item.date} · {source.label}
-                      </span>
-                    </cite>
-                  </footer>
-                </div>
-              );
-            })}
+          <div key={active.id}>
+            <blockquote>
+              <p className="font-serif text-2xl leading-relaxed font-medium md:text-3xl">
+                &ldquo;{active.text}&rdquo;
+              </p>
+            </blockquote>
+            <footer className="mt-8">
+              <cite className="not-italic">
+                <span className="block font-medium">{active.author}</span>
+                <span className="mt-1 block text-sm text-muted">
+                  {active.date} · {activeSource.label}
+                </span>
+              </cite>
+            </footer>
           </div>
 
           <div
