@@ -63,7 +63,7 @@ export function Hero() {
     >
       <Image
         src={assetPath(heroImage)}
-        alt={`${site.brandLatin} — кинезиомассаж и обучение`}
+        alt={`${site.brandDisplay} — кинезиомассаж и обучение`}
         fill
         priority
         className={`object-cover object-center transition-[filter,transform] duration-1000 ease-out md:object-top ${
@@ -88,13 +88,7 @@ export function Hero() {
           className={`hero-reveal mb-8 ${overlayReady ? "opacity-100" : "opacity-0"}`}
         >
           <p
-            className="font-serif text-3xl font-medium tracking-tight md:text-4xl"
-            style={{ color: "var(--hero-text)" }}
-          >
-            {site.brandLatin}
-          </p>
-          <p
-            className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm uppercase tracking-[0.14em] md:text-base"
+            className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm uppercase tracking-[0.14em] md:text-base"
             style={{ color: "var(--hero-muted)" }}
           >
             {heroDirections.map((item, index) => (
@@ -122,14 +116,6 @@ export function Hero() {
           >
             {site.slogan}
           </h1>
-          <p
-            className={`mt-5 max-w-xl text-base leading-relaxed md:text-lg ${
-              overlayReady ? "opacity-100" : "opacity-0"
-            }`}
-            style={{ color: "var(--hero-muted)" }}
-          >
-            {site.description}
-          </p>
         </div>
 
         <div

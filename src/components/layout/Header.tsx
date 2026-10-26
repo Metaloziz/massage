@@ -94,8 +94,7 @@ export function Header() {
             handleNavClick("/#about");
           }}
         >
-          {site.brandLatin}
-          <span className="text-accent">.</span>
+          {site.brandDisplay}
         </Link>
 
         <nav
