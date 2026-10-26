@@ -8,6 +8,7 @@ import { processSteps } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -16,6 +17,10 @@ export function Process() {
   const lineRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
+  const isDesign2 = useIsDesign2();
+  const stepClass = isDesign2
+    ? "rounded-[var(--radius-control)] border border-white/20 bg-[var(--glass)] backdrop-blur-md font-serif text-xl text-accent"
+    : "rounded-[var(--radius-control)] border border-[var(--line)] bg-background font-serif text-xl text-accent shadow-[0_0_0_1px_var(--line)]";
 
   useGSAP(
     () => {
@@ -68,7 +73,7 @@ export function Process() {
         </RevealText>
 
         <div className="relative hidden md:block">
-          <div className="absolute top-8 right-0 left-0 h-px bg-border" />
+          <div className="absolute top-8 right-0 left-0 h-px bg-[var(--line)]" />
           <div
             ref={lineRef}
             className="absolute top-8 left-0 h-px w-full origin-left bg-accent"
@@ -76,7 +81,9 @@ export function Process() {
           <div className="grid grid-cols-3 gap-8">
             {processSteps.map((step) => (
               <article key={step.step} className="process-step relative pt-16">
-                <span className="absolute top-0 left-0 flex h-16 w-16 items-center justify-center rounded-full border border-border bg-background font-serif text-xl text-accent">
+                <span
+                  className={`absolute top-0 left-0 flex h-16 w-16 items-center justify-center ${stepClass}`}
+                >
                   {step.step}
                 </span>
                 <h3 className="mb-3 font-serif text-2xl font-medium">
@@ -94,11 +101,13 @@ export function Process() {
           {processSteps.map((step, index) => (
             <article key={step.step} className="process-step relative flex gap-6 pb-12">
               {index < processSteps.length - 1 && (
-                <div className="absolute top-16 bottom-0 left-8 w-px bg-border" />
+                <div className="absolute top-16 bottom-0 left-8 w-px bg-[var(--line)]" />
               )}
-              <span className="relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-border bg-background font-serif text-xl text-accent">
-                {step.step}
-              </span>
+              <span
+                className={`relative z-10 flex h-16 w-16 shrink-0 items-center justify-center ${stepClass}`}
+              >
+                  {step.step}
+                </span>
               <div className="pt-3">
                 <h3 className="mb-2 font-serif text-xl font-medium">{step.title}</h3>
                 <p className="text-sm leading-relaxed text-muted">

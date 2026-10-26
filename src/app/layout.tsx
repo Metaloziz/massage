@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { ThemeAtmosphere } from "@/components/layout/ThemeAtmosphere";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -73,12 +74,15 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen antialiased">
+      <body className="relative min-h-screen antialiased">
         <JsonLd />
+        <ThemeAtmosphere />
         <SmoothScroll>
-          <Header />
-          {children}
-          <Footer />
+          <div className="relative z-10">
+            <Header />
+            {children}
+            <Footer />
+          </div>
         </SmoothScroll>
       </body>
     </html>

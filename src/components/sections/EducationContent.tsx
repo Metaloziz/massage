@@ -5,32 +5,57 @@ import { education, site } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 export function EducationContent() {
+  const isDesign2 = useIsDesign2();
+
   return (
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-3xl px-5 md:px-8">
-        <SectionLabel>Обучение</SectionLabel>
-        <h1 className="mt-4 font-serif text-4xl font-medium md:text-6xl">
-          {education.title}
-        </h1>
-        <p className="mt-6 text-lg leading-relaxed text-muted">
-          {education.invite}
-        </p>
-
-        <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-card">
-          <Image
-            src={assetPath(education.programPhoto.src)}
-            alt={education.programPhoto.alt}
-            width={education.programPhoto.width}
-            height={education.programPhoto.height}
-            className="h-auto w-full"
-            sizes="(max-width: 768px) 100vw, 48rem"
-            priority
-          />
+        <div className={isDesign2 ? "glass-panel p-6 sm:p-8 md:p-10" : ""}>
+          <SectionLabel>Обучение</SectionLabel>
+          <h1 className="mt-4 font-serif text-4xl font-medium md:text-6xl">
+            {education.title}
+          </h1>
+          <p className="mt-6 text-lg leading-relaxed text-muted">
+            {education.invite}
+          </p>
         </div>
 
-        <div className="mt-10 space-y-6 rounded-3xl border border-border bg-card p-6 md:p-8">
+        <div
+          className={`mt-10 overflow-hidden ${
+            isDesign2
+              ? "glass-panel p-2"
+              : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
+          }`}
+        >
+          <div
+            className={
+              isDesign2
+                ? "overflow-hidden rounded-[calc(var(--radius-card)-0.35rem)]"
+                : ""
+            }
+          >
+            <Image
+              src={assetPath(education.programPhoto.src)}
+              alt={education.programPhoto.alt}
+              width={education.programPhoto.width}
+              height={education.programPhoto.height}
+              className="h-auto w-full"
+              sizes="(max-width: 768px) 100vw, 48rem"
+              priority
+            />
+          </div>
+        </div>
+
+        <div
+          className={`mt-10 space-y-6 p-6 md:p-8 ${
+            isDesign2
+              ? "glass-panel"
+              : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
+          }`}
+        >
           <p className="text-sm leading-relaxed text-muted">
             {education.schoolLabel}{" "}
             <span className="font-medium text-accent">{education.school}</span>

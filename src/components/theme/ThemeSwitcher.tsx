@@ -41,7 +41,7 @@ export function ThemeSwitcher({ className = "" }: { className?: string }) {
         value={themeId}
         disabled={!ready}
         onChange={(event) => onChange(event.target.value)}
-        className="h-11 appearance-none rounded-xl border border-foreground/25 bg-transparent py-2 pr-10 pl-4 text-sm font-medium tracking-[0.02em] text-foreground outline-none transition-colors hover:border-foreground/50 disabled:opacity-60"
+        className="h-11 appearance-none rounded-[var(--radius-control)] border border-[var(--line)] bg-transparent py-2 pr-10 pl-4 text-sm font-medium tracking-[0.02em] text-foreground outline-none transition-colors hover:border-accent disabled:opacity-60"
         aria-label="Выбор дизайна"
         suppressHydrationWarning
       >

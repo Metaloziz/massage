@@ -8,6 +8,7 @@ import { navLinks, site } from "@/lib/content";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { lockBodyScroll } from "@/lib/scrollLock";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 function resolveNavHref(href: string) {
   if (href.startsWith("/#")) {
@@ -21,6 +22,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const isDesign2 = useIsDesign2();
   const onHero = pathname === "/" || pathname === "";
 
   useEffect(() => {
@@ -70,15 +72,19 @@ export function Header() {
 
   const solidBar = scrolled || menuOpen || !onHero;
 
+  const barClass = menuOpen
+    ? isDesign2
+      ? "border-b border-[var(--line)] bg-[var(--glass)] backdrop-blur-xl"
+      : "border-b border-[var(--line)] bg-background"
+    : solidBar
+      ? isDesign2
+        ? "border-b border-[var(--line)] bg-[var(--glass)] backdrop-blur-xl"
+        : "border-b border-[var(--line)] bg-background/95 backdrop-blur-md"
+      : "border-b border-transparent bg-transparent";
+
   return (
     <header
-      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
-        menuOpen
-          ? "border-b border-border bg-background"
-          : solidBar
-            ? "border-b border-border/60 bg-background/95 backdrop-blur-md"
-            : "border-b border-transparent bg-transparent"
-      }`}
+      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${barClass}`}
       style={{ paddingRight: "var(--scrollbar-compensation, 0px)" }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-20 md:px-8">
@@ -125,7 +131,7 @@ export function Header() {
           />
           <a
             href={site.phoneHref}
-            className="rounded-xl border border-transparent bg-foreground px-5 py-2.5 text-sm font-medium tracking-[0.02em] text-background shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_6px_16px_rgba(42,36,32,0.12)] transition-all hover:bg-foreground/90"
+            className="rounded-[var(--radius-control)] border border-transparent bg-foreground px-5 py-2.5 text-sm font-medium tracking-[0.02em] text-background transition-all hover:bg-foreground/90"
           >
             Записаться
           </a>
@@ -142,10 +148,10 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            className={`flex h-11 w-11 items-center justify-center rounded-full border ${
+            className={`flex h-11 w-11 items-center justify-center border ${
               !solidBar && !menuOpen
-                ? "border-white/30 text-[var(--hero-text)]"
-                : "border-border text-foreground"
+                ? "rounded-[var(--radius-control)] border-white/30 text-[var(--hero-text)]"
+                : "rounded-[var(--radius-control)] border-[var(--line)] text-foreground"
             }`}
             aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={menuOpen}
@@ -156,9 +162,11 @@ export function Header() {
       </div>
 
       <div
-        className={`fixed inset-0 top-16 z-40 min-h-[calc(100dvh-4rem)] bg-background transition-all duration-500 lg:hidden ${
-          menuOpen ? "visible opacity-100" : "invisible opacity-0"
-        }`}
+        className={`fixed inset-0 top-16 z-40 min-h-[calc(100dvh-4rem)] transition-all duration-500 lg:hidden ${
+          isDesign2
+            ? "bg-[var(--glass)] backdrop-blur-xl"
+            : "bg-background"
+        } ${menuOpen ? "visible opacity-100" : "invisible opacity-0"}`}
       >
         <nav
           className="flex flex-col gap-2 px-5 py-8"
@@ -169,7 +177,7 @@ export function Header() {
               key={link.href}
               type="button"
               onClick={() => handleNavClick(link.href)}
-              className="rounded-xl px-4 py-4 text-left text-lg font-medium transition-colors hover:bg-accent-light"
+              className="rounded-[var(--radius-control)] px-4 py-4 text-left text-lg font-medium transition-colors hover:bg-accent-light"
             >
               {link.label}
             </button>
@@ -177,7 +185,7 @@ export function Header() {
           <a
             href={site.phoneHref}
             onClick={() => setMenuOpen(false)}
-            className="mt-4 rounded-xl border border-transparent bg-foreground px-6 py-4 text-center text-base font-medium tracking-[0.02em] text-background shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_8px_20px_rgba(42,36,32,0.12)]"
+            className="mt-4 rounded-[var(--radius-control)] border border-transparent bg-foreground px-6 py-4 text-center text-base font-medium tracking-[0.02em] text-background"
           >
             Записаться
           </a>

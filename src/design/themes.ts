@@ -2,12 +2,11 @@
  * Документ дизайна сайта.
  *
  * Как добавить новый вид:
- * 1. Скопируй блок `design1` в `themes`.
+ * 1. Скопируй блок темы в `themes`.
  * 2. Задай новый `id`, `label` и токены.
  * 3. Тема сразу появится в выпадающем списке в шапке.
  *
- * Старые значения localStorage (`light` / `dark` / `warm` / `current` / …)
- * пока сводятся к `design1`.
+ * Default: `design1`. Неизвестный localStorage → design1.
  */
 
 export type ColorScheme = "light" | "dark";
@@ -28,6 +27,9 @@ export type DesignTokens = {
   heroCtaFg: string;
   radiusCard: string;
   radiusControl: string;
+  glass: string;
+  line: string;
+  glow: string;
 };
 
 export type ThemeDefinition = {
@@ -40,6 +42,7 @@ export type ThemeDefinition = {
 };
 
 export const THEME_STORAGE_KEY = "theme";
+export const THEME_CHANGE_EVENT = "massage:theme-change";
 
 export const themes = {
   design1: {
@@ -62,6 +65,34 @@ export const themes = {
       heroCtaFg: "#2a2420",
       radiusCard: "1.5rem",
       radiusControl: "0.75rem",
+      glass: "rgba(255, 252, 248, 0.72)",
+      line: "rgba(42, 36, 32, 0.14)",
+      glow: "rgba(125, 143, 122, 0.25)",
+    },
+  },
+  design2: {
+    id: "design2",
+    label: "Дизайн 2",
+    note: "Nature glass: фон leaves.png, frosted panels, мягкий moss accent — весь сайт.",
+    colorScheme: "dark",
+    tokens: {
+      background: "#0c1210",
+      foreground: "#f2f5f3",
+      muted: "rgba(232, 236, 233, 0.68)",
+      accent: "#8faf8a",
+      accentLight: "rgba(143, 175, 138, 0.16)",
+      border: "rgba(255, 255, 255, 0.14)",
+      card: "rgba(16, 24, 20, 0.55)",
+      heroSurface: "#0a100e",
+      heroOverlay: "rgba(8, 14, 12, 0.42)",
+      heroText: "#f5f7f4",
+      heroMuted: "rgba(232, 236, 233, 0.78)",
+      heroCtaFg: "#0e1612",
+      radiusCard: "1.25rem",
+      radiusControl: "9999px",
+      glass: "rgba(12, 20, 16, 0.48)",
+      line: "rgba(255, 255, 255, 0.16)",
+      glow: "rgba(143, 175, 138, 0.22)",
     },
   },
 } as const satisfies Record<string, ThemeDefinition>;
@@ -76,7 +107,6 @@ export function isThemeId(value: string | null | undefined): value is ThemeId {
   return Boolean(value && value in themes);
 }
 
-/** Любые старые id тем ведут на Дизайн 1. */
 export function resolveThemeId(stored: string | null): ThemeId {
   if (isThemeId(stored)) return stored;
   return defaultThemeId;
@@ -100,5 +130,8 @@ export function tokensToCssVars(
     "--hero-cta-fg": tokens.heroCtaFg,
     "--radius-card": tokens.radiusCard,
     "--radius-control": tokens.radiusControl,
+    "--glass": tokens.glass,
+    "--line": tokens.line,
+    "--glow": tokens.glow,
   };
 }

@@ -8,6 +8,7 @@ import { philosophy, site } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -16,6 +17,7 @@ export function Philosophy() {
   const decorRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
+  const isDesign2 = useIsDesign2();
 
   useGSAP(
     () => {
@@ -48,7 +50,11 @@ export function Philosophy() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-7xl px-5 md:px-8">
+      <div
+        className={`relative mx-auto max-w-7xl px-5 md:px-8 ${
+          isDesign2 ? "glass-panel p-6 sm:p-8 md:p-10" : ""
+        }`}
+      >
         <RevealText>
           <SectionLabel>Философия</SectionLabel>
         </RevealText>
@@ -71,7 +77,11 @@ export function Philosophy() {
                 {philosophy.text}
               </p>
               <div className="mt-8 flex items-center gap-4">
-                <div className="h-px flex-1 bg-border" />
+                <div
+                  className={`h-px flex-1 ${
+                    isDesign2 ? "bg-white/20" : "bg-border"
+                  }`}
+                />
                 <span className="text-sm text-accent">{site.name}</span>
               </div>
             </div>

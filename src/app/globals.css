@@ -19,6 +19,44 @@
   --hero-cta-fg: #2a2420;
   --radius-card: 1.5rem;
   --radius-control: 0.75rem;
+  --glass: rgba(255, 252, 248, 0.72);
+  --line: rgba(42, 36, 32, 0.14);
+  --glow: rgba(125, 143, 122, 0.25);
+}
+
+/* —— Дизайн 2: nature glass —— */
+[data-theme="design2"] {
+  color-scheme: dark;
+}
+
+[data-theme="design2"] header.border-b {
+  border-color: var(--line);
+}
+
+[data-theme="design2"] footer {
+  border-color: var(--line);
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+[data-theme="design2"] .bg-card:not(.glass-panel) {
+  background-color: transparent;
+}
+
+[data-theme="design2"] ::selection {
+  background: var(--accent);
+  color: var(--hero-surface);
+}
+
+/* Shared glass surface for design2 homepage sections */
+.glass-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
 }
 
 @theme inline {

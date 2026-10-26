@@ -6,6 +6,7 @@ import { googleReviews, reviewSources, testimonials, yandexReviews } from "@/lib
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 function RatingStars({ rating }: { rating: number }) {
   return (
@@ -49,6 +50,7 @@ export function Testimonials() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
+  const isDesign2 = useIsDesign2();
 
   const goToSlide = (index: number) => {
     setActiveIndex(index);
@@ -82,7 +84,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="bg-card py-24 md:py-32"
+      className={`py-24 md:py-32 ${isDesign2 ? "bg-transparent" : "bg-card"}`}
       aria-labelledby="testimonials-heading"
       onMouseEnter={stopAutoplay}
       onMouseLeave={startAutoplay}
@@ -102,7 +104,12 @@ export function Testimonials() {
               count={yandexReviews.count}
               label={yandexReviews.label}
             />
-            <div className="hidden h-12 w-px bg-border sm:block" aria-hidden="true" />
+            <div
+              className={`hidden h-12 w-px sm:block ${
+                isDesign2 ? "bg-white/20" : "bg-[var(--line)]"
+              }`}
+              aria-hidden="true"
+            />
             <SourceRating
               rating={googleReviews.rating}
               count={googleReviews.count}
@@ -111,7 +118,11 @@ export function Testimonials() {
           </div>
         </RevealText>
 
-        <div className="mx-auto max-w-3xl text-center">
+        <div
+          className={`mx-auto max-w-3xl text-center ${
+            isDesign2 ? "glass-panel px-6 py-10 sm:px-10" : ""
+          }`}
+        >
           <div key={active.id}>
             <blockquote>
               <p className="font-serif text-2xl leading-relaxed font-medium md:text-3xl">

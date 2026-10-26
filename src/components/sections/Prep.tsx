@@ -1,12 +1,17 @@
+"use client";
+
 import { prep } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 export function Prep() {
+  const isDesign2 = useIsDesign2();
+
   return (
     <section
       id="prep"
-      className="py-20 md:py-28"
+      className={`py-20 md:py-28 ${isDesign2 ? "bg-transparent" : ""}`}
       aria-labelledby="prep-heading"
     >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -22,7 +27,13 @@ export function Prep() {
 
         <div className="grid gap-8 md:grid-cols-2">
           <RevealText>
-            <div className="h-full rounded-3xl border border-border bg-card p-8">
+            <div
+              className={`h-full p-8 ${
+                isDesign2
+                  ? "glass-panel"
+                  : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
+              }`}
+            >
               <h3 className="font-serif text-2xl font-medium">
                 {prep.beforeSession.title}
               </h3>
@@ -41,7 +52,13 @@ export function Prep() {
           </RevealText>
 
           <RevealText delay={0.1}>
-            <div className="h-full rounded-3xl border border-border bg-card p-8">
+            <div
+              className={`h-full p-8 ${
+                isDesign2
+                  ? "glass-panel"
+                  : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
+              }`}
+            >
               <h3 className="font-serif text-2xl font-medium">
                 {prep.whatToBring.title}
               </h3>

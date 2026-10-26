@@ -3,6 +3,7 @@
 import { locations, type SessionServiceId, services, site } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 const locationById = Object.fromEntries(
   locations.map((location) => [location.id, location]),
@@ -41,15 +42,22 @@ function DetailBlock({
 
 export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
   const service = services.find((item) => item.id === serviceId);
+  const isDesign2 = useIsDesign2();
 
   if (!service) return null;
 
   return (
     <article
       id={service.id}
-      className="border-b border-border py-16 last:border-b-0 md:py-24"
+      className={`border-b py-16 last:border-b-0 md:py-24 ${
+        isDesign2 ? "border-white/10" : "border-[var(--line)]"
+      }`}
     >
-      <div className="mx-auto max-w-3xl px-5 md:px-8">
+      <div
+        className={`mx-auto max-w-3xl px-5 md:px-8 ${
+          isDesign2 ? "glass-panel p-6 sm:p-8 md:p-10" : ""
+        }`}
+      >
         <SectionLabel>
           {service.id === "kinesio" ? "Кинезиомассаж" : "Общеоздоровительный"}
         </SectionLabel>
@@ -72,7 +80,13 @@ export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
         <DetailBlock title="Плюсы" items={service.pros} />
         <DetailBlock title="Минусы" items={service.cons} />
 
-        <div className="mt-10 rounded-3xl border border-border bg-card p-6 md:p-8">
+        <div
+          className={`mt-10 p-6 md:p-8 ${
+            isDesign2
+              ? "rounded-[var(--radius-card)] border border-white/15 bg-white/5"
+              : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
+          }`}
+        >
           <h3 className="font-serif text-xl font-medium">Стоимость</h3>
           <p className="mt-2 text-sm text-muted">
             Стоимость зависит от кабинета и длительности — уточняйте при записи.
@@ -87,7 +101,7 @@ export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
                   {tier.items.map((price) => (
                     <span
                       key={price}
-                      className="rounded-full bg-accent-light px-3 py-1 text-sm font-medium text-accent"
+                      className="rounded-[var(--radius-control)] bg-accent-light px-3 py-1 text-sm font-medium text-accent"
                     >
                       {price}
                     </span>

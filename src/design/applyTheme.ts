@@ -1,6 +1,7 @@
 import {
   defaultThemeId,
   resolveThemeId,
+  THEME_CHANGE_EVENT,
   THEME_STORAGE_KEY,
   themes,
   tokensToCssVars,
@@ -13,6 +14,11 @@ export function getStoredThemeId(): ThemeId {
   } catch {
     return defaultThemeId;
   }
+}
+
+export function readDocumentThemeId(): ThemeId {
+  if (typeof document === "undefined") return defaultThemeId;
+  return resolveThemeId(document.documentElement.getAttribute("data-theme"));
 }
 
 export function applyTheme(themeId: ThemeId) {
@@ -32,6 +38,10 @@ export function applyTheme(themeId: ThemeId) {
   } catch {
     /* ignore */
   }
+
+  window.dispatchEvent(
+    new CustomEvent(THEME_CHANGE_EVENT, { detail: { themeId } }),
+  );
 }
 
 /** Inline-скрипт до гидрации — без мигания темы. */

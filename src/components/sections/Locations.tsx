@@ -12,6 +12,7 @@ import { lockBodyScroll } from "@/lib/scrollLock";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -25,14 +26,19 @@ function ImageLightbox({
   index,
   onClose,
   onChange,
+  isDesign2,
 }: {
   images: readonly GalleryImage[];
   index: number;
   onClose: () => void;
   onChange: (index: number) => void;
+  isDesign2: boolean;
 }) {
   const current = images[index];
   const hasMany = images.length > 1;
+  const controlClass = isDesign2
+    ? "rounded-[var(--radius-control)] border border-white/25 bg-black/40 backdrop-blur-md"
+    : "rounded-full bg-white/10";
 
   useEffect(() => {
     const unlock = lockBodyScroll();
@@ -69,7 +75,7 @@ function ImageLightbox({
       <button
         type="button"
         onClick={onClose}
-        className="absolute top-4 right-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+        className={`absolute top-4 right-4 z-10 flex h-11 w-11 items-center justify-center text-white transition-colors hover:bg-white/20 ${controlClass}`}
         aria-label="Закрыть"
       >
         <X size={22} />
@@ -83,7 +89,7 @@ function ImageLightbox({
               event.stopPropagation();
               onChange((index - 1 + images.length) % images.length);
             }}
-            className="absolute left-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 md:left-6"
+            className={`absolute left-3 z-10 flex h-11 w-11 items-center justify-center text-white transition-colors hover:bg-white/20 md:left-6 ${controlClass}`}
             aria-label="Предыдущее фото"
           >
             <ChevronLeft size={24} />
@@ -94,7 +100,7 @@ function ImageLightbox({
               event.stopPropagation();
               onChange((index + 1) % images.length);
             }}
-            className="absolute right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 md:right-6"
+            className={`absolute right-3 z-10 flex h-11 w-11 items-center justify-center text-white transition-colors hover:bg-white/20 md:right-6 ${controlClass}`}
             aria-label="Следующее фото"
           >
             <ChevronRight size={24} />
@@ -106,7 +112,13 @@ function ImageLightbox({
         className="relative max-h-[85dvh] w-full max-w-4xl"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-black/40 md:aspect-[16/10]">
+        <div
+          className={`relative aspect-[4/3] w-full overflow-hidden bg-black/40 md:aspect-[16/10] ${
+            isDesign2
+              ? "rounded-[var(--radius-card)] border border-white/20"
+              : "rounded-2xl"
+          }`}
+        >
           <Image
             src={assetPath(current.src)}
             alt={current.alt}
@@ -129,6 +141,7 @@ export function Locations() {
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
+  const isDesign2 = useIsDesign2();
   const [lightbox, setLightbox] = useState<{
     images: readonly GalleryImage[];
     index: number;
@@ -154,14 +167,25 @@ export function Locations() {
     { scope: sectionRef, dependencies: [mounted, reducedMotion] },
   );
 
+  const cardClass = isDesign2
+    ? "glass-panel"
+    : "rounded-3xl border border-accent/30 bg-card shadow-sm";
+  const unavailableCardClass = isDesign2
+    ? "glass-panel opacity-75"
+    : "rounded-3xl border border-border bg-card/60";
+  const badgeClass = isDesign2
+    ? "rounded-[var(--radius-control)] border border-white/25 bg-black/35 px-3 py-1 backdrop-blur-md"
+    : "rounded-full bg-black/55 px-3 py-1 backdrop-blur-sm";
+
   return (
     <section
       id="locations"
       ref={sectionRef}
-      className="py-24 md:py-32"
+      className={`py-24 md:py-32 ${isDesign2 ? "bg-transparent" : ""}`}
       aria-labelledby="locations-heading"
+      data-design={isDesign2 ? "2" : "1"}
     >
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="relative mx-auto max-w-7xl px-5 md:px-8">
         <RevealText className="mb-16 max-w-2xl">
           <SectionLabel>Кабинеты</SectionLabel>
           <h2
@@ -184,10 +208,8 @@ export function Locations() {
             return (
               <article
                 key={location.id}
-                className={`location-card relative flex flex-col overflow-hidden rounded-3xl border transition-shadow ${
-                  location.available
-                    ? "border-accent/30 bg-card shadow-sm"
-                    : "border-border bg-card/60"
+                className={`location-card relative flex flex-col overflow-hidden transition-shadow ${
+                  location.available ? cardClass : unavailableCardClass
                 }`}
               >
                 {preview && (
@@ -211,7 +233,9 @@ export function Locations() {
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                     {gallery.length > 1 && (
-                      <span className="absolute right-3 bottom-3 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                      <span
+                        className={`absolute right-3 bottom-3 text-xs font-medium text-white ${badgeClass}`}
+                      >
                         {gallery.length} фото
                       </span>
                     )}
@@ -220,7 +244,13 @@ export function Locations() {
 
                 <div className="flex flex-col p-8 md:p-10">
                   {!location.available && (
-                    <span className="absolute top-6 right-6 rounded-full bg-accent-light px-3 py-1 text-xs font-medium tracking-wide text-accent uppercase">
+                    <span
+                      className={`absolute top-6 right-6 px-3 py-1 text-xs font-medium tracking-wide text-accent uppercase ${
+                        isDesign2
+                          ? "rounded-[var(--radius-control)] border border-[var(--line)] bg-accent-light"
+                          : "rounded-full bg-accent-light"
+                      }`}
+                    >
                       Скоро
                     </span>
                   )}
@@ -291,7 +321,13 @@ export function Locations() {
 
               return (
                 <RevealText key={`howto-${location.id}`} delay={locationIndex * 0.08}>
-                  <article className="flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card">
+                  <article
+                    className={`relative flex h-full flex-col overflow-hidden ${
+                      isDesign2
+                        ? "glass-panel"
+                        : "rounded-3xl border border-border bg-card"
+                    }`}
+                  >
                     {preview && (
                       <button
                         type="button"
@@ -316,7 +352,9 @@ export function Locations() {
                           sizes="(max-width: 768px) 100vw, 50vw"
                         />
                         {directionImages.length > 1 && (
-                          <span className="absolute right-3 bottom-3 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                          <span
+                            className={`absolute right-3 bottom-3 text-xs font-medium text-white ${badgeClass}`}
+                          >
                             {directionImages.length} фото
                           </span>
                         )}
@@ -326,7 +364,7 @@ export function Locations() {
                     <div className="flex flex-1 flex-col p-8 md:p-10">
                       <h4 className="font-serif text-2xl font-medium md:text-3xl">
                         Как найти кабинет в{" "}
-                        <strong className="font-semibold">
+                        <strong className="font-semibold text-accent">
                           {location.howToFind.city}
                         </strong>
                       </h4>
@@ -349,6 +387,7 @@ export function Locations() {
         <ImageLightbox
           images={lightbox.images}
           index={lightbox.index}
+          isDesign2={isDesign2}
           onClose={() => setLightbox(null)}
           onChange={(index) =>
             setLightbox((current) =>

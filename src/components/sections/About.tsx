@@ -5,16 +5,19 @@ import { about } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 export function About() {
+  const isDesign2 = useIsDesign2();
+
   return (
     <section
       id="about"
-      className="scroll-mt-24 py-24 md:py-32"
+      className={`scroll-mt-24 py-24 md:py-32 ${isDesign2 ? "bg-transparent" : ""}`}
       aria-labelledby="about-heading"
     >
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-20">
-        <div>
+        <div className={isDesign2 ? "glass-panel p-6 sm:p-8 md:p-10" : ""}>
           <RevealText>
             <SectionLabel>{about.title}</SectionLabel>
           </RevealText>
@@ -37,14 +40,28 @@ export function About() {
         </div>
 
         <RevealText delay={0.15}>
-          <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-card">
-            <Image
-              src={assetPath(about.photo)}
-              alt={`${about.name} — ${about.role}`}
-              fill
-              className="object-cover object-top"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
+          <div
+            className={`relative aspect-[4/5] overflow-hidden ${
+              isDesign2
+                ? "glass-panel p-2"
+                : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
+            }`}
+          >
+            <div
+              className={`relative h-full w-full overflow-hidden ${
+                isDesign2
+                  ? "rounded-[calc(var(--radius-card)-0.35rem)]"
+                  : ""
+              }`}
+            >
+              <Image
+                src={assetPath(about.photo)}
+                alt={`${about.name} — ${about.role}`}
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
           </div>
         </RevealText>
       </div>

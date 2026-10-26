@@ -1,10 +1,19 @@
+"use client";
+
 import Link from "next/link";
 import { Camera, MapPin, Phone, Send } from "lucide-react";
 import { locations, navLinks, site } from "@/lib/content";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 export function Footer() {
+  const isDesign2 = useIsDesign2();
+
   return (
-    <footer className="border-t border-border bg-card">
+    <footer
+      className={`border-t border-[var(--line)] ${
+        isDesign2 ? "bg-[var(--glass)] backdrop-blur-xl" : "bg-card"
+      }`}
+    >
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
@@ -87,7 +96,7 @@ export function Footer() {
                 href={site.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-border transition-colors hover:border-accent hover:text-accent"
+                className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-control)] border border-[var(--line)] transition-colors hover:border-accent hover:text-accent"
                 aria-label="Instagram"
               >
                 <Camera size={18} />
@@ -96,7 +105,7 @@ export function Footer() {
                 href={site.social.telegram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-border transition-colors hover:border-accent hover:text-accent"
+                className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-control)] border border-[var(--line)] transition-colors hover:border-accent hover:text-accent"
                 aria-label="Telegram"
               >
                 <Send size={18} />
@@ -105,7 +114,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-2 border-t border-border pt-8 text-xs text-muted md:flex-row md:items-center md:justify-between">
+        <div
+          className={`mt-16 flex flex-col gap-2 border-t pt-8 text-xs text-muted md:flex-row md:items-center md:justify-between ${
+            isDesign2 ? "border-white/15" : "border-[var(--line)]"
+          }`}
+        >
           <p suppressHydrationWarning>
             © {new Date().getFullYear()} {site.name}. Все права защищены.
           </p>

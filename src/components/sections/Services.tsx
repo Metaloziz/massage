@@ -8,6 +8,7 @@ import { locations, services } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -19,6 +20,7 @@ export function Services() {
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
+  const isDesign2 = useIsDesign2();
 
   useGSAP(
     () => {
@@ -48,7 +50,7 @@ export function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className="bg-card py-24 md:py-32"
+      className={`py-24 md:py-32 ${isDesign2 ? "bg-transparent" : "bg-card"}`}
       aria-labelledby="services-heading"
     >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -69,14 +71,22 @@ export function Services() {
           {services.map((service) => (
             <article
               key={service.id}
-              className="service-card group rounded-2xl border border-border bg-background p-8 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5"
+              className={`service-card group p-8 transition-all duration-300 hover:-translate-y-1 ${
+                isDesign2
+                  ? "glass-panel hover:border-white/30"
+                  : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background hover:border-accent/40"
+              }`}
             >
               <h3 className="font-serif text-2xl font-medium">{service.title}</h3>
               <p className="mt-4 text-sm leading-relaxed text-muted">
                 {service.shortDescription}
               </p>
 
-              <div className="mt-6 space-y-4 border-t border-border pt-6">
+              <div
+                className={`mt-6 space-y-4 border-t pt-6 ${
+                  isDesign2 ? "border-white/15" : "border-[var(--line)]"
+                }`}
+              >
                 {service.pricing.map((tier) => (
                   <div key={tier.locationId}>
                     <p className="text-sm font-medium text-foreground">
@@ -86,7 +96,7 @@ export function Services() {
                       {tier.items.map((price) => (
                         <span
                           key={price}
-                          className="rounded-full bg-accent-light px-3 py-1 text-sm font-medium text-accent"
+                          className="rounded-[var(--radius-control)] bg-accent-light px-3 py-1 text-sm font-medium text-accent"
                         >
                           {price}
                         </span>
