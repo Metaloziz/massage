@@ -4,6 +4,7 @@ import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { getThemeBootstrapScript } from "@/design/applyTheme";
 import { site } from "@/lib/content";
 import { ogImageUrl, seo, siteUrl } from "@/lib/seo";
 import "./globals.css";
@@ -68,7 +69,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){}})();`,
+            __html: getThemeBootstrapScript(),
           }}
         />
       </head>

@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
+/*
+ * Значения по умолчанию = «Дизайн 1».
+ * Активная тема применяется из src/design/themes.ts (bootstrap + ThemeSwitcher).
+ */
 :root {
-  /* Палитра от hero/портрета: тёплый беж, мягкий шалфей, тёмный шоколад */
   --background: #f7f3ee;
   --foreground: #2a2420;
   --muted: #6e6560;
@@ -9,22 +12,13 @@
   --accent-light: #e4ebe3;
   --border: #e4ddd4;
   --card: #fffcf8;
+  --hero-surface: #1f1b18;
   --hero-overlay: rgba(32, 28, 24, 0.38);
   --hero-text: #fffcf8;
   --hero-muted: rgba(255, 252, 248, 0.82);
-}
-
-[data-theme="dark"] {
-  --background: #1c1917;
-  --foreground: #f2ebe3;
-  --muted: #a89f96;
-  --accent: #9aaf96;
-  --accent-light: #2a3228;
-  --border: #3a342f;
-  --card: #25211e;
-  --hero-overlay: rgba(12, 10, 8, 0.42);
-  --hero-text: #fffcf8;
-  --hero-muted: rgba(255, 252, 248, 0.8);
+  --hero-cta-fg: #2a2420;
+  --radius-card: 1.5rem;
+  --radius-control: 0.75rem;
 }
 
 @theme inline {
@@ -42,10 +36,6 @@
 html {
   scroll-behavior: auto;
   color-scheme: light;
-}
-
-html[data-theme="dark"] {
-  color-scheme: dark;
 }
 
 html.lenis,

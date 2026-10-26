@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { lockBodyScroll } from "@/lib/scrollLock";
 
 function resolveNavHref(href: string) {
@@ -116,26 +116,26 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <ThemeToggle
+          <ThemeSwitcher
             className={
               !solidBar
-                ? "border-white/30 text-[var(--hero-text)] hover:border-white/60 hover:text-[var(--hero-text)]"
+                ? "text-[var(--hero-text)] [&_select]:border-white/30 [&_select]:text-[var(--hero-text)] [&_select]:hover:border-white/60"
                 : ""
             }
           />
           <a
             href={site.phoneHref}
-            className="rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+            className="rounded-xl border border-transparent bg-foreground px-5 py-2.5 text-sm font-medium tracking-[0.02em] text-background shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_6px_16px_rgba(42,36,32,0.12)] transition-all hover:bg-foreground/90"
           >
             Записаться
           </a>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          <ThemeToggle
+          <ThemeSwitcher
             className={
               !solidBar && !menuOpen
-                ? "border-white/30 text-[var(--hero-text)] hover:border-white/60 hover:text-[var(--hero-text)]"
+                ? "text-[var(--hero-text)] [&_select]:border-white/30 [&_select]:text-[var(--hero-text)] [&_select]:hover:border-white/60"
                 : ""
             }
           />
@@ -177,7 +177,7 @@ export function Header() {
           <a
             href={site.phoneHref}
             onClick={() => setMenuOpen(false)}
-            className="mt-4 rounded-full bg-foreground px-6 py-4 text-center text-base font-medium text-background"
+            className="mt-4 rounded-xl border border-transparent bg-foreground px-6 py-4 text-center text-base font-medium tracking-[0.02em] text-background shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_8px_20px_rgba(42,36,32,0.12)]"
           >
             Записаться
           </a>

@@ -64,7 +64,7 @@ export function School() {
                   href={schoolYasnost.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-border px-7 py-3 text-sm font-medium transition-all hover:border-accent hover:text-accent"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-foreground/25 px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all hover:border-foreground/50 hover:bg-foreground/[0.04]"
                 >
                   Сайт школы
                 </a>
@@ -74,17 +74,17 @@ export function School() {
                   href={schoolYasnost.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-border px-7 py-3 text-sm font-medium transition-all hover:border-accent hover:text-accent"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-foreground/25 px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all hover:border-foreground/50 hover:bg-foreground/[0.04]"
                 >
                   Instagram
                 </a>
               )}
               <Link
                 href="/education"
-                className={`inline-flex min-h-11 items-center justify-center rounded-full px-7 py-3 text-sm font-medium transition-all ${
+                className={`inline-flex min-h-12 items-center justify-center rounded-xl px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all ${
                   hasLinks
-                    ? "border border-border hover:border-accent hover:text-accent"
-                    : "bg-foreground text-background hover:opacity-85"
+                    ? "border border-foreground/25 hover:border-foreground/50 hover:bg-foreground/[0.04]"
+                    : "border border-transparent bg-foreground text-background shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_8px_20px_rgba(42,36,32,0.12)] hover:bg-foreground/90"
                 }`}
               >
                 Подробнее об обучении
