@@ -1,27 +1,143 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ExternalLink, MapPin } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, MapPin, X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { locations } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
+import { lockBodyScroll } from "@/lib/scrollLock";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+type GalleryImage = {
+  src: string;
+  alt: string;
+};
+
 const minskLocation = locations.find((location) => location.id === "minsk");
 const minskImages =
   minskLocation && "images" in minskLocation ? minskLocation.images : null;
+
+function ImageLightbox({
+  images,
+  index,
+  onClose,
+  onChange,
+}: {
+  images: readonly GalleryImage[];
+  index: number;
+  onClose: () => void;
+  onChange: (index: number) => void;
+}) {
+  const current = images[index];
+  const hasMany = images.length > 1;
+
+  useEffect(() => {
+    const unlock = lockBodyScroll();
+    return unlock;
+  }, []);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (!hasMany) return;
+      if (event.key === "ArrowLeft") {
+        onChange((index - 1 + images.length) % images.length);
+      }
+      if (event.key === "ArrowRight") {
+        onChange((index + 1) % images.length);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [hasMany, images.length, index, onChange, onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Галерея кабинета"
+      onClick={onClose}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-4 right-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+        aria-label="Закрыть"
+      >
+        <X size={22} />
+      </button>
+
+      {hasMany && (
+        <>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onChange((index - 1 + images.length) % images.length);
+            }}
+            className="absolute left-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 md:left-6"
+            aria-label="Предыдущее фото"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onChange((index + 1) % images.length);
+            }}
+            className="absolute right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 md:right-6"
+            aria-label="Следующее фото"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </>
+      )}
+
+      <div
+        className="relative max-h-[85dvh] w-full max-w-4xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-black/40 md:aspect-[16/10]">
+          <Image
+            src={assetPath(current.src)}
+            alt={current.alt}
+            fill
+            className="object-contain"
+            sizes="(max-width: 896px) 100vw, 896px"
+            priority
+          />
+        </div>
+        {hasMany && (
+          <p className="mt-4 text-center text-sm text-white/80">
+            {index + 1} / {images.length}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export function Locations() {
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
+  const [lightbox, setLightbox] = useState<{
+    images: readonly GalleryImage[];
+    index: number;
+  } | null>(null);
 
   useGSAP(
     () => {
@@ -67,6 +183,8 @@ export function Locations() {
         <div className="grid gap-6 md:grid-cols-2">
           {locations.map((location) => {
             const images = "images" in location ? location.images : null;
+            const preview = images?.cabinet[0];
+            const gallery = images?.cabinet ?? [];
 
             return (
               <article
@@ -77,16 +195,32 @@ export function Locations() {
                     : "border-border bg-card/60"
                 }`}
               >
-                {images?.cabinet[0] && (
-                  <div className="relative aspect-[16/10] w-full">
+                {preview && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setLightbox({ images: gallery, index: 0 })
+                    }
+                    className="group relative aspect-[16/10] w-full cursor-zoom-in overflow-hidden text-left"
+                    aria-label={
+                      gallery.length > 1
+                        ? `Открыть фото кабинета, ${gallery.length} фото`
+                        : "Открыть фото кабинета"
+                    }
+                  >
                     <Image
-                      src={assetPath(images.cabinet[0].src)}
-                      alt={images.cabinet[0].alt}
+                      src={assetPath(preview.src)}
+                      alt={preview.alt}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
-                  </div>
+                    {gallery.length > 1 && (
+                      <span className="absolute right-3 bottom-3 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                        {gallery.length} фото
+                      </span>
+                    )}
+                  </button>
                 )}
 
                 <div className="flex flex-col p-8 md:p-10">
@@ -148,10 +282,18 @@ export function Locations() {
               лестнице к стеклянной двери.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {minskImages.directions.map((image) => (
-                <div
+              {minskImages.directions.map((image, index) => (
+                <button
                   key={image.src}
-                  className="relative aspect-[4/3] overflow-hidden rounded-2xl"
+                  type="button"
+                  onClick={() =>
+                    setLightbox({
+                      images: minskImages.directions,
+                      index,
+                    })
+                  }
+                  className="relative aspect-[4/3] cursor-zoom-in overflow-hidden rounded-2xl"
+                  aria-label={`Открыть фото: ${image.alt}`}
                 >
                   <Image
                     src={assetPath(image.src)}
@@ -160,12 +302,25 @@ export function Locations() {
                     className="object-cover"
                     sizes="(max-width: 640px) 100vw, 50vw"
                   />
-                </div>
+                </button>
               ))}
             </div>
           </RevealText>
         )}
       </div>
+
+      {lightbox && (
+        <ImageLightbox
+          images={lightbox.images}
+          index={lightbox.index}
+          onClose={() => setLightbox(null)}
+          onChange={(index) =>
+            setLightbox((current) =>
+              current ? { ...current, index } : current,
+            )
+          }
+        />
+      )}
     </section>
   );
 }

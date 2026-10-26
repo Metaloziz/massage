@@ -68,20 +68,27 @@ export const locations = [
     fullAddress: "д. Тюрли, ул. Южная, 6",
     directions:
       "Въезд через открытые зелёные ворота. Вход с правой стороны дома, дверь с надписью «Массаж».",
-    mapUrl:
-      "https://yandex.by/maps/org/kineziomassazh/114657222860/?ll=26.830421%2C54.288270&z=15",
-    mapLabel: "Яндекс Карты",
+    mapUrl: "https://share.google/cL4fGeluIFwokK6oB",
+    mapLabel: "Google Карты",
     hours: "По предварительной записи",
     available: true,
     images: {
       cabinet: [
         {
-          src: "/locations/tyurli/cabinet-1.jpg",
-          alt: "Кабинет в д. Тюрли — фото скоро",
+          src: "/locations/tyurli/cabinet-1.png",
+          alt: "Массажный кабинет в Молодечно — рабочее пространство",
         },
         {
-          src: "/locations/tyurli/cabinet-2.jpg",
-          alt: "Вход в кабинет в д. Тюрли — фото скоро",
+          src: "/locations/tyurli/cabinet-2.png",
+          alt: "Зона ожидания и вход в кабинет в Молодечно",
+        },
+        {
+          src: "/locations/tyurli/cabinet-3.png",
+          alt: "Санузел и гардеробная в кабинете в Молодечно",
+        },
+        {
+          src: "/locations/tyurli/cabinet-4.png",
+          alt: "Коридор кабинета в Молодечно",
         },
       ],
     },
@@ -101,6 +108,10 @@ export const locations = [
     available: true,
     images: {
       cabinet: [
+        {
+          src: "/locations/minsk/cabinet-3.jpg",
+          alt: "Массажный кабинет на ул. Тепличная, 1",
+        },
         {
           src: "/locations/minsk/cabinet-1.jpg",
           alt: "Массажный кабинет — рабочее пространство",
@@ -395,21 +406,6 @@ export const testimonials = [
     author: "Владимир С.",
     date: "год назад",
     source: "google" as const,
-  },
-] as const;
-
-export const galleryImages = [
-  {
-    id: "minsk-cabinet-1",
-    src: "/locations/minsk/cabinet-1.jpg",
-    alt: "Уютный массажный кабинет",
-    span: "tall" as const,
-  },
-  {
-    id: "minsk-cabinet-2",
-    src: "/locations/minsk/cabinet-2.jpg",
-    alt: "Массажный стол и атмосфера кабинета",
-    span: "tall" as const,
   },
 ] as const;
 
