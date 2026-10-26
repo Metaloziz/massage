@@ -387,6 +387,12 @@ export const education = {
     "12 полноценных занятий по 3 часа",
     "13-е занятие — экзамен",
   ],
+  programPhoto: {
+    src: "/education/program.png",
+    alt: "Программа обучения классическому массажу",
+    width: 1080,
+    height: 1350,
+  },
   courseOptions: [{ id: "classic", label: "Классический массаж" }] as const,
   startDates: [{ id: "oct-3", label: "3 октября" }] as const,
   ctaLabel: "Записаться на обучение",

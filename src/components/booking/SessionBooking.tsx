@@ -8,6 +8,7 @@ import {
   getServiceById,
   sessionBookingMessage,
   services,
+  site,
   type BookingChannelId,
   type SessionServiceId,
 } from "@/lib/content";
@@ -89,11 +90,6 @@ export function SessionBooking({
       }
     }
 
-    if (channelId === "phone") {
-      window.location.href = href;
-      return;
-    }
-
     window.open(href, "_blank", "noopener,noreferrer");
   };
 
@@ -111,12 +107,30 @@ export function SessionBooking({
           </p>
           {bookingChannels.map((channel) => {
             const Icon = channelIcons[channel.id];
+            const className =
+              "flex w-full items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-accent/40 hover:shadow-md";
+
+            if (channel.id === "phone") {
+              return (
+                <a
+                  key={channel.id}
+                  href={site.phoneHref}
+                  className={className}
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-light text-accent">
+                    <Icon size={20} />
+                  </span>
+                  <span className="font-medium">{channel.label}</span>
+                </a>
+              );
+            }
+
             return (
               <button
                 key={channel.id}
                 type="button"
                 onClick={() => setChannelId(channel.id)}
-                className="flex w-full items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-accent/40 hover:shadow-md"
+                className={className}
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-light text-accent">
                   <Icon size={20} />
@@ -207,23 +221,13 @@ export function SessionBooking({
             </p>
           )}
 
-          {channelId === "phone" && (
-            <p className="text-sm text-muted">
-              При звонке укажите: {selectedService?.title}
-              {canOpenChannel
-                ? `, ${preferredDate.split("-").reverse().join(".")}, ${preferredTime}`
-                : ""}
-              .
-            </p>
-          )}
-
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button
               className="flex-1"
               disabled={!canOpenChannel}
               onClick={handleOpenChannel}
             >
-              {channelId === "phone" ? "Позвонить" : "Открыть мессенджер"}
+              Открыть мессенджер
             </Button>
             <Button
               variant="outline"

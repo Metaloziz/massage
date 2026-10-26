@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { education } from "@/lib/content";
+import { assetPath } from "@/lib/assetPath";
 import { useBooking } from "@/components/booking/BookingProvider";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
@@ -18,6 +20,18 @@ export function EducationContent() {
         <p className="mt-6 text-lg leading-relaxed text-muted">
           {education.invite}
         </p>
+
+        <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-card">
+          <Image
+            src={assetPath(education.programPhoto.src)}
+            alt={education.programPhoto.alt}
+            width={education.programPhoto.width}
+            height={education.programPhoto.height}
+            className="h-auto w-full"
+            sizes="(max-width: 768px) 100vw, 48rem"
+            priority
+          />
+        </div>
 
         <div className="mt-10 space-y-6 rounded-3xl border border-border bg-card p-6 md:p-8">
           <p className="text-sm leading-relaxed text-muted">

@@ -6,6 +6,7 @@ import { schoolYasnost } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
+
 export function School() {
   const hasLinks = Boolean(schoolYasnost.website || schoolYasnost.instagram);
 
@@ -16,14 +17,29 @@ export function School() {
       aria-labelledby="school-heading"
     >
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-20">
-        <div className="order-2 lg:order-1">
+        <div>
           <RevealText>
             <SectionLabel>Школа массажа</SectionLabel>
           </RevealText>
-          <RevealText delay={0.1}>
+
+          <RevealText delay={0.1} className="mt-6">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-background">
+              <Image
+                src={assetPath(schoolYasnost.photo)}
+                alt={schoolYasnost.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+          </RevealText>
+        </div>
+
+        <div>
+          <RevealText delay={0.15}>
             <h2
               id="school-heading"
-              className="mt-4 font-serif text-3xl font-medium md:text-4xl lg:text-5xl"
+              className="font-serif text-3xl font-medium md:text-4xl lg:text-5xl"
             >
               {schoolYasnost.title}
             </h2>
@@ -76,18 +92,6 @@ export function School() {
             </div>
           </RevealText>
         </div>
-
-        <RevealText className="order-1 lg:order-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-background">
-            <Image
-              src={assetPath(schoolYasnost.photo)}
-              alt={schoolYasnost.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
-        </RevealText>
       </div>
     </section>
   );
