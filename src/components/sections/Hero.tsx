@@ -113,9 +113,9 @@ export function Hero() {
         }`}
       >
         <div
-          className={`flex flex-col ${
+          className={`flex min-w-0 flex-col ${
             isDesign2
-              ? "glass-panel p-6 sm:p-8 md:p-10"
+              ? "glass-panel overflow-hidden p-6 sm:p-8 md:p-10"
               : ""
           }`}
         >
@@ -162,7 +162,7 @@ export function Hero() {
               href={site.phoneHref}
               className={
                 isDesign2
-                  ? "w-full !border-transparent !bg-[var(--hero-text)] !text-[var(--hero-cta-fg)] !shadow-none hover:!bg-[var(--hero-text)]/90"
+                  ? "w-full"
                   : "w-full !border-transparent !bg-[var(--hero-text)] !text-[var(--hero-cta-fg)] !shadow-[0_1px_0_rgba(255,255,255,0.35)_inset,0_10px_28px_rgba(0,0,0,0.22)] hover:!bg-[var(--hero-text)]/92"
               }
             >
@@ -173,7 +173,7 @@ export function Hero() {
               variant="outline"
               className={
                 isDesign2
-                  ? "w-full !border-white/35 !bg-transparent !text-[var(--hero-text)] hover:!border-white/60 hover:!bg-white/10 hover:!text-[var(--hero-text)]"
+                  ? "w-full"
                   : "w-full !border-[var(--hero-text)]/70 !bg-white/5 !text-[var(--hero-text)] hover:!border-[var(--hero-text)] hover:!bg-white/12 hover:!text-[var(--hero-text)]"
               }
             >
@@ -182,18 +182,22 @@ export function Hero() {
           </div>
 
           <div
-            className={`hero-reveal mt-12 grid gap-6 border-t pt-8 sm:grid-cols-3 ${
-              overlayReady ? "opacity-100" : "opacity-0"
-            } ${isDesign2 ? "border-white/15" : "border-white/20"}`}
+            className={`hero-reveal mt-12 grid gap-6 border-t pt-8 ${
+              isDesign2 ? "grid-cols-1 border-white/15" : "border-white/20 sm:grid-cols-3"
+            } ${overlayReady ? "opacity-100" : "opacity-0"}`}
           >
             {heroHighlights.map((item) => (
               <Link
                 key={item.id}
                 href={item.href}
-                className="group block transition-opacity hover:opacity-85"
+                className="group block min-w-0 transition-opacity hover:opacity-85"
               >
                 <p
-                  className="font-serif text-2xl font-medium md:text-3xl"
+                  className={`font-serif font-medium ${
+                    isDesign2
+                      ? "text-xl leading-snug md:text-2xl"
+                      : "text-2xl md:text-3xl"
+                  }`}
                   style={{ color: "var(--hero-text)" }}
                 >
                   {item.title}

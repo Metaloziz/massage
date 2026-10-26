@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, IBM_Plex_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { ThemeAtmosphere } from "@/components/layout/ThemeAtmosphere";
 import { Header } from "@/components/layout/Header";
@@ -19,6 +19,13 @@ const cormorant = Cormorant_Garamond({
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600"],
+});
+
+/** Дизайн 2: чистый mono без засечек, с кириллицей */
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600"],
 });
 
@@ -66,7 +73,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${cormorant.variable} ${dmSans.variable}`} suppressHydrationWarning>
+    <html
+      lang="ru"
+      className={`${cormorant.variable} ${dmSans.variable} ${plexMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{

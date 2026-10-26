@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
+import { silkPrimaryClass } from "@/components/ui/Button";
 import { lockBodyScroll } from "@/lib/scrollLock";
 import { useIsDesign2 } from "@/hooks/useThemeId";
 
@@ -131,7 +132,7 @@ export function Header() {
           />
           <a
             href={site.phoneHref}
-            className="rounded-[var(--radius-control)] border border-transparent bg-foreground px-5 py-2.5 text-sm font-medium tracking-[0.02em] text-background transition-all hover:bg-foreground/90"
+            className={`${silkPrimaryClass} inline-flex min-h-11 items-center justify-center rounded-[var(--radius-control)] border border-transparent bg-foreground px-5 py-2.5 text-sm font-medium tracking-[0.02em] text-background transition-all hover:bg-foreground/90`}
           >
             Записаться
           </a>
@@ -185,7 +186,7 @@ export function Header() {
           <a
             href={site.phoneHref}
             onClick={() => setMenuOpen(false)}
-            className="mt-4 rounded-[var(--radius-control)] border border-transparent bg-foreground px-6 py-4 text-center text-base font-medium tracking-[0.02em] text-background"
+            className={`${silkPrimaryClass} mt-4 inline-flex items-center justify-center rounded-[var(--radius-control)] border border-transparent bg-foreground px-6 py-4 text-center text-base font-medium tracking-[0.02em] text-background`}
           >
             Записаться
           </a>

@@ -24,15 +24,18 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variants = {
   primary:
-    "border border-transparent bg-foreground text-background hover:bg-foreground/90 active:translate-y-px",
+    "ui-btn--primary border border-transparent bg-foreground text-background hover:bg-foreground/90 active:translate-y-px",
   outline:
-    "border border-[var(--line)] bg-transparent text-foreground hover:border-accent hover:bg-accent/10 active:translate-y-px",
+    "ui-btn--outline border border-[var(--line)] bg-transparent text-foreground hover:border-accent hover:bg-accent/10 active:translate-y-px",
   ghost:
-    "border border-transparent bg-transparent text-muted hover:bg-accent/10 hover:text-foreground",
+    "ui-btn--ghost border border-transparent bg-transparent text-muted hover:bg-accent/10 hover:text-foreground",
 };
 
 const baseClass =
-  "inline-flex min-h-12 items-center justify-center rounded-[var(--radius-control)] px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all duration-200 ease-out disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:active:translate-y-0";
+  "ui-btn inline-flex min-h-12 items-center justify-center rounded-[var(--radius-control)] px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all duration-200 ease-out disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:active:translate-y-0";
+
+/** Класс для primary CTA вне Button (шапка и т.п.). */
+export const silkPrimaryClass = "ui-btn ui-btn--primary";
 
 export function Button({
   variant = "primary",

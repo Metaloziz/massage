@@ -73,7 +73,7 @@ export const themes = {
   design2: {
     id: "design2",
     label: "Дизайн 2",
-    note: "Nature glass: фон leaves.png, frosted panels, мягкий moss accent — весь сайт.",
+    note: "Nature glass: leaves.png, glass panels, silk teal-moss buttons, IBM Plex Mono.",
     colorScheme: "dark",
     tokens: {
       background: "#0c1210",

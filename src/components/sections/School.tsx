@@ -6,6 +6,7 @@ import { schoolYasnost } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
+import { silkPrimaryClass } from "@/components/ui/Button";
 import { useIsDesign2 } from "@/hooks/useThemeId";
 
 export function School() {
@@ -84,7 +85,7 @@ export function School() {
                   href={schoolYasnost.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-12 items-center justify-center rounded-[var(--radius-control)] border border-[var(--line)] px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all hover:border-accent hover:bg-accent/10"
+                  className="ui-btn ui-btn--outline inline-flex min-h-12 items-center justify-center rounded-[var(--radius-control)] border border-[var(--line)] px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all hover:border-accent hover:bg-accent/10"
                 >
                   Сайт школы
                 </a>
@@ -94,7 +95,7 @@ export function School() {
                   href={schoolYasnost.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-12 items-center justify-center rounded-[var(--radius-control)] border border-[var(--line)] px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all hover:border-accent hover:bg-accent/10"
+                  className="ui-btn ui-btn--outline inline-flex min-h-12 items-center justify-center rounded-[var(--radius-control)] border border-[var(--line)] px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all hover:border-accent hover:bg-accent/10"
                 >
                   Instagram
                 </a>
@@ -103,8 +104,8 @@ export function School() {
                 href="/education"
                 className={`inline-flex min-h-12 items-center justify-center rounded-[var(--radius-control)] px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all ${
                   hasLinks
-                    ? "border border-[var(--line)] hover:border-accent hover:bg-accent/10"
-                    : "border border-transparent bg-foreground text-background hover:bg-foreground/90"
+                    ? "ui-btn ui-btn--outline border border-[var(--line)] hover:border-accent hover:bg-accent/10"
+                    : `${silkPrimaryClass} border border-transparent bg-foreground text-background hover:bg-foreground/90`
                 }`}
               >
                 Подробнее об обучении
