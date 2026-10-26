@@ -13,7 +13,6 @@ import {
 } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
-import { useBooking } from "@/components/booking/BookingProvider";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
 
 gsap.registerPlugin(useGSAP);
@@ -22,7 +21,6 @@ export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const { openSessionBooking, openTrainingBooking } = useBooking();
   const [overlayReady, setOverlayReady] = useState(false);
 
   useEffect(() => {
@@ -124,15 +122,15 @@ export function Hero() {
           }`}
         >
           <Button
+            href={site.phoneHref}
             className="w-full bg-[var(--hero-text)] text-[#2a2420] hover:opacity-90"
-            onClick={() => openSessionBooking()}
           >
             Записаться на сеанс
           </Button>
           <Button
+            href={site.phoneHref}
             variant="outline"
             className="w-full border-[var(--hero-text)] text-[var(--hero-text)] hover:border-[var(--hero-text)] hover:bg-white/10 hover:text-[var(--hero-text)]"
-            onClick={openTrainingBooking}
           >
             Записаться на обучение
           </Button>

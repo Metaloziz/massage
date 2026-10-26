@@ -1,7 +1,6 @@
 "use client";
 
-import { locations, services } from "@/lib/content";
-import { useBooking } from "@/components/booking/BookingProvider";
+import { locations, services, site } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { Button } from "@/components/ui/Button";
@@ -11,8 +10,6 @@ const locationById = Object.fromEntries(
 );
 
 export function HomeServiceCards() {
-  const { openSessionBooking } = useBooking();
-
   return (
     <section
       id="where-to-book"
@@ -54,10 +51,7 @@ export function HomeServiceCards() {
                   ))}
                 </div>
 
-                <Button
-                  className="mt-8 w-full"
-                  onClick={() => openSessionBooking(service.id)}
-                >
+                <Button href={site.phoneHref} className="mt-8 w-full">
                   {service.ctaLabel}
                 </Button>
               </article>

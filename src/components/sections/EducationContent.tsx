@@ -1,15 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { education } from "@/lib/content";
+import { education, site } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
-import { useBooking } from "@/components/booking/BookingProvider";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 
 export function EducationContent() {
-  const { openTrainingBooking } = useBooking();
-
   return (
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-3xl px-5 md:px-8">
@@ -88,7 +85,7 @@ export function EducationContent() {
           </div>
         </div>
 
-        <Button className="mt-10 w-full sm:w-auto" onClick={openTrainingBooking}>
+        <Button href={site.phoneHref} className="mt-10 w-full sm:w-auto">
           {education.ctaLabel}
         </Button>
       </div>

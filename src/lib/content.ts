@@ -27,65 +27,6 @@ export const site = {
 
 export type SessionServiceId = "kinesio" | "wellness";
 
-export type BookingChannelId = "telegram" | "whatsapp" | "viber" | "phone";
-
-export const bookingChannels = [
-  {
-    id: "telegram" as const,
-    label: "Telegram",
-  },
-  {
-    id: "whatsapp" as const,
-    label: "WhatsApp",
-  },
-  {
-    id: "viber" as const,
-    label: "Viber",
-  },
-  {
-    id: "phone" as const,
-    label: "Позвонить",
-  },
-] as const;
-
-export function formatSessionDate(dateIso: string): string {
-  const date = new Date(`${dateIso}T12:00:00`);
-  return new Intl.DateTimeFormat("ru-RU", {
-    day: "numeric",
-    month: "long",
-  }).format(date);
-}
-
-export function sessionBookingMessage(
-  serviceId: SessionServiceId,
-  options: { date: string; time: string },
-): string {
-  const label =
-    serviceId === "kinesio"
-      ? "кинезиомассаж"
-      : "общеоздоровительный массаж";
-  const when = `${formatSessionDate(options.date)}, ${options.time}`;
-  return `Здравствуйте! Хочу записаться на ${label}. Удобно: ${when}`;
-}
-
-export function buildChannelHref(
-  channelId: BookingChannelId,
-  message: string,
-): string {
-  const encoded = encodeURIComponent(message);
-
-  switch (channelId) {
-    case "telegram":
-      return `${site.social.telegram}?text=${encoded}`;
-    case "whatsapp":
-      return `${site.social.whatsapp}?text=${encoded}`;
-    case "viber":
-      return site.social.viber;
-    case "phone":
-      return site.phoneHref;
-  }
-}
-
 export const bookingInfo = {
   reminder:
     "Накануне сеанса (за 6–24 часа) я пришлю напоминание.",

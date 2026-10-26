@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
-import { useBooking } from "@/components/booking/BookingProvider";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { lockBodyScroll } from "@/lib/scrollLock";
@@ -22,7 +21,6 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { openSessionBooking } = useBooking();
   const onHero = pathname === "/" || pathname === "";
 
   useEffect(() => {
@@ -125,13 +123,12 @@ export function Header() {
                 : ""
             }
           />
-          <button
-            type="button"
-            onClick={() => openSessionBooking()}
+          <a
+            href={site.phoneHref}
             className="rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
           >
             Записаться
-          </button>
+          </a>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
@@ -177,16 +174,13 @@ export function Header() {
               {link.label}
             </button>
           ))}
-          <button
-            type="button"
-            onClick={() => {
-              setMenuOpen(false);
-              openSessionBooking();
-            }}
-            className="mt-4 rounded-full bg-foreground px-6 py-4 text-base font-medium text-background"
+          <a
+            href={site.phoneHref}
+            onClick={() => setMenuOpen(false)}
+            className="mt-4 rounded-full bg-foreground px-6 py-4 text-center text-base font-medium text-background"
           >
             Записаться
-          </button>
+          </a>
         </nav>
       </div>
     </header>
