@@ -50,7 +50,7 @@ export function Testimonials() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
 
   const goToSlide = (index: number) => {
     setActiveIndex(index);
@@ -85,7 +85,7 @@ export function Testimonials() {
     <section
       id="testimonials"
       className={`py-16 md:py-28 ${
-        isDesign2 ? "bg-transparent" : isDesign3 ? "" : "bg-card"
+        isDesign2 ? "" : "bg-card"
       }`}
       aria-labelledby="testimonials-heading"
       onMouseEnter={stopAutoplay}
@@ -107,9 +107,7 @@ export function Testimonials() {
               label={yandexReviews.label}
             />
             <div
-              className={`hidden h-12 w-px sm:block ${
-                isDesign2 ? "bg-white/20" : "bg-[var(--line)]"
-              }`}
+              className="hidden h-12 w-px bg-[var(--line)] sm:block"
               aria-hidden="true"
             />
             <SourceRating
@@ -122,11 +120,7 @@ export function Testimonials() {
 
         <div
           className={`mx-auto max-w-3xl text-center ${
-            isDesign2
-              ? "glass-panel px-6 py-10 sm:px-10"
-              : isDesign3
-                ? "soft-panel px-6 py-10 sm:px-10"
-                : ""
+            isDesign2 ? "soft-panel px-6 py-10 sm:px-10" : ""
           }`}
         >
           <div key={active.id}>

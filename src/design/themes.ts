@@ -4,9 +4,10 @@
  * Как добавить новый вид:
  * 1. Скопируй блок темы в `themes`.
  * 2. Задай новый `id`, `label` и токены.
- * 3. Тема сразу появится в выпадающем списке в шапке.
+ * 3. Тема сразу появится в модалке настроек.
  *
  * Default: `design1`. Неизвестный localStorage → design1.
+ * Legacy `design3` (Soft Earth) → `design2`.
  */
 
 export type ColorScheme = "light" | "dark";
@@ -38,18 +39,33 @@ export type ThemeDefinition = {
   /** Короткое описание для себя / референсов */
   note?: string;
   colorScheme: ColorScheme;
+  /** Есть ли выбор заднего фона в настройках */
+  hasBackdropOptions?: boolean;
   tokens: DesignTokens;
 };
 
+export type BackdropKind = "image" | "color";
+
+export type BackdropOption = {
+  id: string;
+  label: string;
+  kind: BackdropKind;
+  /** Путь к картинке или CSS-цвет */
+  value: string;
+};
+
 export const THEME_STORAGE_KEY = "theme";
+export const BACKDROP_STORAGE_KEY = "theme-backdrop";
 export const THEME_CHANGE_EVENT = "massage:theme-change";
+export const BACKDROP_CHANGE_EVENT = "massage:backdrop-change";
 
 export const themes = {
   design1: {
     id: "design1",
     label: "Дизайн 1",
-    note: "Первый сохранённый дизайн: тёплый беж + шалфей, hero фото справа на десктопе, кнопки rounded-xl.",
+    note: "Тёплый беж + шалфей, hero фото справа на десктопе.",
     colorScheme: "light",
+    hasBackdropOptions: false,
     tokens: {
       background: "#f7f3ee",
       foreground: "#2a2420",
@@ -73,33 +89,9 @@ export const themes = {
   design2: {
     id: "design2",
     label: "Дизайн 2",
-    note: "Nature glass: leaves.png, glass panels, silk teal-moss buttons, IBM Plex Mono.",
+    note: "Матовые плашки на фоне листвы, с выбором фона.",
     colorScheme: "dark",
-    tokens: {
-      background: "#0c1210",
-      foreground: "#f2f5f3",
-      muted: "rgba(232, 236, 233, 0.68)",
-      accent: "#8faf8a",
-      accentLight: "rgba(143, 175, 138, 0.16)",
-      border: "rgba(255, 255, 255, 0.14)",
-      card: "rgba(16, 24, 20, 0.55)",
-      heroSurface: "#0a100e",
-      heroOverlay: "rgba(8, 14, 12, 0.42)",
-      heroText: "#f5f7f4",
-      heroMuted: "rgba(232, 236, 233, 0.78)",
-      heroCtaFg: "#0e1612",
-      radiusCard: "1.25rem",
-      radiusControl: "9999px",
-      glass: "rgba(12, 20, 16, 0.48)",
-      line: "rgba(255, 255, 255, 0.16)",
-      glow: "rgba(143, 175, 138, 0.22)",
-    },
-  },
-  design3: {
-    id: "design3",
-    label: "Дизайн 3",
-    note: "Soft earth: dense leaves bg, Manrope, matte soft panels, sand buttons. Light type on bg, dark type in panels.",
-    colorScheme: "dark",
+    hasBackdropOptions: true,
     tokens: {
       background: "#1e3a2f",
       foreground: "#f3f0e6",
@@ -122,7 +114,56 @@ export const themes = {
   },
 } as const satisfies Record<string, ThemeDefinition>;
 
+/** Фоны для Дизайна 2 (Soft Earth). */
+export const design2Backdrops: BackdropOption[] = [
+  {
+    id: "leaves-dense",
+    label: "Густые листья",
+    kind: "image",
+    value: "/atmosphere/design3-leaves.jpg",
+  },
+  {
+    id: "leaves-forest",
+    label: "Лесная крона",
+    kind: "image",
+    value: "/atmosphere/leaves.png",
+  },
+  {
+    id: "leaves-sage",
+    label: "Шалфейные листья",
+    kind: "image",
+    value: "/atmosphere/sage-leaves.jpg",
+  },
+  {
+    id: "color-moss",
+    label: "Мох",
+    kind: "color",
+    value: "#1e3a2f",
+  },
+  {
+    id: "color-earth",
+    label: "Земля",
+    kind: "color",
+    value: "#2c241c",
+  },
+  {
+    id: "color-olive",
+    label: "Олива",
+    kind: "color",
+    value: "#243528",
+  },
+  {
+    id: "color-ink",
+    label: "Чернила",
+    kind: "color",
+    value: "#121816",
+  },
+];
+
+export const defaultBackdropId = design2Backdrops[0].id;
+
 export type ThemeId = keyof typeof themes;
+export type BackdropId = (typeof design2Backdrops)[number]["id"];
 
 export const defaultThemeId: ThemeId = "design1";
 
@@ -132,9 +173,28 @@ export function isThemeId(value: string | null | undefined): value is ThemeId {
   return Boolean(value && value in themes);
 }
 
+export function isBackdropId(
+  value: string | null | undefined,
+): value is BackdropId {
+  return Boolean(value && design2Backdrops.some((item) => item.id === value));
+}
+
 export function resolveThemeId(stored: string | null): ThemeId {
+  // Soft Earth раньше был design3
+  if (stored === "design3") return "design2";
   if (isThemeId(stored)) return stored;
   return defaultThemeId;
+}
+
+export function resolveBackdropId(stored: string | null): BackdropId {
+  if (isBackdropId(stored)) return stored;
+  return defaultBackdropId;
+}
+
+export function getBackdrop(id: BackdropId): BackdropOption {
+  return (
+    design2Backdrops.find((item) => item.id === id) ?? design2Backdrops[0]
+  );
 }
 
 export function tokensToCssVars(

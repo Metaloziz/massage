@@ -17,14 +17,9 @@ export function Philosophy() {
   const decorRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const { isDesign2, isDesign3 } = useThemeFlags();
-  const panel = isDesign2
-    ? "glass-panel p-6 sm:p-8 md:p-10"
-    : isDesign3
-      ? "soft-panel p-6 sm:p-8 md:p-10"
-      : "";
-  const rule = isDesign2 || isDesign3 ? "bg-white/20" : "bg-border";
-  const ruleInPanel = isDesign3 ? "bg-[var(--line)]" : rule;
+  const { isDesign2 } = useThemeFlags();
+  const panel = isDesign2 ? "soft-panel p-6 sm:p-8 md:p-10" : "";
+  const ruleInPanel = isDesign2 ? "bg-[var(--line)]" : "bg-border";
 
   useGSAP(
     () => {

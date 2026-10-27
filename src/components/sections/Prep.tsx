@@ -6,12 +6,10 @@ import { RevealText } from "@/components/ui/RevealText";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function Prep() {
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
   const card = isDesign2
-    ? "glass-panel"
-    : isDesign3
-      ? "soft-panel"
-      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
+    ? "soft-panel"
+    : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
 
   return (
     <section

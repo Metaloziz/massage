@@ -10,28 +10,20 @@ import { silkPrimaryClass } from "@/components/ui/Button";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function School() {
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
   const hasLinks = Boolean(schoolYasnost.website || schoolYasnost.instagram);
-  const textPanel = isDesign2
-    ? "glass-panel p-6 sm:p-8 md:p-10"
-    : isDesign3
-      ? "soft-panel p-6 sm:p-8 md:p-10"
-      : "";
+  const textPanel = isDesign2 ? "soft-panel p-6 sm:p-8 md:p-10" : "";
   const photoFrame = isDesign2
-    ? "glass-panel p-2"
-    : isDesign3
-      ? "soft-panel p-2"
-      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background";
+    ? "soft-panel p-2"
+    : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background";
 
   return (
     <section
       id="school"
       className={`scroll-mt-24 py-16 md:py-28 ${
         isDesign2
-          ? "border-t border-white/10 bg-transparent"
-          : isDesign3
-            ? "border-t border-[var(--line)]"
-            : "border-t border-[var(--line)] bg-card/40"
+          ? "border-t border-[var(--line)]"
+          : "border-t border-[var(--line)] bg-card/40"
       }`}
       aria-labelledby="school-heading"
     >
@@ -45,9 +37,7 @@ export function School() {
             <div className={`relative aspect-[4/3] overflow-hidden ${photoFrame}`}>
               <div
                 className={`relative h-full w-full overflow-hidden ${
-                  isDesign2 || isDesign3
-                    ? "rounded-[calc(var(--radius-card)-0.35rem)]"
-                    : ""
+                  isDesign2 ? "rounded-[calc(var(--radius-card)-0.35rem)]" : ""
                 }`}
               >
                 <Image

@@ -12,19 +12,17 @@ const locationById = Object.fromEntries(
 );
 
 export function HomeServiceCards() {
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
   const { openSessionBooking } = useBooking();
   const card = isDesign2
-    ? "glass-panel"
-    : isDesign3
-      ? "soft-panel"
-      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background";
+    ? "soft-panel"
+    : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background";
 
   return (
     <section
       id="where-to-book"
       className={`py-16 md:py-28 ${
-        isDesign2 ? "bg-transparent" : isDesign3 ? "" : "bg-card"
+        isDesign2 ? "" : "bg-card"
       }`}
       aria-labelledby="where-to-book-heading"
     >
@@ -50,11 +48,7 @@ export function HomeServiceCards() {
                   {service.shortDescription}
                 </p>
 
-                <div
-                  className={`mt-5 space-y-3 border-t pt-5 sm:mt-6 sm:pt-6 ${
-                    isDesign2 ? "border-white/15" : "border-[var(--line)]"
-                  }`}
-                >
+                <div className="mt-5 space-y-3 border-t border-[var(--line)] pt-5 sm:mt-6 sm:pt-6">
                   {service.pricing.map((tier) => (
                     <div key={tier.locationId}>
                       <p className="text-xs font-medium text-muted">

@@ -6,16 +6,12 @@ import { locations, navLinks, site } from "@/lib/content";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function Footer() {
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
 
   return (
     <footer
       className={`site-footer border-t border-[var(--line)] ${
-        isDesign2
-          ? "bg-[var(--glass)] backdrop-blur-xl"
-          : isDesign3
-            ? ""
-            : "bg-card"
+        isDesign2 ? "" : "bg-card"
       }`}
     >
       <div className="mx-auto max-w-7xl px-5 py-12 md:px-8 md:py-20">
@@ -118,11 +114,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div
-          className={`mt-10 flex flex-col gap-2 border-t pt-6 text-xs text-muted sm:mt-16 sm:pt-8 md:flex-row md:items-center md:justify-between ${
-            isDesign2 ? "border-white/15" : "border-[var(--line)]"
-          }`}
-        >
+        <div className="mt-10 flex flex-col gap-2 border-t border-[var(--line)] pt-6 text-xs text-muted sm:mt-16 sm:pt-8 md:flex-row md:items-center md:justify-between">
           <p suppressHydrationWarning>
             © {new Date().getFullYear()} {site.name}. Все права защищены.
           </p>

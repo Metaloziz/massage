@@ -9,23 +9,15 @@ import { useBooking } from "@/components/booking/BookingProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function EducationContent() {
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
   const { openTrainingBooking } = useBooking();
-  const introPanel = isDesign2
-    ? "glass-panel p-6 sm:p-8 md:p-10"
-    : isDesign3
-      ? "soft-panel p-6 sm:p-8 md:p-10"
-      : "";
+  const introPanel = isDesign2 ? "soft-panel p-6 sm:p-8 md:p-10" : "";
   const mediaPanel = isDesign2
-    ? "glass-panel p-2"
-    : isDesign3
-      ? "soft-panel p-2"
-      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
+    ? "soft-panel p-2"
+    : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
   const detailsPanel = isDesign2
-    ? "glass-panel"
-    : isDesign3
-      ? "soft-panel"
-      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
+    ? "soft-panel"
+    : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
 
   return (
     <section className="py-16 md:py-24">
@@ -43,7 +35,7 @@ export function EducationContent() {
         <div className={`mt-10 overflow-hidden ${mediaPanel}`}>
           <div
             className={
-              isDesign2 || isDesign3
+              isDesign2
                 ? "overflow-hidden rounded-[calc(var(--radius-card)-0.35rem)]"
                 : ""
             }

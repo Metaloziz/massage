@@ -26,19 +26,15 @@ function ImageLightbox({
   index,
   onClose,
   onChange,
-  isDesign2,
 }: {
   images: readonly GalleryImage[];
   index: number;
   onClose: () => void;
   onChange: (index: number) => void;
-  isDesign2: boolean;
 }) {
   const current = images[index];
   const hasMany = images.length > 1;
-  const controlClass = isDesign2
-    ? "rounded-[var(--radius-control)] border border-white/25 bg-black/40 backdrop-blur-md"
-    : "rounded-full bg-white/10";
+  const controlClass = "rounded-full bg-white/10";
 
   useEffect(() => {
     const unlock = lockBodyScroll();
@@ -113,11 +109,7 @@ function ImageLightbox({
         onClick={(event) => event.stopPropagation()}
       >
         <div
-          className={`relative aspect-[4/3] w-full overflow-hidden bg-black/40 md:aspect-[16/10] ${
-            isDesign2
-              ? "rounded-[var(--radius-card)] border border-white/20"
-              : "rounded-2xl"
-          }`}
+          className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-black/40 md:aspect-[16/10]"
         >
           <Image
             src={assetPath(current.src)}
@@ -141,7 +133,7 @@ export function Locations() {
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
   const [lightbox, setLightbox] = useState<{
     images: readonly GalleryImage[];
     index: number;
@@ -168,18 +160,13 @@ export function Locations() {
   );
 
   const cardClass = isDesign2
-    ? "glass-panel"
-    : isDesign3
-      ? "soft-panel"
-      : "rounded-3xl border border-accent/30 bg-card shadow-sm";
+    ? "soft-panel"
+    : "rounded-3xl border border-accent/30 bg-card shadow-sm";
   const unavailableCardClass = isDesign2
-    ? "glass-panel opacity-75"
-    : isDesign3
-      ? "soft-panel opacity-80"
-      : "rounded-3xl border border-border bg-card/60";
-  const badgeClass = isDesign2
-    ? "rounded-[var(--radius-control)] border border-white/25 bg-black/35 px-3 py-1 backdrop-blur-md"
-    : "rounded-full bg-black/55 px-3 py-1 backdrop-blur-sm";
+    ? "soft-panel opacity-80"
+    : "rounded-3xl border border-border bg-card/60";
+  const badgeClass =
+    "rounded-full bg-black/55 px-3 py-1 backdrop-blur-sm";
 
   return (
     <section
@@ -187,7 +174,7 @@ export function Locations() {
       ref={sectionRef}
       className={`py-16 md:py-28 ${isDesign2 ? "bg-transparent" : ""}`}
       aria-labelledby="locations-heading"
-      data-design={isDesign3 ? "3" : isDesign2 ? "2" : "1"}
+      data-design={isDesign2 ? "2" : "1"}
     >
       <div className="relative mx-auto max-w-7xl px-5 md:px-8">
         <RevealText className="mb-10 max-w-2xl md:mb-16">
@@ -328,10 +315,8 @@ export function Locations() {
                   <article
                     className={`relative flex h-full flex-col overflow-hidden ${
                       isDesign2
-                        ? "glass-panel"
-                        : isDesign3
-                          ? "soft-panel"
-                          : "rounded-3xl border border-border bg-card"
+                        ? "soft-panel"
+                        : "rounded-3xl border border-border bg-card"
                     }`}
                   >
                     {preview && (
@@ -393,7 +378,6 @@ export function Locations() {
         <ImageLightbox
           images={lightbox.images}
           index={lightbox.index}
-          isDesign2={isDesign2}
           onClose={() => setLightbox(null)}
           onChange={(index) =>
             setLightbox((current) =>

@@ -29,7 +29,7 @@ export function ChannelPicker({
   message,
   onClose,
 }: ChannelPickerProps) {
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
 
   const handleChannel = async (channelId: BookingChannelId) => {
     const href = buildChannelHref(channelId, message);
@@ -52,10 +52,8 @@ export function ChannelPicker({
   };
 
   const itemClass = isDesign2
-    ? "border-white/15 bg-white/5 hover:border-white/30"
-    : isDesign3
-      ? "border-[rgba(42,50,40,0.12)] bg-[rgba(42,50,40,0.04)] hover:border-[rgba(42,50,40,0.22)]"
-      : "border-border bg-card hover:border-accent/40 hover:shadow-md";
+    ? "border-[rgba(42,50,40,0.12)] bg-[rgba(42,50,40,0.04)] hover:border-[rgba(42,50,40,0.22)]"
+    : "border-border bg-card hover:border-accent/40 hover:shadow-md";
 
   return (
     <BookingModal open={open} title={title} onClose={onClose}>

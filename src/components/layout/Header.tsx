@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
-import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
+import { ThemeSettings } from "@/components/theme/ThemeSettings";
 import { silkPrimaryClass } from "@/components/ui/Button";
 import { useBooking } from "@/components/booking/BookingProvider";
 import { lockBodyScroll } from "@/lib/scrollLock";
@@ -24,7 +24,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
   const { openBooking } = useBooking();
   const onHero = pathname === "/" || pathname === "";
 
@@ -76,15 +76,11 @@ export function Header() {
   const solidBar = scrolled || menuOpen || !onHero;
 
   const barClass = menuOpen
-    ? isDesign2
-      ? "border-b border-[var(--line)] bg-[var(--glass)] backdrop-blur-xl"
-      : "border-b border-[var(--line)] bg-background"
+    ? "border-b border-[var(--line)] bg-background"
     : solidBar
       ? isDesign2
-        ? "border-b border-[var(--line)] bg-[var(--glass)] backdrop-blur-xl"
-        : isDesign3
-          ? "border-b border-[var(--line)] bg-[#ebe4d2]/95 shadow-[var(--shadow-tile)]"
-          : "border-b border-[var(--line)] bg-background/95 backdrop-blur-md"
+        ? "border-b border-[var(--line)] bg-[#ebe4d2]/95 shadow-[var(--shadow-tile)]"
+        : "border-b border-[var(--line)] bg-background/95 backdrop-blur-md"
       : "border-b border-transparent bg-transparent";
 
   return (
@@ -97,7 +93,7 @@ export function Header() {
           href="/#about"
           className={`font-serif text-xl font-medium tracking-tight md:text-2xl ${
             !solidBar && !menuOpen
-              ? isDesign3
+              ? isDesign2
                 ? "text-[#f3f0e6]"
                 : "text-[var(--hero-text)]"
               : "text-foreground"
@@ -121,7 +117,7 @@ export function Header() {
               onClick={() => handleNavClick(link.href)}
               className={`text-sm transition-colors ${
                 !solidBar
-                  ? isDesign3
+                  ? isDesign2
                     ? "text-[#f3f0e6]/75 hover:text-[#f3f0e6]"
                     : "text-[var(--hero-muted)] hover:text-[var(--hero-text)]"
                   : "text-muted hover:text-foreground"
@@ -133,12 +129,12 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <ThemeSwitcher
+          <ThemeSettings
             className={
               !solidBar
-                ? isDesign3
-                  ? "text-[#f3f0e6] [&_select]:border-white/35 [&_select]:text-[#f3f0e6]"
-                  : "text-[var(--hero-text)] [&_select]:border-white/30 [&_select]:text-[var(--hero-text)] [&_select]:hover:border-white/60"
+                ? isDesign2
+                  ? "border-white/35 text-[#f3f0e6]"
+                  : "border-white/30 text-[var(--hero-text)]"
                 : ""
             }
           />
@@ -152,12 +148,12 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          <ThemeSwitcher
+          <ThemeSettings
             className={
               !solidBar && !menuOpen
-                ? isDesign3
-                  ? "text-[#f3f0e6] [&_select]:border-white/35 [&_select]:text-[#f3f0e6]"
-                  : "text-[var(--hero-text)] [&_select]:border-white/30 [&_select]:text-[var(--hero-text)] [&_select]:hover:border-white/60"
+                ? isDesign2
+                  ? "border-white/35 text-[#f3f0e6]"
+                  : "border-white/30 text-[var(--hero-text)]"
                 : ""
             }
           />
@@ -166,7 +162,7 @@ export function Header() {
             onClick={() => setMenuOpen(!menuOpen)}
             className={`flex h-11 w-11 items-center justify-center border ${
               !solidBar && !menuOpen
-                ? isDesign3
+                ? isDesign2
                   ? "rounded-[var(--radius-control)] border-white/35 text-[#f3f0e6]"
                   : "rounded-[var(--radius-control)] border-white/30 text-[var(--hero-text)]"
                 : "rounded-[var(--radius-control)] border-[var(--line)] text-foreground"
@@ -181,9 +177,7 @@ export function Header() {
 
       <div
         className={`fixed inset-0 top-16 z-40 min-h-[calc(100dvh-4rem)] transition-all duration-500 lg:hidden ${
-          isDesign2
-            ? "bg-[var(--glass)] backdrop-blur-xl"
-            : "bg-background"
+          "bg-background"
         } ${menuOpen ? "visible opacity-100" : "invisible opacity-0"}`}
       >
         <nav

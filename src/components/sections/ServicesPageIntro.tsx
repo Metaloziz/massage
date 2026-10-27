@@ -4,18 +4,14 @@ import Link from "next/link";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function ServicesPageIntro() {
-  const { isDesign2, isDesign3 } = useThemeFlags();
-  const panel = isDesign2
-    ? "glass-panel p-6 sm:p-8 md:p-10"
-    : isDesign3
-      ? "soft-panel p-6 sm:p-8 md:p-10"
-      : "";
+  const { isDesign2 } = useThemeFlags();
+  const panel = isDesign2 ? "soft-panel p-6 sm:p-8 md:p-10" : "";
 
   return (
     <section
       className={`border-b py-16 md:py-24 ${
-        isDesign2 || isDesign3
-          ? "border-white/10 bg-transparent"
+        isDesign2
+          ? "border-[var(--line)] bg-transparent"
           : "border-[var(--line)] bg-card"
       }`}
     >

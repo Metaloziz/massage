@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Cormorant_Garamond,
-  DM_Sans,
-  IBM_Plex_Mono,
-  Manrope,
-} from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, Manrope } from "next/font/google";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { ThemeAtmosphere } from "@/components/layout/ThemeAtmosphere";
 import { Header } from "@/components/layout/Header";
@@ -28,14 +23,7 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600"],
 });
 
-/** Дизайн 2: чистый mono без засечек, с кириллицей */
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600"],
-});
-
-/** Дизайн 3: soft earth sans */
+/** Дизайн 2: soft earth sans */
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin", "cyrillic"],
@@ -88,7 +76,7 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${cormorant.variable} ${dmSans.variable} ${plexMono.variable} ${manrope.variable}`}
+      className={`${cormorant.variable} ${dmSans.variable} ${manrope.variable}`}
       suppressHydrationWarning
     >
       <head>

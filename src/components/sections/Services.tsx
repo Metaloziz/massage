@@ -20,13 +20,11 @@ export function Services() {
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
   const card = isDesign2
-    ? "glass-panel hover:border-white/30"
-    : isDesign3
-      ? "soft-panel"
-      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background hover:border-accent/40";
-  const divider = isDesign2 ? "border-white/15" : "border-[var(--line)]";
+    ? "soft-panel"
+    : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background hover:border-accent/40";
+  const divider = "border-[var(--line)]";
 
   useGSAP(
     () => {
@@ -57,7 +55,7 @@ export function Services() {
       id="services"
       ref={sectionRef}
       className={`py-16 md:py-28 ${
-        isDesign2 || isDesign3 ? "bg-transparent" : "bg-card"
+        isDesign2 ? "bg-transparent" : "bg-card"
       }`}
       aria-labelledby="services-heading"
     >

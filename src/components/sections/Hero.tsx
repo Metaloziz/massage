@@ -23,7 +23,7 @@ export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const { isDesign1, isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign1, isDesign2 } = useThemeFlags();
   const { openSessionBooking, openTrainingBooking } = useBooking();
   const [overlayReady, setOverlayReady] = useState(false);
 
@@ -56,14 +56,14 @@ export function Hero() {
     { scope: containerRef, dependencies: [mounted, reducedMotion, overlayReady] },
   );
 
-  const designAttr = isDesign3 ? "3" : isDesign2 ? "2" : "1";
+  const designAttr = isDesign2 ? "2" : "1";
 
   return (
     <section
       id="hero"
       ref={containerRef}
       className={`relative flex min-h-[100dvh] items-end overflow-hidden md:items-center ${
-        isDesign2 || isDesign3 ? "bg-transparent" : "bg-[var(--hero-surface)]"
+        isDesign2 ? "bg-transparent" : "bg-[var(--hero-surface)]"
       }`}
       aria-labelledby="hero-heading"
       data-design={designAttr}
@@ -115,10 +115,8 @@ export function Hero() {
         <div
           className={`flex min-w-0 flex-col ${
             isDesign2
-              ? "glass-panel overflow-hidden p-6 sm:p-8 md:p-10"
-              : isDesign3
-                ? "soft-panel max-w-2xl overflow-hidden p-6 sm:p-8 md:p-10"
-                : ""
+              ? "soft-panel max-w-2xl overflow-hidden p-6 sm:p-8 md:p-10"
+              : ""
           }`}
         >
           <div
@@ -185,7 +183,7 @@ export function Hero() {
 
           <div
             className={`hero-reveal mt-12 grid gap-6 border-t pt-8 ${
-              isDesign2 || isDesign3
+              isDesign2
                 ? "grid-cols-1 border-[var(--line)]"
                 : "border-white/20 sm:grid-cols-3"
             } ${overlayReady ? "opacity-100" : "opacity-0"}`}
@@ -198,7 +196,7 @@ export function Hero() {
               >
                 <p
                   className={`font-serif font-medium ${
-                    isDesign2 || isDesign3
+                    isDesign2
                       ? "text-xl leading-snug md:text-2xl"
                       : "text-2xl md:text-3xl"
                   }`}
@@ -224,11 +222,7 @@ export function Hero() {
         >
           <div
             className={
-              isDesign2
-                ? "glass-panel overflow-hidden p-2"
-                : isDesign3
-                  ? "soft-panel overflow-hidden p-2"
-                  : ""
+              isDesign2 ? "soft-panel overflow-hidden p-2" : ""
             }
           >
             <Image
@@ -238,7 +232,7 @@ export function Hero() {
               height={1024}
               priority
               className={`h-auto w-full ${
-                isDesign2 || isDesign3
+                isDesign2
                   ? "rounded-[calc(var(--radius-card)-0.35rem)]"
                   : "rounded-[1.75rem]"
               }`}

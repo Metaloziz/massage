@@ -43,23 +43,17 @@ function DetailBlock({
 
 export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
   const service = services.find((item) => item.id === serviceId);
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
   const { openSessionBooking } = useBooking();
 
   if (!service) return null;
 
-  const panel = isDesign2
-    ? "glass-panel p-6 sm:p-8 md:p-10"
-    : isDesign3
-      ? "soft-panel p-6 sm:p-8 md:p-10"
-      : "";
+  const panel = isDesign2 ? "soft-panel p-6 sm:p-8 md:p-10" : "";
 
   return (
     <article
       id={service.id}
-      className={`border-b py-16 last:border-b-0 md:py-24 ${
-        isDesign2 || isDesign3 ? "border-white/10" : "border-[var(--line)]"
-      }`}
+      className="border-b border-[var(--line)] py-16 last:border-b-0 md:py-24"
     >
       <div className={`mx-auto max-w-3xl px-5 md:px-8 ${panel}`}>
         <SectionLabel>
@@ -87,10 +81,8 @@ export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
         <div
           className={`mt-10 p-6 md:p-8 ${
             isDesign2
-              ? "rounded-[var(--radius-card)] border border-white/15 bg-white/5"
-              : isDesign3
-                ? "rounded-[var(--radius-card)] border border-[var(--line)] bg-[#e4dcc8]"
-                : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
+              ? "rounded-[var(--radius-card)] border border-[var(--line)] bg-[#e4dcc8]"
+              : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
           }`}
         >
           <h3 className="font-serif text-xl font-medium">Стоимость</h3>

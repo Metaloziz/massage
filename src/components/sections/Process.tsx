@@ -17,13 +17,11 @@ export function Process() {
   const lineRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
   const stepClass = isDesign2
-    ? "rounded-[var(--radius-control)] border border-white/20 bg-[var(--glass)] backdrop-blur-md font-serif text-xl text-accent"
-    : isDesign3
-      ? "rounded-[var(--radius-control)] border border-[rgba(42,50,40,0.12)] bg-[#ebe4d2] font-serif text-xl text-[#4f6b48] shadow-[var(--shadow-control)]"
-      : "rounded-[var(--radius-control)] border border-[var(--line)] bg-background font-serif text-xl text-accent shadow-[0_0_0_1px_var(--line)]";
-  const mobileStep = isDesign3 ? "soft-panel p-4" : "";
+    ? "rounded-[var(--radius-control)] border border-[rgba(42,50,40,0.12)] bg-[#ebe4d2] font-serif text-xl text-[#4f6b48] shadow-[var(--shadow-control)]"
+    : "rounded-[var(--radius-control)] border border-[var(--line)] bg-background font-serif text-xl text-accent shadow-[0_0_0_1px_var(--line)]";
+  const mobileStep = isDesign2 ? "soft-panel p-4" : "";
 
   useGSAP(
     () => {
@@ -109,7 +107,7 @@ export function Process() {
               key={step.step}
               className={`process-step relative flex gap-4 ${mobileStep}`}
             >
-              {!isDesign3 && index < processSteps.length - 1 && (
+              {!isDesign2 && index < processSteps.length - 1 && (
                 <div className="absolute top-16 bottom-0 left-8 w-px bg-[var(--line)]" />
               )}
               <span

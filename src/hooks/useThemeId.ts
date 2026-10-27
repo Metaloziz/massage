@@ -1,11 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { readDocumentThemeId } from "@/design/applyTheme";
 import {
+  readDocumentBackdropId,
+  readDocumentThemeId,
+} from "@/design/applyTheme";
+import {
+  BACKDROP_CHANGE_EVENT,
+  defaultBackdropId,
   defaultThemeId,
+  isBackdropId,
   isThemeId,
   THEME_CHANGE_EVENT,
+  type BackdropId,
   type ThemeId,
 } from "@/design/themes";
 
@@ -40,12 +47,40 @@ export function useThemeId(): ThemeId {
   return themeId;
 }
 
-export function useIsDesign2(): boolean {
-  return useThemeId() === "design2";
+export function useBackdropId(): BackdropId {
+  const [backdropId, setBackdropId] = useState<BackdropId>(defaultBackdropId);
+
+  useEffect(() => {
+    setBackdropId(readDocumentBackdropId());
+
+    const onBackdropChange = (event: Event) => {
+      const detail = (event as CustomEvent<{ backdropId?: string }>).detail;
+      if (isBackdropId(detail?.backdropId)) {
+        setBackdropId(detail.backdropId);
+        return;
+      }
+      setBackdropId(readDocumentBackdropId());
+    };
+
+    const onStorage = (event: StorageEvent) => {
+      if (event.key !== "theme-backdrop") return;
+      setBackdropId(readDocumentBackdropId());
+    };
+
+    window.addEventListener(BACKDROP_CHANGE_EVENT, onBackdropChange);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener(BACKDROP_CHANGE_EVENT, onBackdropChange);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
+
+  return backdropId;
 }
 
-export function useIsDesign3(): boolean {
-  return useThemeId() === "design3";
+/** Soft Earth (бывший design3). */
+export function useIsDesign2(): boolean {
+  return useThemeId() === "design2";
 }
 
 export function useThemeFlags() {
@@ -54,6 +89,5 @@ export function useThemeFlags() {
     themeId,
     isDesign1: themeId === "design1",
     isDesign2: themeId === "design2",
-    isDesign3: themeId === "design3",
   };
 }

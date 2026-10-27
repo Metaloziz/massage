@@ -27,28 +27,20 @@ const contactChannels = [
 ] as const;
 
 export function Booking() {
-  const { isDesign2, isDesign3 } = useThemeFlags();
-  const introPanel = isDesign2
-    ? "glass-panel p-6 sm:p-8"
-    : isDesign3
-      ? "soft-panel p-6 sm:p-8"
-      : "";
+  const { isDesign2 } = useThemeFlags();
+  const introPanel = isDesign2 ? "soft-panel p-6 sm:p-8" : "";
   const channelCard = isDesign2
-    ? "glass-panel hover:border-white/30"
-    : isDesign3
-      ? "soft-panel"
-      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background hover:border-accent/40";
+    ? "soft-panel"
+    : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background hover:border-accent/40";
   const noteBox = isDesign2
-    ? "rounded-[var(--radius-card)] border border-white/15 bg-white/5"
-    : isDesign3
-      ? "rounded-[var(--radius-card)] border border-[var(--line)] bg-[rgba(42,50,40,0.04)]"
-      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background";
+    ? "rounded-[var(--radius-card)] border border-[var(--line)] bg-[rgba(42,50,40,0.04)]"
+    : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background";
 
   return (
     <section
       id="booking"
       className={`py-16 md:py-28 ${
-        isDesign2 || isDesign3 ? "bg-transparent" : "bg-card"
+        isDesign2 ? "bg-transparent" : "bg-card"
       }`}
       aria-labelledby="booking-heading"
     >

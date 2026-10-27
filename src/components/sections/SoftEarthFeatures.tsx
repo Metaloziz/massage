@@ -1,7 +1,7 @@
 "use client";
 
 import { BookOpen, Leaf, MapPin, Sparkles } from "lucide-react";
-import { useIsDesign3 } from "@/hooks/useThemeId";
+import { useIsDesign2 } from "@/hooks/useThemeId";
 import { RevealText } from "@/components/ui/RevealText";
 
 const features = [
@@ -31,10 +31,10 @@ const features = [
   },
 ] as const;
 
-/** Полоса с иконками — только Дизайн 3. */
+/** Полоса с иконками — только Soft Earth (дизайн 2). */
 export function SoftEarthFeatures() {
-  const isDesign3 = useIsDesign3();
-  if (!isDesign3) return null;
+  const isDesign2 = useIsDesign2();
+  if (!isDesign2) return null;
 
   return (
     <section className="px-5 py-8 md:px-8 md:py-14" aria-label="Ключевые особенности">

@@ -7,17 +7,11 @@ import { RevealText } from "@/components/ui/RevealText";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function About() {
-  const { isDesign2, isDesign3 } = useThemeFlags();
-  const panel = isDesign2
-    ? "glass-panel p-6 sm:p-8 md:p-10"
-    : isDesign3
-      ? "soft-panel p-6 sm:p-8 md:p-10"
-      : "";
+  const { isDesign2 } = useThemeFlags();
+  const panel = isDesign2 ? "soft-panel p-6 sm:p-8 md:p-10" : "";
   const photoFrame = isDesign2
-    ? "glass-panel p-2"
-    : isDesign3
-      ? "soft-panel p-2"
-      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
+    ? "soft-panel p-2"
+    : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
 
   return (
     <section
@@ -42,9 +36,7 @@ export function About() {
           >
             <div
               className={`relative h-full w-full overflow-hidden ${
-                isDesign2 || isDesign3
-                  ? "rounded-[calc(var(--radius-card)-0.35rem)]"
-                  : ""
+                isDesign2 ? "rounded-[calc(var(--radius-card)-0.35rem)]" : ""
               }`}
             >
               <Image
@@ -68,9 +60,7 @@ export function About() {
 
             {schoolYasnost.blurb && (
               <div
-                className={`mt-8 space-y-4 border-t pt-8 ${
-                  isDesign2 ? "border-white/15" : "border-[var(--line)]"
-                }`}
+                className="mt-8 space-y-4 border-t border-[var(--line)] pt-8"
               >
                 <h3 className="font-serif text-xl font-medium sm:text-2xl">
                   {schoolYasnost.title}

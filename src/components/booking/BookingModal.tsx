@@ -18,7 +18,7 @@ export function BookingModal({
   onClose,
   children,
 }: BookingModalProps) {
-  const { isDesign2, isDesign3 } = useThemeFlags();
+  const { isDesign2 } = useThemeFlags();
 
   useEffect(() => {
     if (!open) return;
@@ -39,10 +39,8 @@ export function BookingModal({
   if (!open) return null;
 
   const panel = isDesign2
-    ? "border-white/15 bg-[var(--glass)] backdrop-blur-xl"
-    : isDesign3
-      ? "border-[rgba(42,50,40,0.12)] bg-[#ebe4d2] text-[#2a3228]"
-      : "border-border bg-background";
+    ? "border-[rgba(42,50,40,0.12)] bg-[#ebe4d2] text-[#2a3228]"
+    : "border-border bg-background";
 
   return (
     <div
