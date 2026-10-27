@@ -135,6 +135,12 @@ export const design2Backdrops: BackdropOption[] = [
     value: "/atmosphere/sage-leaves.jpg",
   },
   {
+    id: "emerald-weave",
+    label: "Изумрудная ткань",
+    kind: "image",
+    value: "/atmosphere/emerald-weave.jpg",
+  },
+  {
     id: "color-moss",
     label: "Мох",
     kind: "color",

@@ -190,9 +190,6 @@ export function ThemeSettings({ className = "" }: { className?: string }) {
                             />
                           )}
                         </span>
-                        <span className="block truncate px-2 py-1.5 text-center text-[11px] font-medium">
-                          {item.label}
-                        </span>
                       </button>
                     );
                   })}
