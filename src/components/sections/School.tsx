@@ -54,6 +54,7 @@ export function School() {
                   src={assetPath(schoolYasnost.photo)}
                   alt={schoolYasnost.title}
                   fill
+                  priority
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
@@ -93,7 +94,7 @@ export function School() {
                   rel="noopener noreferrer"
                   className="ui-btn ui-btn--outline inline-flex min-h-12 items-center justify-center rounded-[var(--radius-control)] border border-[var(--line)] px-6 py-3 text-sm font-medium tracking-[0.02em] transition-all hover:border-accent hover:bg-accent/10"
                 >
-                  Сайт школы
+                  {schoolYasnost.websiteLabel ?? "Сайт школы"}
                 </a>
               )}
               {schoolYasnost.instagram && (

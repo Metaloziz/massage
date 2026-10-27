@@ -10,7 +10,7 @@ export function Footer() {
 
   return (
     <footer
-      className={`border-t border-[var(--line)] ${
+      className={`site-footer border-t border-[var(--line)] ${
         isDesign2
           ? "bg-[var(--glass)] backdrop-blur-xl"
           : isDesign3

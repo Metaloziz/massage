@@ -8,6 +8,7 @@ import { navLinks, site } from "@/lib/content";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { silkPrimaryClass } from "@/components/ui/Button";
+import { useBooking } from "@/components/booking/BookingProvider";
 import { lockBodyScroll } from "@/lib/scrollLock";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
@@ -24,6 +25,7 @@ export function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { isDesign2, isDesign3 } = useThemeFlags();
+  const { openBooking } = useBooking();
   const onHero = pathname === "/" || pathname === "";
 
   useEffect(() => {
@@ -140,12 +142,13 @@ export function Header() {
                 : ""
             }
           />
-          <a
-            href={site.phoneHref}
+          <button
+            type="button"
+            onClick={() => openBooking()}
             className={`${silkPrimaryClass} inline-flex min-h-11 items-center justify-center rounded-[var(--radius-control)] border border-transparent bg-foreground px-5 py-2.5 text-sm font-medium tracking-[0.02em] text-background transition-all hover:bg-foreground/90`}
           >
             Записаться
-          </a>
+          </button>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
@@ -197,13 +200,16 @@ export function Header() {
               {link.label}
             </button>
           ))}
-          <a
-            href={site.phoneHref}
-            onClick={() => setMenuOpen(false)}
+          <button
+            type="button"
+            onClick={() => {
+              setMenuOpen(false);
+              openBooking();
+            }}
             className={`${silkPrimaryClass} mt-4 inline-flex items-center justify-center rounded-[var(--radius-control)] border border-transparent bg-foreground px-6 py-4 text-center text-base font-medium tracking-[0.02em] text-background`}
           >
             Записаться
-          </a>
+          </button>
         </nav>
       </div>
     </header>

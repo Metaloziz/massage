@@ -1,8 +1,9 @@
 "use client";
 
-import { locations, type SessionServiceId, services, site } from "@/lib/content";
+import { locations, type SessionServiceId, services } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { useBooking } from "@/components/booking/BookingProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 const locationById = Object.fromEntries(
@@ -43,6 +44,7 @@ function DetailBlock({
 export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
   const service = services.find((item) => item.id === serviceId);
   const { isDesign2, isDesign3 } = useThemeFlags();
+  const { openSessionBooking } = useBooking();
 
   if (!service) return null;
 
@@ -116,7 +118,10 @@ export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
           </div>
         </div>
 
-        <Button href={site.phoneHref} className="mt-8 w-full sm:w-auto">
+        <Button
+          className="mt-8 w-full sm:w-auto"
+          onClick={() => openSessionBooking(serviceId)}
+        >
           {service.ctaLabel}
         </Button>
       </div>

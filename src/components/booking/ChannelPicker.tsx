@@ -1,0 +1,83 @@
+"use client";
+
+import { MessageCircle, Phone, Send } from "lucide-react";
+import {
+  bookingChannels,
+  buildChannelHref,
+  type BookingChannelId,
+} from "@/lib/content";
+import { BookingModal } from "@/components/booking/BookingModal";
+import { useThemeFlags } from "@/hooks/useThemeId";
+
+const channelIcons = {
+  telegram: Send,
+  whatsapp: MessageCircle,
+  viber: MessageCircle,
+  phone: Phone,
+} as const;
+
+type ChannelPickerProps = {
+  open: boolean;
+  title: string;
+  message?: string;
+  onClose: () => void;
+};
+
+export function ChannelPicker({
+  open,
+  title,
+  message,
+  onClose,
+}: ChannelPickerProps) {
+  const { isDesign2, isDesign3 } = useThemeFlags();
+
+  const handleChannel = async (channelId: BookingChannelId) => {
+    const href = buildChannelHref(channelId, message);
+
+    if (channelId === "viber" && message) {
+      try {
+        await navigator.clipboard.writeText(message);
+      } catch {
+        /* clipboard may be denied */
+      }
+    }
+
+    if (channelId === "phone") {
+      window.location.href = href;
+    } else {
+      window.open(href, "_blank", "noopener,noreferrer");
+    }
+
+    onClose();
+  };
+
+  const itemClass = isDesign2
+    ? "border-white/15 bg-white/5 hover:border-white/30"
+    : isDesign3
+      ? "border-[rgba(42,50,40,0.12)] bg-[rgba(42,50,40,0.04)] hover:border-[rgba(42,50,40,0.22)]"
+      : "border-border bg-card hover:border-accent/40 hover:shadow-md";
+
+  return (
+    <BookingModal open={open} title={title} onClose={onClose}>
+      <p className="mb-4 text-sm text-muted">Выберите удобный способ связи</p>
+      <div className="space-y-3">
+        {bookingChannels.map((channel) => {
+          const Icon = channelIcons[channel.id];
+          return (
+            <button
+              key={channel.id}
+              type="button"
+              onClick={() => handleChannel(channel.id)}
+              className={`flex w-full items-center gap-4 rounded-[var(--radius-card)] border px-5 py-4 text-left transition-all ${itemClass}`}
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-control)] bg-accent-light text-accent">
+                <Icon size={20} />
+              </span>
+              <span className="font-medium">{channel.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </BookingModal>
+  );
+}

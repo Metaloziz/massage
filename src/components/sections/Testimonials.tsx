@@ -135,14 +135,12 @@ export function Testimonials() {
                 &ldquo;{active.text}&rdquo;
               </p>
             </blockquote>
-            <footer className="mt-8">
-              <cite className="not-italic">
-                <span className="block font-medium">{active.author}</span>
-                <span className="mt-1 block text-sm text-muted">
-                  {active.date} · {activeSource.label}
-                </span>
-              </cite>
-            </footer>
+            <div className="mt-8">
+              <p className="font-medium">{active.author}</p>
+              <p className="mt-1 text-sm text-muted">
+                {active.date} · {activeSource.label}
+              </p>
+            </div>
           </div>
 
           <div

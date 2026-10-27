@@ -13,6 +13,7 @@ import {
 } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
+import { useBooking } from "@/components/booking/BookingProvider";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
@@ -23,6 +24,7 @@ export function Hero() {
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
   const { isDesign1, isDesign2, isDesign3 } = useThemeFlags();
+  const { openSessionBooking, openTrainingBooking } = useBooking();
   const [overlayReady, setOverlayReady] = useState(false);
 
   useEffect(() => {
@@ -159,23 +161,23 @@ export function Hero() {
             }`}
           >
             <Button
-              href={site.phoneHref}
               className={
                 isDesign1
                   ? "w-full !border-transparent !bg-[var(--hero-text)] !text-[var(--hero-cta-fg)] !shadow-[0_1px_0_rgba(255,255,255,0.35)_inset,0_10px_28px_rgba(0,0,0,0.22)] hover:!bg-[var(--hero-text)]/92"
                   : "w-full"
               }
+              onClick={() => openSessionBooking()}
             >
               Записаться на сеанс
             </Button>
             <Button
-              href={site.phoneHref}
               variant="outline"
               className={
                 isDesign1
                   ? "w-full !border-[var(--hero-text)]/70 !bg-white/5 !text-[var(--hero-text)] hover:!border-[var(--hero-text)] hover:!bg-white/12 hover:!text-[var(--hero-text)]"
                   : "w-full"
               }
+              onClick={() => openTrainingBooking()}
             >
               Записаться на обучение
             </Button>

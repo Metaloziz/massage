@@ -1,14 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { education, site } from "@/lib/content";
+import { education } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { useBooking } from "@/components/booking/BookingProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function EducationContent() {
   const { isDesign2, isDesign3 } = useThemeFlags();
+  const { openTrainingBooking } = useBooking();
   const introPanel = isDesign2
     ? "glass-panel p-6 sm:p-8 md:p-10"
     : isDesign3
@@ -113,7 +115,10 @@ export function EducationContent() {
           </div>
         </div>
 
-        <Button href={site.phoneHref} className="mt-10 w-full sm:w-auto">
+        <Button
+          className="mt-10 w-full sm:w-auto"
+          onClick={() => openTrainingBooking()}
+        >
           {education.ctaLabel}
         </Button>
       </div>

@@ -27,6 +27,37 @@ export const site = {
 
 export type SessionServiceId = "kinesio" | "wellness";
 
+export type BookingChannelId = "telegram" | "whatsapp" | "viber" | "phone";
+
+export const bookingChannels = [
+  { id: "telegram" as const, label: "Telegram" },
+  { id: "whatsapp" as const, label: "WhatsApp" },
+  { id: "viber" as const, label: "Viber" },
+  { id: "phone" as const, label: "Позвонить" },
+] as const;
+
+export function buildChannelHref(
+  channelId: BookingChannelId,
+  message?: string,
+): string {
+  const encoded = message ? encodeURIComponent(message) : "";
+
+  switch (channelId) {
+    case "telegram":
+      return message
+        ? `${site.social.telegram}?text=${encoded}`
+        : site.social.telegram;
+    case "whatsapp":
+      return message
+        ? `${site.social.whatsapp}?text=${encoded}`
+        : site.social.whatsapp;
+    case "viber":
+      return site.social.viber;
+    case "phone":
+      return site.phoneHref;
+  }
+}
+
 export const bookingInfo = {
   reminder:
     "Накануне сеанса (за 6–24 часа) я пришлю напоминание.",
@@ -223,8 +254,10 @@ export const about = {
 export const schoolYasnost = {
   title: "О школе «Ясность»",
   photo: "/school/yasnost-group.jpg",
-  blurb: null as string | null,
-  website: null as string | null,
+  blurb:
+    "Школа массажа и кинезиологии «Ясность» — это учебный центр, который придерживается холистического подхода. Школа предлагает широкий спектр курсов — от классического и лимфодренажного массажа до курса по прикладной кинезиологии, а по окончании выдаёт сертификаты и справки гос. образца.",
+  website: "https://yasnost.by/",
+  websiteLabel: "Перейти на сайт школы массажа «Ясность» в г. Минск",
   instagram: null as string | null,
 };
 

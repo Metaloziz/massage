@@ -9,6 +9,7 @@ import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { ThemeAtmosphere } from "@/components/layout/ThemeAtmosphere";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { BookingProvider } from "@/components/booking/BookingProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getThemeBootstrapScript } from "@/design/applyTheme";
 import { site } from "@/lib/content";
@@ -101,11 +102,13 @@ export default function RootLayout({
         <JsonLd />
         <ThemeAtmosphere />
         <SmoothScroll>
-          <div className="relative z-10">
-            <Header />
-            {children}
-            <Footer />
-          </div>
+          <BookingProvider>
+            <div className="relative z-10">
+              <Header />
+              {children}
+              <Footer />
+            </div>
+          </BookingProvider>
         </SmoothScroll>
       </body>
     </html>

@@ -46,7 +46,7 @@
   border-color: var(--line);
 }
 
-[data-theme="design2"] footer {
+[data-theme="design2"] footer.site-footer {
   border-color: var(--line);
   background: var(--glass);
   backdrop-filter: blur(20px);
@@ -183,9 +183,9 @@
     5px 10px 18px rgba(42, 50, 40, 0.18);
 }
 
-/* На тёмном фоне — светлый текст; внутри плашек/шапки/футера — тёмный */
+/* На тёмном фоне — светлый текст; внутри плашек/шапки/футера сайта — тёмный */
 [data-theme="design3"] header,
-[data-theme="design3"] footer,
+[data-theme="design3"] footer.site-footer,
 [data-theme="design3"] .soft-panel {
   --foreground: #2a3228;
   --muted: #5c6556;
@@ -196,7 +196,7 @@
   color: #2a3228;
 }
 
-[data-theme="design3"] footer {
+[data-theme="design3"] footer.site-footer {
   border-color: var(--line);
   background: #ebe4d2;
   box-shadow: var(--shadow-tile);

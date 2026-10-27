@@ -1,9 +1,10 @@
 "use client";
 
-import { locations, services, site } from "@/lib/content";
+import { locations, services } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { Button } from "@/components/ui/Button";
+import { useBooking } from "@/components/booking/BookingProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 const locationById = Object.fromEntries(
@@ -12,6 +13,7 @@ const locationById = Object.fromEntries(
 
 export function HomeServiceCards() {
   const { isDesign2, isDesign3 } = useThemeFlags();
+  const { openSessionBooking } = useBooking();
   const card = isDesign2
     ? "glass-panel"
     : isDesign3
@@ -65,7 +67,10 @@ export function HomeServiceCards() {
                   ))}
                 </div>
 
-                <Button href={site.phoneHref} className="mt-6 w-full sm:mt-8">
+                <Button
+                  className="mt-6 w-full sm:mt-8"
+                  onClick={() => openSessionBooking(service.id)}
+                >
                   {service.ctaLabel}
                 </Button>
               </article>
