@@ -75,7 +75,12 @@
 /* —— Дизайн 2: silk buttons — середина teal ↔ moss —— */
 [data-theme="design2"] .ui-btn--primary {
   border: 1px solid rgba(195, 225, 215, 0.22) !important;
-  background: linear-gradient(105deg, #0e2624 0%, #1c433c 55%, #2f5648 100%) !important;
+  background: linear-gradient(
+    105deg,
+    #0e2624 0%,
+    #1c433c 55%,
+    #2f5648 100%
+  ) !important;
   color: rgba(230, 240, 236, 0.96) !important;
   letter-spacing: 0.06em;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
@@ -86,7 +91,12 @@
 }
 
 [data-theme="design2"] .ui-btn--primary:hover {
-  background: linear-gradient(105deg, #123230 0%, #245049 55%, #3a6756 100%) !important;
+  background: linear-gradient(
+    105deg,
+    #123230 0%,
+    #245049 55%,
+    #3a6756 100%
+  ) !important;
   border-color: rgba(205, 232, 222, 0.32) !important;
   box-shadow:
     0 14px 32px rgba(0, 0, 0, 0.42),
@@ -103,7 +113,12 @@
 
 [data-theme="design2"] .ui-btn--outline {
   border: 1px solid rgba(195, 225, 215, 0.25) !important;
-  background: linear-gradient(105deg, #2f5648 0%, #1c433c 45%, #0e2624 100%) !important;
+  background: linear-gradient(
+    105deg,
+    #2f5648 0%,
+    #1c433c 45%,
+    #0e2624 100%
+  ) !important;
   color: rgba(226, 236, 232, 0.94) !important;
   letter-spacing: 0.06em;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
@@ -114,9 +129,127 @@
 }
 
 [data-theme="design2"] .ui-btn--outline:hover {
-  background: linear-gradient(105deg, #3a6756 0%, #245049 45%, #123230 100%) !important;
+  background: linear-gradient(
+    105deg,
+    #3a6756 0%,
+    #245049 45%,
+    #123230 100%
+  ) !important;
   border-color: rgba(205, 232, 222, 0.35) !important;
   color: rgba(240, 248, 244, 0.98) !important;
+}
+
+/* —— Дизайн 3: soft earth —— */
+[data-theme="design3"] {
+  color-scheme: light;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-serif: var(--font-manrope), system-ui, sans-serif;
+}
+
+[data-theme="design3"] body {
+  background: transparent;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+}
+
+[data-theme="design3"] .font-sans,
+[data-theme="design3"] .font-serif {
+  font-family: var(--font-manrope), system-ui, sans-serif;
+}
+
+[data-theme="design3"] .font-serif {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+[data-theme="design3"] header.border-b {
+  border-color: var(--line);
+}
+
+/*
+ * Design 3 shadows — по референсу soft-earth плиток:
+ * свет сверху-слева → тень вниз и чуть вправо, без hard-edge,
+ * средний blur, плотная у края / мягкий шлейф.
+ * ≈ 6px 12px 20px @22% + 2px 4px 8px @12%
+ */
+[data-theme="design3"] {
+  --shadow-tile:
+    2px 4px 8px rgba(42, 50, 40, 0.12),
+    6px 12px 22px rgba(42, 50, 40, 0.2);
+  --shadow-tile-strong:
+    3px 6px 10px rgba(42, 50, 40, 0.14),
+    8px 16px 28px rgba(42, 50, 40, 0.22);
+  --shadow-control:
+    2px 4px 6px rgba(42, 50, 40, 0.1),
+    5px 10px 18px rgba(42, 50, 40, 0.18);
+}
+
+/* На тёмном фоне — светлый текст; внутри плашек/шапки/футера — тёмный */
+[data-theme="design3"] header,
+[data-theme="design3"] footer,
+[data-theme="design3"] .soft-panel {
+  --foreground: #2a3228;
+  --muted: #5c6556;
+  --accent: #4f6b48;
+  --accent-light: #e4e8d4;
+  --border: rgba(42, 50, 40, 0.14);
+  --line: rgba(42, 50, 40, 0.12);
+  color: #2a3228;
+}
+
+[data-theme="design3"] footer {
+  border-color: var(--line);
+  background: #ebe4d2;
+  box-shadow: var(--shadow-tile);
+}
+
+[data-theme="design3"] ::selection {
+  background: var(--accent);
+  color: #1a2e26;
+}
+
+/* Матовые плашки */
+.soft-panel {
+  border: 1px solid rgba(42, 50, 40, 0.1);
+  border-radius: var(--radius-card);
+  background: #ebe4d2;
+  box-shadow: var(--shadow-tile);
+}
+
+[data-theme="design3"] .soft-panel {
+  background: #ebe4d2;
+  box-shadow: var(--shadow-tile-strong);
+}
+
+[data-theme="design3"] .ui-btn--primary {
+  border: 1px solid rgba(90, 70, 45, 0.16) !important;
+  background: #c4a97e !important;
+  color: #2a241c !important;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-control) !important;
+}
+
+[data-theme="design3"] .ui-btn--primary:hover {
+  background: #b8956c !important;
+  box-shadow: var(--shadow-tile) !important;
+}
+
+[data-theme="design3"] .ui-btn--primary:active {
+  transform: translate(1px, 2px);
+  box-shadow: 1px 2px 6px rgba(42, 50, 40, 0.14) !important;
+}
+
+[data-theme="design3"] .ui-btn--outline {
+  border: 1px solid rgba(42, 50, 40, 0.16) !important;
+  background: #e4dcc8 !important;
+  color: var(--foreground) !important;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-control) !important;
+}
+
+[data-theme="design3"] .ui-btn--outline:hover {
+  background: #ddd4bc !important;
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow-tile) !important;
 }
 
 @theme inline {

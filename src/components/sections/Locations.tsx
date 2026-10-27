@@ -12,7 +12,7 @@ import { lockBodyScroll } from "@/lib/scrollLock";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -141,7 +141,7 @@ export function Locations() {
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
   const [lightbox, setLightbox] = useState<{
     images: readonly GalleryImage[];
     index: number;
@@ -169,10 +169,14 @@ export function Locations() {
 
   const cardClass = isDesign2
     ? "glass-panel"
-    : "rounded-3xl border border-accent/30 bg-card shadow-sm";
+    : isDesign3
+      ? "soft-panel"
+      : "rounded-3xl border border-accent/30 bg-card shadow-sm";
   const unavailableCardClass = isDesign2
     ? "glass-panel opacity-75"
-    : "rounded-3xl border border-border bg-card/60";
+    : isDesign3
+      ? "soft-panel opacity-80"
+      : "rounded-3xl border border-border bg-card/60";
   const badgeClass = isDesign2
     ? "rounded-[var(--radius-control)] border border-white/25 bg-black/35 px-3 py-1 backdrop-blur-md"
     : "rounded-full bg-black/55 px-3 py-1 backdrop-blur-sm";
@@ -181,16 +185,16 @@ export function Locations() {
     <section
       id="locations"
       ref={sectionRef}
-      className={`py-24 md:py-32 ${isDesign2 ? "bg-transparent" : ""}`}
+      className={`py-16 md:py-28 ${isDesign2 ? "bg-transparent" : ""}`}
       aria-labelledby="locations-heading"
-      data-design={isDesign2 ? "2" : "1"}
+      data-design={isDesign3 ? "3" : isDesign2 ? "2" : "1"}
     >
       <div className="relative mx-auto max-w-7xl px-5 md:px-8">
-        <RevealText className="mb-16 max-w-2xl">
+        <RevealText className="mb-10 max-w-2xl md:mb-16">
           <SectionLabel>Кабинеты</SectionLabel>
           <h2
             id="locations-heading"
-            className="font-serif text-4xl font-medium md:text-5xl"
+            className="font-serif text-3xl font-medium sm:text-4xl md:text-5xl"
           >
             Два пространства для вашего комфорта
           </h2>
@@ -325,7 +329,9 @@ export function Locations() {
                     className={`relative flex h-full flex-col overflow-hidden ${
                       isDesign2
                         ? "glass-panel"
-                        : "rounded-3xl border border-border bg-card"
+                        : isDesign3
+                          ? "soft-panel"
+                          : "rounded-3xl border border-border bg-card"
                     }`}
                   >
                     {preview && (

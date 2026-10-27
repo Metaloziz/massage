@@ -5,15 +5,30 @@ import { education, site } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function EducationContent() {
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
+  const introPanel = isDesign2
+    ? "glass-panel p-6 sm:p-8 md:p-10"
+    : isDesign3
+      ? "soft-panel p-6 sm:p-8 md:p-10"
+      : "";
+  const mediaPanel = isDesign2
+    ? "glass-panel p-2"
+    : isDesign3
+      ? "soft-panel p-2"
+      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
+  const detailsPanel = isDesign2
+    ? "glass-panel"
+    : isDesign3
+      ? "soft-panel"
+      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
 
   return (
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-3xl px-5 md:px-8">
-        <div className={isDesign2 ? "glass-panel p-6 sm:p-8 md:p-10" : ""}>
+        <div className={introPanel}>
           <SectionLabel>Обучение</SectionLabel>
           <h1 className="mt-4 font-serif text-4xl font-medium md:text-6xl">
             {education.title}
@@ -23,16 +38,10 @@ export function EducationContent() {
           </p>
         </div>
 
-        <div
-          className={`mt-10 overflow-hidden ${
-            isDesign2
-              ? "glass-panel p-2"
-              : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
-          }`}
-        >
+        <div className={`mt-10 overflow-hidden ${mediaPanel}`}>
           <div
             className={
-              isDesign2
+              isDesign2 || isDesign3
                 ? "overflow-hidden rounded-[calc(var(--radius-card)-0.35rem)]"
                 : ""
             }
@@ -49,13 +58,7 @@ export function EducationContent() {
           </div>
         </div>
 
-        <div
-          className={`mt-10 space-y-6 p-6 md:p-8 ${
-            isDesign2
-              ? "glass-panel"
-              : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
-          }`}
-        >
+        <div className={`mt-10 space-y-6 p-6 md:p-8 ${detailsPanel}`}>
           <p className="text-sm leading-relaxed text-muted">
             {education.schoolLabel}{" "}
             <span className="font-medium text-accent">{education.school}</span>

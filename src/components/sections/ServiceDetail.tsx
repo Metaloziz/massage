@@ -3,7 +3,7 @@
 import { locations, type SessionServiceId, services, site } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 const locationById = Object.fromEntries(
   locations.map((location) => [location.id, location]),
@@ -42,22 +42,24 @@ function DetailBlock({
 
 export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
   const service = services.find((item) => item.id === serviceId);
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
 
   if (!service) return null;
+
+  const panel = isDesign2
+    ? "glass-panel p-6 sm:p-8 md:p-10"
+    : isDesign3
+      ? "soft-panel p-6 sm:p-8 md:p-10"
+      : "";
 
   return (
     <article
       id={service.id}
       className={`border-b py-16 last:border-b-0 md:py-24 ${
-        isDesign2 ? "border-white/10" : "border-[var(--line)]"
+        isDesign2 || isDesign3 ? "border-white/10" : "border-[var(--line)]"
       }`}
     >
-      <div
-        className={`mx-auto max-w-3xl px-5 md:px-8 ${
-          isDesign2 ? "glass-panel p-6 sm:p-8 md:p-10" : ""
-        }`}
-      >
+      <div className={`mx-auto max-w-3xl px-5 md:px-8 ${panel}`}>
         <SectionLabel>
           {service.id === "kinesio" ? "Кинезиомассаж" : "Общеоздоровительный"}
         </SectionLabel>
@@ -84,7 +86,9 @@ export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
           className={`mt-10 p-6 md:p-8 ${
             isDesign2
               ? "rounded-[var(--radius-card)] border border-white/15 bg-white/5"
-              : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
+              : isDesign3
+                ? "rounded-[var(--radius-card)] border border-[var(--line)] bg-[#e4dcc8]"
+                : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
           }`}
         >
           <h3 className="font-serif text-xl font-medium">Стоимость</h3>

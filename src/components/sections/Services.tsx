@@ -8,7 +8,7 @@ import { locations, services } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -20,7 +20,13 @@ export function Services() {
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
+  const card = isDesign2
+    ? "glass-panel hover:border-white/30"
+    : isDesign3
+      ? "soft-panel"
+      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background hover:border-accent/40";
+  const divider = isDesign2 ? "border-white/15" : "border-[var(--line)]";
 
   useGSAP(
     () => {
@@ -50,15 +56,17 @@ export function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className={`py-24 md:py-32 ${isDesign2 ? "bg-transparent" : "bg-card"}`}
+      className={`py-16 md:py-28 ${
+        isDesign2 || isDesign3 ? "bg-transparent" : "bg-card"
+      }`}
       aria-labelledby="services-heading"
     >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <RevealText className="mb-16 max-w-xl">
+        <RevealText className="mb-10 max-w-xl md:mb-16">
           <SectionLabel>Услуги</SectionLabel>
           <h2
             id="services-heading"
-            className="font-serif text-4xl font-medium md:text-5xl"
+            className="font-serif text-3xl font-medium sm:text-4xl md:text-5xl"
           >
             Подберём технику под ваше состояние
           </h2>
@@ -67,26 +75,20 @@ export function Services() {
           </p>
         </RevealText>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
           {services.map((service) => (
             <article
               key={service.id}
-              className={`service-card group p-8 transition-all duration-300 hover:-translate-y-1 ${
-                isDesign2
-                  ? "glass-panel hover:border-white/30"
-                  : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background hover:border-accent/40"
-              }`}
+              className={`service-card group p-6 transition-all duration-300 hover:-translate-y-1 sm:p-8 ${card}`}
             >
-              <h3 className="font-serif text-2xl font-medium">{service.title}</h3>
-              <p className="mt-4 text-sm leading-relaxed text-muted">
+              <h3 className="font-serif text-xl font-medium sm:text-2xl">
+                {service.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted sm:mt-4">
                 {service.shortDescription}
               </p>
 
-              <div
-                className={`mt-6 space-y-4 border-t pt-6 ${
-                  isDesign2 ? "border-white/15" : "border-[var(--line)]"
-                }`}
-              >
+              <div className={`mt-5 space-y-4 border-t pt-5 sm:mt-6 sm:pt-6 ${divider}`}>
                 {service.pricing.map((tier) => (
                   <div key={tier.locationId}>
                     <p className="text-sm font-medium text-foreground">

@@ -6,7 +6,7 @@ import { googleReviews, reviewSources, testimonials, yandexReviews } from "@/lib
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 function RatingStars({ rating }: { rating: number }) {
   return (
@@ -50,7 +50,7 @@ export function Testimonials() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
 
   const goToSlide = (index: number) => {
     setActiveIndex(index);
@@ -84,21 +84,23 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className={`py-24 md:py-32 ${isDesign2 ? "bg-transparent" : "bg-card"}`}
+      className={`py-16 md:py-28 ${
+        isDesign2 ? "bg-transparent" : isDesign3 ? "" : "bg-card"
+      }`}
       aria-labelledby="testimonials-heading"
       onMouseEnter={stopAutoplay}
       onMouseLeave={startAutoplay}
     >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <RevealText className="mb-16 text-center">
+        <RevealText className="mb-10 text-center md:mb-16">
           <SectionLabel>Отзывы</SectionLabel>
           <h2
             id="testimonials-heading"
-            className="font-serif text-4xl font-medium md:text-5xl"
+            className="font-serif text-3xl font-medium sm:text-4xl md:text-5xl"
           >
             Слова клиентов
           </h2>
-          <div className="mx-auto mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-12">
+          <div className="mx-auto mt-6 flex flex-col items-center justify-center gap-5 sm:mt-8 sm:flex-row sm:gap-12">
             <SourceRating
               rating={yandexReviews.rating}
               count={yandexReviews.count}
@@ -120,7 +122,11 @@ export function Testimonials() {
 
         <div
           className={`mx-auto max-w-3xl text-center ${
-            isDesign2 ? "glass-panel px-6 py-10 sm:px-10" : ""
+            isDesign2
+              ? "glass-panel px-6 py-10 sm:px-10"
+              : isDesign3
+                ? "soft-panel px-6 py-10 sm:px-10"
+                : ""
           }`}
         >
           <div key={active.id}>

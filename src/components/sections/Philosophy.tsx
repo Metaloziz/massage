@@ -8,7 +8,7 @@ import { philosophy, site } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -17,11 +17,19 @@ export function Philosophy() {
   const decorRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
+  const panel = isDesign2
+    ? "glass-panel p-6 sm:p-8 md:p-10"
+    : isDesign3
+      ? "soft-panel p-6 sm:p-8 md:p-10"
+      : "";
+  const rule = isDesign2 || isDesign3 ? "bg-white/20" : "bg-border";
+  const ruleInPanel = isDesign3 ? "bg-[var(--line)]" : rule;
 
   useGSAP(
     () => {
-      if (!mounted || reducedMotion || !decorRef.current || !sectionRef.current) return;
+      if (!mounted || reducedMotion || !decorRef.current || !sectionRef.current)
+        return;
 
       gsap.to(decorRef.current, {
         y: -60,
@@ -41,7 +49,7 @@ export function Philosophy() {
     <section
       id="philosophy"
       ref={sectionRef}
-      className="relative overflow-hidden py-24 md:py-32"
+      className="relative overflow-hidden py-16 md:py-28"
       aria-labelledby="philosophy-heading"
     >
       <div
@@ -50,21 +58,17 @@ export function Philosophy() {
         aria-hidden
       />
 
-      <div
-        className={`relative mx-auto max-w-7xl px-5 md:px-8 ${
-          isDesign2 ? "glass-panel p-6 sm:p-8 md:p-10" : ""
-        }`}
-      >
+      <div className={`relative mx-auto max-w-7xl px-5 md:px-8 ${panel}`}>
         <RevealText>
           <SectionLabel>Философия</SectionLabel>
         </RevealText>
 
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+        <div className="mt-4 grid gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-20">
           <RevealText delay={0.1}>
             <blockquote>
               <p
                 id="philosophy-heading"
-                className="font-serif text-3xl leading-snug font-medium md:text-4xl lg:text-5xl"
+                className="font-serif text-2xl leading-snug font-medium sm:text-3xl md:text-4xl lg:text-5xl"
               >
                 &ldquo;{philosophy.quote}&rdquo;
               </p>
@@ -76,12 +80,8 @@ export function Philosophy() {
               <p className="text-base leading-relaxed text-muted md:text-lg">
                 {philosophy.text}
               </p>
-              <div className="mt-8 flex items-center gap-4">
-                <div
-                  className={`h-px flex-1 ${
-                    isDesign2 ? "bg-white/20" : "bg-border"
-                  }`}
-                />
+              <div className="mt-6 flex items-center gap-4 sm:mt-8">
+                <div className={`h-px flex-1 ${ruleInPanel}`} />
                 <span className="text-sm text-accent">{site.name}</span>
               </div>
             </div>

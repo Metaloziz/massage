@@ -5,19 +5,29 @@ import { about } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function About() {
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
+  const panel = isDesign2
+    ? "glass-panel p-6 sm:p-8 md:p-10"
+    : isDesign3
+      ? "soft-panel p-6 sm:p-8 md:p-10"
+      : "";
+  const photoFrame = isDesign2
+    ? "glass-panel p-2"
+    : isDesign3
+      ? "soft-panel p-2"
+      : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card";
 
   return (
     <section
       id="about"
-      className={`scroll-mt-24 py-24 md:py-32 ${isDesign2 ? "bg-transparent" : ""}`}
+      className={`scroll-mt-24 py-16 md:py-28 ${isDesign2 ? "bg-transparent" : ""}`}
       aria-labelledby="about-heading"
     >
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-20">
-        <div className={isDesign2 ? "glass-panel p-6 sm:p-8 md:p-10" : ""}>
+        <div className={panel}>
           <RevealText>
             <SectionLabel>{about.title}</SectionLabel>
           </RevealText>
@@ -40,16 +50,10 @@ export function About() {
         </div>
 
         <RevealText delay={0.15}>
-          <div
-            className={`relative aspect-[4/5] overflow-hidden ${
-              isDesign2
-                ? "glass-panel p-2"
-                : "rounded-[var(--radius-card)] border border-[var(--line)] bg-card"
-            }`}
-          >
+          <div className={`relative aspect-[4/5] overflow-hidden ${photoFrame}`}>
             <div
               className={`relative h-full w-full overflow-hidden ${
-                isDesign2
+                isDesign2 || isDesign3
                   ? "rounded-[calc(var(--radius-card)-0.35rem)]"
                   : ""
               }`}

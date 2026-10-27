@@ -43,3 +43,17 @@ export function useThemeId(): ThemeId {
 export function useIsDesign2(): boolean {
   return useThemeId() === "design2";
 }
+
+export function useIsDesign3(): boolean {
+  return useThemeId() === "design3";
+}
+
+export function useThemeFlags() {
+  const themeId = useThemeId();
+  return {
+    themeId,
+    isDesign1: themeId === "design1",
+    isDesign2: themeId === "design2",
+    isDesign3: themeId === "design3",
+  };
+}

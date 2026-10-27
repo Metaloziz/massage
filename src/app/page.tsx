@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/Hero";
+import { SoftEarthFeatures } from "@/components/sections/SoftEarthFeatures";
 import { About } from "@/components/sections/About";
 import { School } from "@/components/sections/School";
 import { Prep } from "@/components/sections/Prep";
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      <SoftEarthFeatures />
       <About />
       <School />
       <Prep />

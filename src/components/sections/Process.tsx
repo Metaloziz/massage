@@ -8,7 +8,7 @@ import { processSteps } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -17,14 +17,18 @@ export function Process() {
   const lineRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
   const stepClass = isDesign2
     ? "rounded-[var(--radius-control)] border border-white/20 bg-[var(--glass)] backdrop-blur-md font-serif text-xl text-accent"
-    : "rounded-[var(--radius-control)] border border-[var(--line)] bg-background font-serif text-xl text-accent shadow-[0_0_0_1px_var(--line)]";
+    : isDesign3
+      ? "rounded-[var(--radius-control)] border border-[rgba(42,50,40,0.12)] bg-[#ebe4d2] font-serif text-xl text-[#4f6b48] shadow-[var(--shadow-control)]"
+      : "rounded-[var(--radius-control)] border border-[var(--line)] bg-background font-serif text-xl text-accent shadow-[0_0_0_1px_var(--line)]";
+  const mobileStep = isDesign3 ? "soft-panel p-4" : "";
 
   useGSAP(
     () => {
-      if (!mounted || reducedMotion || !lineRef.current || !sectionRef.current) return;
+      if (!mounted || reducedMotion || !lineRef.current || !sectionRef.current)
+        return;
 
       gsap.from(lineRef.current, {
         scaleX: 0,
@@ -58,20 +62,21 @@ export function Process() {
     <section
       id="process"
       ref={sectionRef}
-      className="py-24 md:py-32"
+      className="py-16 md:py-28"
       aria-labelledby="process-heading"
     >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <RevealText className="mb-16 max-w-xl">
+        <RevealText className="mb-10 max-w-xl md:mb-16">
           <SectionLabel>Процесс</SectionLabel>
           <h2
             id="process-heading"
-            className="font-serif text-4xl font-medium md:text-5xl"
+            className="font-serif text-3xl font-medium sm:text-4xl md:text-5xl"
           >
             Как проходит сеанс
           </h2>
         </RevealText>
 
+        {/* Desktop residual */}
         <div className="relative hidden md:block">
           <div className="absolute top-8 right-0 left-0 h-px bg-[var(--line)]" />
           <div
@@ -97,19 +102,25 @@ export function Process() {
           </div>
         </div>
 
-        <div className="relative space-y-0 md:hidden">
+        {/* Mobile primary */}
+        <div className="relative space-y-3 md:hidden">
           {processSteps.map((step, index) => (
-            <article key={step.step} className="process-step relative flex gap-6 pb-12">
-              {index < processSteps.length - 1 && (
+            <article
+              key={step.step}
+              className={`process-step relative flex gap-4 ${mobileStep}`}
+            >
+              {!isDesign3 && index < processSteps.length - 1 && (
                 <div className="absolute top-16 bottom-0 left-8 w-px bg-[var(--line)]" />
               )}
               <span
-                className={`relative z-10 flex h-16 w-16 shrink-0 items-center justify-center ${stepClass}`}
+                className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center ${stepClass}`}
               >
-                  {step.step}
-                </span>
-              <div className="pt-3">
-                <h3 className="mb-2 font-serif text-xl font-medium">{step.title}</h3>
+                {step.step}
+              </span>
+              <div className="min-w-0 pt-2">
+                <h3 className="mb-1.5 font-serif text-lg font-medium">
+                  {step.title}
+                </h3>
                 <p className="text-sm leading-relaxed text-muted">
                   {step.description}
                 </p>

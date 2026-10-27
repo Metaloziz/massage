@@ -95,6 +95,31 @@ export const themes = {
       glow: "rgba(143, 175, 138, 0.22)",
     },
   },
+  design3: {
+    id: "design3",
+    label: "Дизайн 3",
+    note: "Soft earth: dense leaves bg, Manrope, matte soft panels, sand buttons. Light type on bg, dark type in panels.",
+    colorScheme: "dark",
+    tokens: {
+      background: "#1e3a2f",
+      foreground: "#f3f0e6",
+      muted: "rgba(243, 240, 230, 0.72)",
+      accent: "#c5d9b0",
+      accentLight: "rgba(197, 217, 176, 0.18)",
+      border: "rgba(243, 240, 230, 0.2)",
+      card: "#ebe4d2",
+      heroSurface: "#1a2e26",
+      heroOverlay: "rgba(12, 28, 22, 0.35)",
+      heroText: "#1f281c",
+      heroMuted: "rgba(31, 40, 28, 0.72)",
+      heroCtaFg: "#2a241c",
+      radiusCard: "1.6rem",
+      radiusControl: "9999px",
+      glass: "rgba(235, 228, 210, 0.92)",
+      line: "rgba(42, 50, 40, 0.12)",
+      glow: "rgba(197, 217, 176, 0.25)",
+    },
+  },
 } as const satisfies Record<string, ThemeDefinition>;
 
 export type ThemeId = keyof typeof themes;

@@ -14,7 +14,7 @@ import {
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(useGSAP);
 
@@ -22,7 +22,7 @@ export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
-  const isDesign2 = useIsDesign2();
+  const { isDesign1, isDesign2, isDesign3 } = useThemeFlags();
   const [overlayReady, setOverlayReady] = useState(false);
 
   useEffect(() => {
@@ -54,18 +54,20 @@ export function Hero() {
     { scope: containerRef, dependencies: [mounted, reducedMotion, overlayReady] },
   );
 
+  const designAttr = isDesign3 ? "3" : isDesign2 ? "2" : "1";
+
   return (
     <section
       id="hero"
       ref={containerRef}
       className={`relative flex min-h-[100dvh] items-end overflow-hidden md:items-center ${
-        isDesign2 ? "bg-transparent" : "bg-[var(--hero-surface)]"
+        isDesign2 || isDesign3 ? "bg-transparent" : "bg-[var(--hero-surface)]"
       }`}
       aria-labelledby="hero-heading"
-      data-design={isDesign2 ? "2" : "1"}
+      data-design={designAttr}
     >
-      {/* Mobile: full-bleed photo (design1) / soft specialist under glass (design2 keeps atmosphere) */}
-      {!isDesign2 && (
+      {/* Design1 mobile specialist photo */}
+      {isDesign1 && (
         <>
           <Image
             src={assetPath(heroImage)}
@@ -84,19 +86,15 @@ export function Hero() {
             style={{ background: "var(--hero-overlay)" }}
             aria-hidden
           />
+          <div
+            className="pointer-events-none absolute inset-0 hidden md:block"
+            style={{
+              background:
+                "radial-gradient(ellipse 80% 70% at 20% 50%, rgba(255,252,248,0.08), transparent 55%), var(--hero-surface)",
+            }}
+            aria-hidden
+          />
         </>
-      )}
-
-      {/* Desktop surface — design1 only */}
-      {!isDesign2 && (
-        <div
-          className="pointer-events-none absolute inset-0 hidden md:block"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 70% at 20% 50%, rgba(255,252,248,0.08), transparent 55%), var(--hero-surface)",
-          }}
-          aria-hidden
-        />
       )}
 
       {isDesign2 && (
@@ -116,7 +114,9 @@ export function Hero() {
           className={`flex min-w-0 flex-col ${
             isDesign2
               ? "glass-panel overflow-hidden p-6 sm:p-8 md:p-10"
-              : ""
+              : isDesign3
+                ? "soft-panel max-w-2xl overflow-hidden p-6 sm:p-8 md:p-10"
+                : ""
           }`}
         >
           <div
@@ -161,9 +161,9 @@ export function Hero() {
             <Button
               href={site.phoneHref}
               className={
-                isDesign2
-                  ? "w-full"
-                  : "w-full !border-transparent !bg-[var(--hero-text)] !text-[var(--hero-cta-fg)] !shadow-[0_1px_0_rgba(255,255,255,0.35)_inset,0_10px_28px_rgba(0,0,0,0.22)] hover:!bg-[var(--hero-text)]/92"
+                isDesign1
+                  ? "w-full !border-transparent !bg-[var(--hero-text)] !text-[var(--hero-cta-fg)] !shadow-[0_1px_0_rgba(255,255,255,0.35)_inset,0_10px_28px_rgba(0,0,0,0.22)] hover:!bg-[var(--hero-text)]/92"
+                  : "w-full"
               }
             >
               Записаться на сеанс
@@ -172,9 +172,9 @@ export function Hero() {
               href={site.phoneHref}
               variant="outline"
               className={
-                isDesign2
-                  ? "w-full"
-                  : "w-full !border-[var(--hero-text)]/70 !bg-white/5 !text-[var(--hero-text)] hover:!border-[var(--hero-text)] hover:!bg-white/12 hover:!text-[var(--hero-text)]"
+                isDesign1
+                  ? "w-full !border-[var(--hero-text)]/70 !bg-white/5 !text-[var(--hero-text)] hover:!border-[var(--hero-text)] hover:!bg-white/12 hover:!text-[var(--hero-text)]"
+                  : "w-full"
               }
             >
               Записаться на обучение
@@ -183,7 +183,9 @@ export function Hero() {
 
           <div
             className={`hero-reveal mt-12 grid gap-6 border-t pt-8 ${
-              isDesign2 ? "grid-cols-1 border-white/15" : "border-white/20 sm:grid-cols-3"
+              isDesign2 || isDesign3
+                ? "grid-cols-1 border-[var(--line)]"
+                : "border-white/20 sm:grid-cols-3"
             } ${overlayReady ? "opacity-100" : "opacity-0"}`}
           >
             {heroHighlights.map((item) => (
@@ -194,7 +196,7 @@ export function Hero() {
               >
                 <p
                   className={`font-serif font-medium ${
-                    isDesign2
+                    isDesign2 || isDesign3
                       ? "text-xl leading-snug md:text-2xl"
                       : "text-2xl md:text-3xl"
                   }`}
@@ -222,7 +224,9 @@ export function Hero() {
             className={
               isDesign2
                 ? "glass-panel overflow-hidden p-2"
-                : ""
+                : isDesign3
+                  ? "soft-panel overflow-hidden p-2"
+                  : ""
             }
           >
             <Image
@@ -232,7 +236,9 @@ export function Hero() {
               height={1024}
               priority
               className={`h-auto w-full ${
-                isDesign2 ? "rounded-[calc(var(--radius-card)-0.35rem)]" : "rounded-[1.75rem]"
+                isDesign2 || isDesign3
+                  ? "rounded-[calc(var(--radius-card)-0.35rem)]"
+                  : "rounded-[1.75rem]"
               }`}
               sizes="(max-width: 1280px) 42vw, 560px"
             />

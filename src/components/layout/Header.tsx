@@ -9,7 +9,7 @@ import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 import { silkPrimaryClass } from "@/components/ui/Button";
 import { lockBodyScroll } from "@/lib/scrollLock";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 function resolveNavHref(href: string) {
   if (href.startsWith("/#")) {
@@ -23,7 +23,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
   const onHero = pathname === "/" || pathname === "";
 
   useEffect(() => {
@@ -80,7 +80,9 @@ export function Header() {
     : solidBar
       ? isDesign2
         ? "border-b border-[var(--line)] bg-[var(--glass)] backdrop-blur-xl"
-        : "border-b border-[var(--line)] bg-background/95 backdrop-blur-md"
+        : isDesign3
+          ? "border-b border-[var(--line)] bg-[#ebe4d2]/95 shadow-[var(--shadow-tile)]"
+          : "border-b border-[var(--line)] bg-background/95 backdrop-blur-md"
       : "border-b border-transparent bg-transparent";
 
   return (
@@ -92,7 +94,11 @@ export function Header() {
         <Link
           href="/#about"
           className={`font-serif text-xl font-medium tracking-tight md:text-2xl ${
-            !solidBar && !menuOpen ? "text-[var(--hero-text)]" : "text-foreground"
+            !solidBar && !menuOpen
+              ? isDesign3
+                ? "text-[#f3f0e6]"
+                : "text-[var(--hero-text)]"
+              : "text-foreground"
           }`}
           onClick={(event) => {
             event.preventDefault();
@@ -113,7 +119,9 @@ export function Header() {
               onClick={() => handleNavClick(link.href)}
               className={`text-sm transition-colors ${
                 !solidBar
-                  ? "text-[var(--hero-muted)] hover:text-[var(--hero-text)]"
+                  ? isDesign3
+                    ? "text-[#f3f0e6]/75 hover:text-[#f3f0e6]"
+                    : "text-[var(--hero-muted)] hover:text-[var(--hero-text)]"
                   : "text-muted hover:text-foreground"
               }`}
             >
@@ -126,7 +134,9 @@ export function Header() {
           <ThemeSwitcher
             className={
               !solidBar
-                ? "text-[var(--hero-text)] [&_select]:border-white/30 [&_select]:text-[var(--hero-text)] [&_select]:hover:border-white/60"
+                ? isDesign3
+                  ? "text-[#f3f0e6] [&_select]:border-white/35 [&_select]:text-[#f3f0e6]"
+                  : "text-[var(--hero-text)] [&_select]:border-white/30 [&_select]:text-[var(--hero-text)] [&_select]:hover:border-white/60"
                 : ""
             }
           />
@@ -142,7 +152,9 @@ export function Header() {
           <ThemeSwitcher
             className={
               !solidBar && !menuOpen
-                ? "text-[var(--hero-text)] [&_select]:border-white/30 [&_select]:text-[var(--hero-text)] [&_select]:hover:border-white/60"
+                ? isDesign3
+                  ? "text-[#f3f0e6] [&_select]:border-white/35 [&_select]:text-[#f3f0e6]"
+                  : "text-[var(--hero-text)] [&_select]:border-white/30 [&_select]:text-[var(--hero-text)] [&_select]:hover:border-white/60"
                 : ""
             }
           />
@@ -151,7 +163,9 @@ export function Header() {
             onClick={() => setMenuOpen(!menuOpen)}
             className={`flex h-11 w-11 items-center justify-center border ${
               !solidBar && !menuOpen
-                ? "rounded-[var(--radius-control)] border-white/30 text-[var(--hero-text)]"
+                ? isDesign3
+                  ? "rounded-[var(--radius-control)] border-white/35 text-[#f3f0e6]"
+                  : "rounded-[var(--radius-control)] border-white/30 text-[var(--hero-text)]"
                 : "rounded-[var(--radius-control)] border-[var(--line)] text-foreground"
             }`}
             aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}

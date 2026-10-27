@@ -3,21 +3,25 @@
 import Link from "next/link";
 import { Camera, MapPin, Phone, Send } from "lucide-react";
 import { locations, navLinks, site } from "@/lib/content";
-import { useIsDesign2 } from "@/hooks/useThemeId";
+import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function Footer() {
-  const isDesign2 = useIsDesign2();
+  const { isDesign2, isDesign3 } = useThemeFlags();
 
   return (
     <footer
       className={`border-t border-[var(--line)] ${
-        isDesign2 ? "bg-[var(--glass)] backdrop-blur-xl" : "bg-card"
+        isDesign2
+          ? "bg-[var(--glass)] backdrop-blur-xl"
+          : isDesign3
+            ? ""
+            : "bg-card"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-5 py-12 md:px-8 md:py-20">
+        <div className="grid gap-10 sm:gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <p className="font-serif text-3xl font-medium md:text-4xl">
+            <p className="font-serif text-2xl font-medium sm:text-3xl md:text-4xl">
               {site.name}
             </p>
             <p className="mt-3 max-w-sm text-muted">{site.tagline}</p>
@@ -115,7 +119,7 @@ export function Footer() {
         </div>
 
         <div
-          className={`mt-16 flex flex-col gap-2 border-t pt-8 text-xs text-muted md:flex-row md:items-center md:justify-between ${
+          className={`mt-10 flex flex-col gap-2 border-t pt-6 text-xs text-muted sm:mt-16 sm:pt-8 md:flex-row md:items-center md:justify-between ${
             isDesign2 ? "border-white/15" : "border-[var(--line)]"
           }`}
         >
