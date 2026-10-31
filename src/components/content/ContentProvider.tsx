@@ -34,30 +34,49 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
+    let idleId: number | undefined;
+    let timeoutId: number | undefined;
 
-    void fetchRemoteContent({
-      onUpdate: (fresh) => {
-        if (!cancelled) {
-          setContent(fresh);
-          setStatus("ready");
-        }
-      },
-      onRefreshError: () => {
-        if (!cancelled) setStatus((prev) => (prev === "ready" ? prev : "error"));
-      },
-      onRefreshComplete: () => {
-        if (!cancelled) {
-          setStatus((prev) => (prev === "error" ? prev : "ready"));
-        }
-      },
-    }).then((initial) => {
-      if (cancelled) return;
-      setContent(initial);
-      setStatus("ready");
-    });
+    const load = () => {
+      void fetchRemoteContent({
+        onUpdate: (fresh) => {
+          if (!cancelled) {
+            setContent(fresh);
+            setStatus("ready");
+          }
+        },
+        onRefreshError: () => {
+          if (!cancelled) {
+            setStatus((prev) => (prev === "ready" ? prev : "error"));
+          }
+        },
+        onRefreshComplete: () => {
+          if (!cancelled) {
+            setStatus((prev) => (prev === "error" ? prev : "ready"));
+          }
+        },
+      }).then((initial) => {
+        if (cancelled) return;
+        setContent(initial);
+        setStatus("ready");
+      });
+    };
+
+    // Defer CMS fetch past first paint / LCP to reduce main-thread contention.
+    if (typeof window.requestIdleCallback === "function") {
+      idleId = window.requestIdleCallback(load, { timeout: 2500 });
+    } else {
+      timeoutId = window.setTimeout(load, 1);
+    }
 
     return () => {
       cancelled = true;
+      if (idleId !== undefined && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
     };
   }, []);
 

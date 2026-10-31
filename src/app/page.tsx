@@ -1,7 +1,12 @@
 import dynamic from "next/dynamic";
 import { Hero } from "@/components/sections/Hero";
-import { SoftEarthFeatures } from "@/components/sections/SoftEarthFeatures";
+import { themeSelectionLocked } from "@/design/themes";
 
+const SoftEarthFeatures = dynamic(() =>
+  import("@/components/sections/SoftEarthFeatures").then(
+    (m) => m.SoftEarthFeatures,
+  ),
+);
 const About = dynamic(() =>
   import("@/components/sections/About").then((m) => m.About),
 );
@@ -27,7 +32,8 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <SoftEarthFeatures />
+      {/* Soft Earth strip only when theme switching is unlocked */}
+      {!themeSelectionLocked ? <SoftEarthFeatures /> : null}
       <About />
       <School />
       <Prep />

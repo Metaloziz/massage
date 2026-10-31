@@ -1,10 +1,7 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import {
   heroDirections,
   heroHighlights,
@@ -16,50 +13,22 @@ import {
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
 import { useBooking } from "@/components/booking/BookingProvider";
-import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
-gsap.registerPlugin(useGSAP);
-
 export function Hero() {
-  const containerRef = useRef<HTMLElement>(null);
-  const reducedMotion = useReducedMotion();
-  const mounted = useMounted();
   const { isDesign1, isDesign2 } = useThemeFlags();
   const { openSessionBooking, openTrainingBooking } = useBooking();
-
-  useGSAP(
-    () => {
-      if (!mounted || reducedMotion) return;
-
-      gsap.fromTo(
-        ".hero-reveal",
-        { y: 16 },
-        {
-          y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: "power3.out",
-          clearProps: "transform",
-        },
-      );
-    },
-    { scope: containerRef, dependencies: [mounted, reducedMotion] },
-  );
-
   const designAttr = isDesign2 ? "2" : "1";
 
   return (
     <section
       id="hero"
-      ref={containerRef}
       className={`relative flex min-h-[100dvh] items-end overflow-hidden md:items-center ${
         isDesign2 ? "bg-transparent" : "bg-[var(--hero-surface)]"
       }`}
       aria-labelledby="hero-heading"
       data-design={designAttr}
     >
-      {/* Design1 mobile specialist photo — LCP candidate */}
       {isDesign1 && (
         <>
           <picture className="absolute inset-0 md:hidden">
@@ -109,7 +78,7 @@ export function Hero() {
               : ""
           }`}
         >
-          <div className="hero-reveal mb-8">
+          <div className="mb-8">
             <p
               className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm tracking-[0.14em] uppercase md:text-base"
               style={{ color: "var(--hero-muted)" }}
@@ -129,7 +98,7 @@ export function Hero() {
             </p>
           </div>
 
-          <div className="hero-reveal max-w-3xl">
+          <div className="max-w-3xl">
             <h1
               id="hero-heading"
               className="font-serif text-4xl leading-[1.1] font-medium tracking-tight md:text-5xl lg:text-6xl xl:text-7xl"
@@ -139,7 +108,7 @@ export function Hero() {
             </h1>
           </div>
 
-          <div className="hero-reveal mt-8 flex w-full max-w-md flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex w-full max-w-md flex-col gap-3 sm:flex-row">
             <Button
               className={
                 isDesign1
@@ -164,7 +133,7 @@ export function Hero() {
           </div>
 
           <div
-            className={`hero-reveal mt-12 grid gap-6 border-t pt-8 ${
+            className={`mt-12 grid gap-6 border-t pt-8 ${
               isDesign2
                 ? "grid-cols-1 border-[var(--line)]"
                 : "border-white/20 sm:grid-cols-3"
@@ -197,7 +166,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="hero-reveal relative mx-auto hidden w-full max-w-lg md:block lg:max-w-xl">
+        <div className="relative mx-auto hidden w-full max-w-lg md:block lg:max-w-xl">
           <div className={isDesign2 ? "soft-panel overflow-hidden p-2" : ""}>
             <picture>
               <source srcSet={assetPath(heroImageWebp)} type="image/webp" />
