@@ -9,7 +9,7 @@ import { ContentProvider } from "@/components/content/ContentProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getThemeBootstrapScript } from "@/design/applyTheme";
 import { assetPath } from "@/lib/assetPath";
-import { site } from "@/lib/content";
+import { heroImageMobileWebp, site } from "@/lib/content";
 import { ogImageUrl, seo, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
@@ -99,6 +99,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <link
+          rel="preload"
+          as="image"
+          type="image/webp"
+          href={assetPath(heroImageMobileWebp)}
+          media="(max-width: 767px)"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: getThemeBootstrapScript(),

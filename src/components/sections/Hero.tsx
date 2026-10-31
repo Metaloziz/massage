@@ -206,7 +206,6 @@ export function Hero() {
                 alt={`${site.brandDisplay} — кинезиомассаж и обучение`}
                 width={571}
                 height={1024}
-                priority
                 className={`h-auto w-full ${
                   isDesign2
                     ? "rounded-[calc(var(--radius-card)-0.35rem)]"
