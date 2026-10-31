@@ -39,12 +39,12 @@ export function BookingModal({
   if (!open) return null;
 
   const panel = isDesign2
-    ? "border-[rgba(42,50,40,0.12)] bg-[#ebe4d2] text-[#2a3228]"
-    : "border-border bg-background";
+    ? "soft-panel !rounded-t-3xl sm:!rounded-3xl"
+    : "rounded-t-3xl border border-border bg-background sm:rounded-3xl";
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-end justify-center bg-foreground/40 p-0 sm:items-center sm:p-6"
+      className="fixed inset-0 z-[60] flex items-end justify-center bg-black/50 p-0 sm:items-center sm:p-6"
       role="presentation"
       onClick={onClose}
     >
@@ -53,7 +53,7 @@ export function BookingModal({
         aria-modal="true"
         aria-labelledby="booking-modal-title"
         data-lenis-prevent
-        className={`max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border p-6 shadow-2xl sm:rounded-3xl sm:p-8 ${panel}`}
+        className={`max-h-[90vh] w-full max-w-lg overflow-y-auto p-6 sm:p-8 ${panel}`}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-6 flex items-start justify-between gap-4">

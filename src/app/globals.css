@@ -2,7 +2,8 @@
 
 /*
  * Значения по умолчанию = «Дизайн 1».
- * Активная тема применяется из src/design/themes.ts (bootstrap + ThemeSettings).
+ * Дизайн 1 по умолчанию; светлая/тёмная палитра — data-appearance (ThemeToggle).
+ * Soft Earth (design2) законсервирован в коде.
  */
 :root {
   --background: #f7f3ee;
@@ -24,7 +25,11 @@
   --glow: rgba(125, 143, 122, 0.25);
 }
 
-/* —— Дизайн 2: soft earth —— */
+html[data-appearance="dark"] {
+  color-scheme: dark;
+}
+
+/* —— Дизайн 2: soft earth (законсервирован) —— */
 [data-theme="design2"] {
   color-scheme: light;
   --font-sans: var(--font-manrope), system-ui, sans-serif;

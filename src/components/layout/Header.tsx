@@ -8,6 +8,7 @@ import { navLinks, site } from "@/lib/content";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
 import { silkPrimaryClass } from "@/components/ui/Button";
 import { useBooking } from "@/components/booking/BookingProvider";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { lockBodyScroll } from "@/lib/scrollLock";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
@@ -128,6 +129,15 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
+          <ThemeToggle
+            className={
+              !solidBar
+                ? isDesign2
+                  ? "border-white/35 text-[#f3f0e6]"
+                  : "border-white/30 text-[var(--hero-text)]"
+                : ""
+            }
+          />
           <button
             type="button"
             onClick={() => openBooking()}
@@ -138,6 +148,15 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
+          <ThemeToggle
+            className={
+              !solidBar && !menuOpen
+                ? isDesign2
+                  ? "border-white/35 text-[#f3f0e6]"
+                  : "border-white/30 text-[var(--hero-text)]"
+                : ""
+            }
+          />
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}

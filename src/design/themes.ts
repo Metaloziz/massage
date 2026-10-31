@@ -1,12 +1,8 @@
 /**
  * Документ дизайна сайта.
  *
- * Консервация: в проде зафиксированы Soft Earth (`design2`) + фон «Мох».
- * `design1` и остальные фоны остаются в коде, но UI переключения скрыт.
- *
- * Как вернуть выбор:
- * 1. Поставь `themeSelectionLocked = false`.
- * 2. Верни `ThemeSettings` в Header.
+ * Прод: зафиксирован Дизайн 1 (`design1`). Soft Earth (`design2`) законсервирован.
+ * Светлая / тёмная палитра Дизайна 1 — через солнышко (`ThemeToggle`, `appearance`).
  */
 
 export type ColorScheme = "light" | "dark";
@@ -87,8 +83,8 @@ export const themes = {
   },
   design2: {
     id: "design2",
-    label: "Дизайн 2",
-    note: "Матовые плашки на фоне листвы, с выбором фона.",
+    label: "Soft Earth",
+    note: "Законсервирован: матовые плашки на фоне листвы, с выбором фона.",
     colorScheme: "dark",
     hasBackdropOptions: true,
     tokens: {
@@ -167,18 +163,42 @@ export const design2Backdrops: BackdropOption[] = [
 
 export type ThemeId = keyof typeof themes;
 export type BackdropId = (typeof design2Backdrops)[number]["id"];
+export type AppearanceId = "light" | "dark";
 
-/** Первый зелёный цвет из настроек фона. */
+export const APPEARANCE_STORAGE_KEY = "appearance";
+export const APPEARANCE_CHANGE_EVENT = "massage:appearance-change";
+
+/** Прод: Дизайн 1. Soft Earth законсервирован. */
 export const lockedBackdropId = "color-moss" as const satisfies BackdropId;
+export const lockedThemeId = "design1" as const satisfies ThemeId;
 
-/** Прод: Soft Earth. design1 законсервирован. */
-export const lockedThemeId = "design2" as const satisfies ThemeId;
-
-/** true = нельзя переключить тему/фон из UI (и из storage). */
+/** true = выбор дизайна (design1/design2) зафиксирован. */
 export const themeSelectionLocked = true;
 
 export const defaultThemeId: ThemeId = lockedThemeId;
-export const defaultBackdropId: BackdropId = lockedBackdropId;
+export const defaultBackdropId: BackdropId = "leaves-dense";
+export const defaultAppearanceId: AppearanceId = "light";
+
+/** Тёмная палитра Дизайна 1 (солнышко). */
+export const design1DarkTokens: DesignTokens = {
+  background: "#1c1917",
+  foreground: "#f2ebe3",
+  muted: "#a89f96",
+  accent: "#9aaf96",
+  accentLight: "#2a3228",
+  border: "#3a342f",
+  card: "#25211e",
+  heroSurface: "#1c1917",
+  heroOverlay: "rgba(12, 10, 8, 0.42)",
+  heroText: "#fffcf8",
+  heroMuted: "rgba(255, 252, 248, 0.8)",
+  heroCtaFg: "#2a2420",
+  radiusCard: themes.design1.tokens.radiusCard,
+  radiusControl: themes.design1.tokens.radiusControl,
+  glass: "rgba(37, 33, 30, 0.72)",
+  line: "rgba(242, 235, 227, 0.14)",
+  glow: "rgba(154, 175, 150, 0.25)",
+};
 
 export const themeList: ThemeDefinition[] = Object.values(themes);
 
@@ -190,6 +210,12 @@ export function isBackdropId(
   value: string | null | undefined,
 ): value is BackdropId {
   return Boolean(value && design2Backdrops.some((item) => item.id === value));
+}
+
+export function isAppearanceId(
+  value: string | null | undefined,
+): value is AppearanceId {
+  return value === "light" || value === "dark";
 }
 
 export function resolveThemeId(stored: string | null): ThemeId {
@@ -204,6 +230,15 @@ export function resolveBackdropId(stored: string | null): BackdropId {
   if (themeSelectionLocked) return lockedBackdropId;
   if (isBackdropId(stored)) return stored;
   return defaultBackdropId;
+}
+
+export function resolveAppearanceId(stored: string | null): AppearanceId {
+  if (isAppearanceId(stored)) return stored;
+  return defaultAppearanceId;
+}
+
+export function tokensForAppearance(appearance: AppearanceId): DesignTokens {
+  return appearance === "dark" ? design1DarkTokens : themes.design1.tokens;
 }
 
 export function getBackdrop(id: BackdropId): BackdropOption {

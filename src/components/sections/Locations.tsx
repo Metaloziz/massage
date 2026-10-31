@@ -120,10 +120,6 @@ function ImageLightbox({
             priority
           />
         </div>
-        <p className="mt-4 text-center text-sm text-white/80">
-          {current.alt}
-          {hasMany ? ` · ${index + 1} / ${images.length}` : ""}
-        </p>
       </div>
     </div>
   );

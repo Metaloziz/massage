@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle, Phone, Send } from "lucide-react";
+import { Phone, Send } from "lucide-react";
 import {
   bookingChannels,
   buildChannelHref,
@@ -9,11 +9,12 @@ import {
 import { BookingModal } from "@/components/booking/BookingModal";
 import { useSite } from "@/components/content/ContentProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
+import { ViberIcon, WhatsAppIcon } from "@/components/icons/BrandIcons";
 
 const channelIcons = {
   telegram: Send,
-  whatsapp: MessageCircle,
-  viber: MessageCircle,
+  whatsapp: WhatsAppIcon,
+  viber: ViberIcon,
   phone: Phone,
 } as const;
 
@@ -54,7 +55,7 @@ export function ChannelPicker({
   };
 
   const itemClass = isDesign2
-    ? "border-[rgba(42,50,40,0.12)] bg-[rgba(42,50,40,0.04)] hover:border-[rgba(42,50,40,0.22)]"
+    ? "border-[var(--line)] bg-[rgba(42,50,40,0.05)] hover:border-accent/50"
     : "border-border bg-card hover:border-accent/40 hover:shadow-md";
 
   return (
