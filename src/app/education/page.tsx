@@ -13,7 +13,14 @@ export const metadata: Metadata = {
     title: `Обучение — ${site.name}`,
     description: `${education.invite} ${education.schedule}. Стоимость ${education.price}.`,
     url: absoluteUrl("/education"),
-    images: [{ url: ogImageUrl, alt: `${site.name} — обучение` }],
+    images: [
+      {
+        url: ogImageUrl,
+        width: 1200,
+        height: 630,
+        alt: `${site.name} — обучение`,
+      },
+    ],
   },
 };
 

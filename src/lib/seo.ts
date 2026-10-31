@@ -1,15 +1,15 @@
-import { heroImage, site } from "@/lib/content";
+import { site } from "@/lib/content";
 
-const defaultSiteUrl = "https://metaloziz.github.io/massage";
+const defaultSiteUrl = "https://sasnouski.by";
 
 export const siteUrl = (
   process.env.SITE_URL ?? defaultSiteUrl
 ).replace(/\/$/, "");
 
 export const seo = {
-  title: `${site.name} — кинезиомассаж, массаж и обучение в Минске и Молодечно`,
+  title: `${site.name} — кинезиомассаж в Минске и Молодечно`,
   description:
-    "Кинезиомассаж, общеоздоровительный массаж и обучение классическому массажу в Минске и Молодечно. Запись через Telegram, WhatsApp, Viber. Тел. +375 (29) 570-56-37.",
+    "Кинезиомассаж и оздоровительный массаж у сертифицированного специалиста в Минске и Молодечно. Обучение классическому массажу. Запись в Telegram, WhatsApp, Viber — +375 (29) 570-56-37.",
   keywords: [
     "массажист Минск",
     "массажист Молодечно",
@@ -34,4 +34,5 @@ export function absoluteUrl(path: string): string {
   return `${siteUrl}${normalizedPath}`;
 }
 
-export const ogImageUrl = absoluteUrl(heroImage);
+export const ogImagePath = "/og/default.jpg";
+export const ogImageUrl = absoluteUrl(ogImagePath);

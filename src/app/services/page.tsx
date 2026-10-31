@@ -16,7 +16,14 @@ export const metadata: Metadata = {
     description:
       "Кинезиомассаж и общеоздоровительный массаж: для кого подходит, что входит в сеанс и сколько стоит.",
     url: absoluteUrl("/services"),
-    images: [{ url: ogImageUrl, alt: `${site.name} — услуги` }],
+    images: [
+      {
+        url: ogImageUrl,
+        width: 1200,
+        height: 630,
+        alt: `${site.name} — услуги`,
+      },
+    ],
   },
 };
 

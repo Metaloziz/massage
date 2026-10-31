@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://metaloziz.github.io/massage/sitemap.xml
+Sitemap: https://sasnouski.by/sitemap.xml

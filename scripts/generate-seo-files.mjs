@@ -1,7 +1,7 @@
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const siteUrl = (process.env.SITE_URL ?? "https://metaloziz.github.io/massage").replace(
+const siteUrl = (process.env.SITE_URL ?? "https://sasnouski.by").replace(
   /\/$/,
   "",
 );

@@ -35,6 +35,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: seo.title,
   description: seo.description,
+  applicationName: site.brandLatin,
   keywords: [...seo.keywords],
   alternates: {
     canonical: "/",
@@ -42,6 +43,21 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  themeColor: "#1e3a2f",
+  appleWebApp: {
+    capable: true,
+    title: site.brandLatin,
+    statusBarStyle: "black-translucent",
   },
   openGraph: {
     title: seo.title,
@@ -53,7 +69,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: ogImageUrl,
-        alt: `${site.name} — массажный кабинет`,
+        width: 1200,
+        height: 630,
+        alt: `${site.name} — кинезиомассаж в Минске и Молодечно`,
       },
     ],
   },
