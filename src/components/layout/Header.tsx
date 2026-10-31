@@ -85,7 +85,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${barClass}`}
+      className={`fixed top-0 right-0 left-0 z-50 transition-[background-color,border-color,box-shadow,color,backdrop-filter] duration-500 ${barClass}`}
       style={{ paddingRight: "var(--scrollbar-compensation, 0px)" }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-20 md:px-8">
