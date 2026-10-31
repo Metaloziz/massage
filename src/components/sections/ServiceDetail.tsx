@@ -1,14 +1,11 @@
 "use client";
 
-import { locations, type SessionServiceId, services } from "@/lib/content";
+import type { SessionServiceId } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { useBooking } from "@/components/booking/BookingProvider";
+import { useContent } from "@/components/content/ContentProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
-
-const locationById = Object.fromEntries(
-  locations.map((location) => [location.id, location]),
-);
 
 function BulletList({ items }: { items: readonly string[] }) {
   return (
@@ -42,9 +39,13 @@ function DetailBlock({
 }
 
 export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
-  const service = services.find((item) => item.id === serviceId);
+  const { getServiceById, locations } = useContent();
+  const service = getServiceById(serviceId);
   const { isDesign2 } = useThemeFlags();
   const { openSessionBooking } = useBooking();
+  const locationById = Object.fromEntries(
+    locations.map((location) => [location.id, location]),
+  );
 
   if (!service) return null;
 
@@ -93,7 +94,7 @@ export function ServiceDetail({ serviceId }: { serviceId: SessionServiceId }) {
             {service.pricing.map((tier) => (
               <div key={tier.locationId}>
                 <p className="text-sm font-medium">
-                  {locationById[tier.locationId].fullAddress}
+                  {locationById[tier.locationId]?.fullAddress ?? tier.locationId}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {tier.items.map((price) => (

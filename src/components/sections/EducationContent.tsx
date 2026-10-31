@@ -1,16 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { education } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { Button } from "@/components/ui/Button";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { useBooking } from "@/components/booking/BookingProvider";
+import { useEducation } from "@/components/content/ContentProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function EducationContent() {
   const { isDesign2 } = useThemeFlags();
   const { openTrainingBooking } = useBooking();
+  const education = useEducation();
   const introPanel = isDesign2 ? "soft-panel p-6 sm:p-8 md:p-10" : "";
   const mediaPanel = isDesign2
     ? "soft-panel p-2"

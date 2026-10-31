@@ -31,6 +31,7 @@ jobs:
         env:
           BASE_PATH: /massage
           SITE_URL: https://metaloziz.github.io/massage
+          NEXT_PUBLIC_GAS_API_KEY: ${{ secrets.NEXT_PUBLIC_GAS_API_KEY }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

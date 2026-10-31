@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Законсервировано: UI скрыт (`themeSelectionLocked`).
+ * Чтобы вернуть переключатель — покажи компонент в Header и сними лок в themes.ts.
+ */
+
 import { useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { Settings, X } from "lucide-react";

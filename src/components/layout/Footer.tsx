@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import { Camera, MapPin, Phone, Send } from "lucide-react";
-import { locations, navLinks, site } from "@/lib/content";
+import { navLinks } from "@/lib/content";
+import { useLocations, useSite } from "@/components/content/ContentProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function Footer() {
   const { isDesign2 } = useThemeFlags();
+  const site = useSite();
+  const locations = useLocations();
 
   return (
     <footer
@@ -118,6 +121,7 @@ export function Footer() {
           <p suppressHydrationWarning>
             © {new Date().getFullYear()} {site.name}. Все права защищены.
           </p>
+          <p>УНП {site.unp}</p>
           <p>{site.hours}</p>
         </div>
       </div>

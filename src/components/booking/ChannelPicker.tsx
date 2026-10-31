@@ -7,6 +7,7 @@ import {
   type BookingChannelId,
 } from "@/lib/content";
 import { BookingModal } from "@/components/booking/BookingModal";
+import { useSite } from "@/components/content/ContentProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 const channelIcons = {
@@ -30,9 +31,10 @@ export function ChannelPicker({
   onClose,
 }: ChannelPickerProps) {
   const { isDesign2 } = useThemeFlags();
+  const site = useSite();
 
   const handleChannel = async (channelId: BookingChannelId) => {
-    const href = buildChannelHref(channelId, message);
+    const href = buildChannelHref(channelId, message, site);
 
     if (channelId === "viber" && message) {
       try {
@@ -43,7 +45,7 @@ export function ChannelPicker({
     }
 
     if (channelId === "phone") {
-      window.location.href = href;
+      window.location.assign(href);
     } else {
       window.open(href, "_blank", "noopener,noreferrer");
     }

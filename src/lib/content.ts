@@ -15,6 +15,7 @@ export const site = {
   phoneDigits: "375295705637",
   hours: "По предварительной записи",
   payment: "Оплата наличными",
+  unp: "692243078",
   social: {
     instagram: "https://www.instagram.com/sasnouski_aliaksei/",
     instagramHandle: "@sasnouski_aliaksei",
@@ -36,25 +37,35 @@ export const bookingChannels = [
   { id: "phone" as const, label: "Позвонить" },
 ] as const;
 
+export type ChannelContacts = {
+  phoneHref: string;
+  social: {
+    telegram: string;
+    whatsapp: string;
+    viber: string;
+  };
+};
+
 export function buildChannelHref(
   channelId: BookingChannelId,
   message?: string,
+  contacts: ChannelContacts = site,
 ): string {
   const encoded = message ? encodeURIComponent(message) : "";
 
   switch (channelId) {
     case "telegram":
       return message
-        ? `${site.social.telegram}?text=${encoded}`
-        : site.social.telegram;
+        ? `${contacts.social.telegram}?text=${encoded}`
+        : contacts.social.telegram;
     case "whatsapp":
       return message
-        ? `${site.social.whatsapp}?text=${encoded}`
-        : site.social.whatsapp;
+        ? `${contacts.social.whatsapp}?text=${encoded}`
+        : contacts.social.whatsapp;
     case "viber":
-      return site.social.viber;
+      return contacts.social.viber;
     case "phone":
-      return site.phoneHref;
+      return contacts.phoneHref;
   }
 }
 

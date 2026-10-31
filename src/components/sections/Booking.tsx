@@ -1,33 +1,34 @@
 "use client";
 
 import { Camera, Phone, Send } from "lucide-react";
-import { bookingInfo, site } from "@/lib/content";
+import { bookingInfo } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { Button } from "@/components/ui/Button";
+import { useSite } from "@/components/content/ContentProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
-
-const contactChannels = [
-  {
-    id: "instagram",
-    label: "Instagram",
-    handle: site.social.instagramHandle,
-    href: site.social.instagram,
-    description: "Напишите в Direct — отвечу и подберём время",
-    icon: Camera,
-  },
-  {
-    id: "telegram",
-    label: "Telegram",
-    handle: site.social.telegramHandle,
-    href: site.social.telegram,
-    description: "Удобно для быстрой переписки и записи",
-    icon: Send,
-  },
-] as const;
 
 export function Booking() {
   const { isDesign2 } = useThemeFlags();
+  const site = useSite();
+  const contactChannels = [
+    {
+      id: "instagram",
+      label: "Instagram",
+      handle: site.social.instagramHandle,
+      href: site.social.instagram,
+      description: "Напишите в Direct — отвечу и подберём время",
+      icon: Camera,
+    },
+    {
+      id: "telegram",
+      label: "Telegram",
+      handle: site.social.telegramHandle,
+      href: site.social.telegram,
+      description: "Удобно для быстрой переписки и записи",
+      icon: Send,
+    },
+  ] as const;
   const introPanel = isDesign2 ? "soft-panel p-6 sm:p-8" : "";
   const channelCard = isDesign2
     ? "soft-panel"

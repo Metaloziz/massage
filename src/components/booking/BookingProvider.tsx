@@ -9,8 +9,8 @@ import {
   type ReactNode,
 } from "react";
 import type { SessionServiceId } from "@/lib/content";
-import { getServiceById } from "@/lib/content";
 import { ChannelPicker } from "@/components/booking/ChannelPicker";
+import { useContent } from "@/components/content/ContentProvider";
 
 type BookingKind = "session" | "training" | "generic";
 
@@ -22,18 +22,22 @@ type BookingContextValue = {
 
 const BookingContext = createContext<BookingContextValue | null>(null);
 
-function sessionMessage(serviceId?: SessionServiceId) {
-  if (serviceId) {
-    const service = getServiceById(serviceId);
-    return `Здравствуйте! Хочу записаться на ${service?.title ?? "сеанс массажа"}.`;
-  }
-  return "Здравствуйте! Хочу записаться на сеанс массажа.";
-}
-
 export function BookingProvider({ children }: { children: ReactNode }) {
+  const { getServiceById } = useContent();
   const [open, setOpen] = useState(false);
   const [kind, setKind] = useState<BookingKind>("generic");
   const [serviceId, setServiceId] = useState<SessionServiceId | undefined>();
+
+  const sessionMessage = useCallback(
+    (id?: SessionServiceId) => {
+      if (id) {
+        const service = getServiceById(id);
+        return `Здравствуйте! Хочу записаться на ${service?.title ?? "сеанс массажа"}.`;
+      }
+      return "Здравствуйте! Хочу записаться на сеанс массажа.";
+    },
+    [getServiceById],
+  );
 
   const close = useCallback(() => {
     setOpen(false);
@@ -76,6 +80,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       : kind === "session"
         ? sessionMessage(serviceId)
         : "Здравствуйте! Хочу записаться.";
+
 
   return (
     <BookingContext.Provider value={value}>

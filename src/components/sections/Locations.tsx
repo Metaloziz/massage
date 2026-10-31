@@ -6,11 +6,11 @@ import { ChevronLeft, ChevronRight, ExternalLink, MapPin, X } from "lucide-react
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { locations } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { lockBodyScroll } from "@/lib/scrollLock";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
+import { useLocations } from "@/components/content/ContentProvider";
 import { useMounted, useReducedMotion } from "@/hooks/useReducedMotion";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
@@ -134,6 +134,7 @@ export function Locations() {
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
   const { isDesign2 } = useThemeFlags();
+  const locations = useLocations();
   const [lightbox, setLightbox] = useState<{
     images: readonly GalleryImage[];
     index: number;

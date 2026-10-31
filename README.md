@@ -68,8 +68,26 @@ BASE_PATH=/massage npm run build
 |------------|----------|-------------------------|
 | `BASE_PATH` | Префикс путей на сервере | `/massage` |
 | `SITE_URL` | Canonical, sitemap, Open Graph | `https://metaloziz.github.io/massage` |
+| `NEXT_PUBLIC_GAS_API_KEY` | API key Apps Script (CMS) | задать при сборке `out/` |
 
-При переезде на свой домен измените `SITE_URL` в [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) (и `BASE_PATH`, если сайт будет в корне домена), затем пересоберите проект.
+URL Web App — константа [`GAS_API_URL`](src/lib/api.ts) в коде (как в zeuzyki). Прод — статика (`out/`) на хосте организации; ключ выставляйте в том пайплайне, где собираете релиз. Workflow GitHub Pages — только превью.
+
+## CMS: Google Sheets
+
+Цены, контакты, расписание обучения и адреса кабинетов можно менять в таблице без редеплоя. Сайт — статика, данные подтягивает браузер (как в zeuzyki): кэш в `localStorage`, фоновое обновление.
+
+Таблица: https://docs.google.com/spreadsheets/d/1kM48FjY9NMOe421ZBdtSVLJrvdxbtJb58girp_Qx2H4
+
+### Настройка один раз
+
+1. Откройте таблицу → **Extensions → Apps Script**.
+2. Вставьте код из [`scripts/google-apps-content.gs`](scripts/google-apps-content.gs).
+3. **Project Settings → Script properties** → добавьте `API_KEY` (любой секрет).
+4. В редакторе выберите функцию `seedSheetsOnce` → **Run** (вкладки Контакты / Услуги / Цены / Обучение / Кабинеты + Справка, цвета и описания).
+5. **Deploy → New deployment → Web app**: Execute as *Me*, Who has access *Anyone*.
+6. URL `/exec` вставьте в [`src/lib/api.ts`](src/lib/api.ts) (`GAS_API_URL`).
+7. Локально: `.env.local` → `NEXT_PUBLIC_GAS_API_KEY=...` (см. [`.env.example`](.env.example)).
+8. На проде: тот же ключ при сборке. Без ключа/URL — fallback из [`src/lib/content.ts`](src/lib/content.ts).
 
 ### После деплоя
 

@@ -1,13 +1,12 @@
 /**
  * Документ дизайна сайта.
  *
- * Как добавить новый вид:
- * 1. Скопируй блок темы в `themes`.
- * 2. Задай новый `id`, `label` и токены.
- * 3. Тема сразу появится в модалке настроек.
+ * Консервация: в проде зафиксированы Soft Earth (`design2`) + фон «Мох».
+ * `design1` и остальные фоны остаются в коде, но UI переключения скрыт.
  *
- * Default: `design1`. Неизвестный localStorage → design1.
- * Legacy `design3` (Soft Earth) → `design2`.
+ * Как вернуть выбор:
+ * 1. Поставь `themeSelectionLocked = false`.
+ * 2. Верни `ThemeSettings` в Header.
  */
 
 export type ColorScheme = "light" | "dark";
@@ -166,12 +165,20 @@ export const design2Backdrops: BackdropOption[] = [
   },
 ];
 
-export const defaultBackdropId = design2Backdrops[0].id;
-
 export type ThemeId = keyof typeof themes;
 export type BackdropId = (typeof design2Backdrops)[number]["id"];
 
-export const defaultThemeId: ThemeId = "design1";
+/** Первый зелёный цвет из настроек фона. */
+export const lockedBackdropId = "color-moss" as const satisfies BackdropId;
+
+/** Прод: Soft Earth. design1 законсервирован. */
+export const lockedThemeId = "design2" as const satisfies ThemeId;
+
+/** true = нельзя переключить тему/фон из UI (и из storage). */
+export const themeSelectionLocked = true;
+
+export const defaultThemeId: ThemeId = lockedThemeId;
+export const defaultBackdropId: BackdropId = lockedBackdropId;
 
 export const themeList: ThemeDefinition[] = Object.values(themes);
 
@@ -186,6 +193,7 @@ export function isBackdropId(
 }
 
 export function resolveThemeId(stored: string | null): ThemeId {
+  if (themeSelectionLocked) return lockedThemeId;
   // Soft Earth раньше был design3
   if (stored === "design3") return "design2";
   if (isThemeId(stored)) return stored;
@@ -193,6 +201,7 @@ export function resolveThemeId(stored: string | null): ThemeId {
 }
 
 export function resolveBackdropId(stored: string | null): BackdropId {
+  if (themeSelectionLocked) return lockedBackdropId;
   if (isBackdropId(stored)) return stored;
   return defaultBackdropId;
 }

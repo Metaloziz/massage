@@ -1,19 +1,20 @@
 "use client";
 
-import { locations, services } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
 import { Button } from "@/components/ui/Button";
 import { useBooking } from "@/components/booking/BookingProvider";
+import { useLocations, useServices } from "@/components/content/ContentProvider";
 import { useThemeFlags } from "@/hooks/useThemeId";
-
-const locationById = Object.fromEntries(
-  locations.map((location) => [location.id, location]),
-);
 
 export function HomeServiceCards() {
   const { isDesign2 } = useThemeFlags();
   const { openSessionBooking } = useBooking();
+  const services = useServices();
+  const locations = useLocations();
+  const locationById = Object.fromEntries(
+    locations.map((location) => [location.id, location]),
+  );
   const card = isDesign2
     ? "soft-panel"
     : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background";
@@ -52,7 +53,8 @@ export function HomeServiceCards() {
                   {service.pricing.map((tier) => (
                     <div key={tier.locationId}>
                       <p className="text-xs font-medium text-muted">
-                        {locationById[tier.locationId].fullAddress}
+                        {locationById[tier.locationId]?.fullAddress ??
+                          tier.locationId}
                       </p>
                       <p className="mt-1 text-sm font-medium text-accent">
                         {tier.items.join(" · ")}

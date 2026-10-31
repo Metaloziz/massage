@@ -6,7 +6,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
 import { scrollToElement } from "@/components/layout/SmoothScroll";
-import { ThemeSettings } from "@/components/theme/ThemeSettings";
 import { silkPrimaryClass } from "@/components/ui/Button";
 import { useBooking } from "@/components/booking/BookingProvider";
 import { lockBodyScroll } from "@/lib/scrollLock";
@@ -129,15 +128,6 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <ThemeSettings
-            className={
-              !solidBar
-                ? isDesign2
-                  ? "border-white/35 text-[#f3f0e6]"
-                  : "border-white/30 text-[var(--hero-text)]"
-                : ""
-            }
-          />
           <button
             type="button"
             onClick={() => openBooking()}
@@ -148,15 +138,6 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          <ThemeSettings
-            className={
-              !solidBar && !menuOpen
-                ? isDesign2
-                  ? "border-white/35 text-[#f3f0e6]"
-                  : "border-white/30 text-[var(--hero-text)]"
-                : ""
-            }
-          />
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}

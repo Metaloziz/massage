@@ -4,23 +4,24 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { locations, services } from "@/lib/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { RevealText } from "@/components/ui/RevealText";
+import { useLocations, useServices } from "@/components/content/ContentProvider";
 import { useReducedMotion, useMounted } from "@/hooks/useReducedMotion";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
-
-const locationById = Object.fromEntries(
-  locations.map((location) => [location.id, location]),
-);
 
 export function Services() {
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const mounted = useMounted();
   const { isDesign2 } = useThemeFlags();
+  const services = useServices();
+  const locations = useLocations();
+  const locationById = Object.fromEntries(
+    locations.map((location) => [location.id, location]),
+  );
   const card = isDesign2
     ? "soft-panel"
     : "rounded-[var(--radius-card)] border border-[var(--line)] bg-background hover:border-accent/40";
@@ -90,7 +91,8 @@ export function Services() {
                 {service.pricing.map((tier) => (
                   <div key={tier.locationId}>
                     <p className="text-sm font-medium text-foreground">
-                      {locationById[tier.locationId].fullAddress}
+                      {locationById[tier.locationId]?.fullAddress ??
+                        tier.locationId}
                     </p>
                     <div className="mt-2 flex flex-wrap gap-2">
                       {tier.items.map((price) => (

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { about, schoolYasnost } from "@/lib/content";
+import { about } from "@/lib/content";
 import { assetPath } from "@/lib/assetPath";
 import { RevealText } from "@/components/ui/RevealText";
 import { useThemeFlags } from "@/hooks/useThemeId";
@@ -57,33 +57,6 @@ export function About() {
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
-
-            {schoolYasnost.blurb && (
-              <div
-                className="mt-8 space-y-4 border-t border-[var(--line)] pt-8"
-              >
-                <h3 className="font-serif text-xl font-medium sm:text-2xl">
-                  {schoolYasnost.title}
-                </h3>
-                <p className="text-base leading-relaxed text-muted md:text-lg">
-                  {schoolYasnost.blurb}
-                </p>
-                <p className="text-base leading-relaxed text-muted md:text-lg">
-                  Более подробную информацию о школе можно получить, перейдя по
-                  ссылке ниже.
-                </p>
-                {schoolYasnost.website && (
-                  <a
-                    href={schoolYasnost.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex text-accent underline-offset-4 transition-colors hover:text-foreground hover:underline"
-                  >
-                    {schoolYasnost.websiteLabel}
-                  </a>
-                )}
-              </div>
-            )}
           </div>
         </RevealText>
       </div>

@@ -5,10 +5,13 @@ import {
   defaultThemeId,
   design2Backdrops,
   getBackdrop,
+  lockedBackdropId,
+  lockedThemeId,
   resolveBackdropId,
   resolveThemeId,
   THEME_CHANGE_EVENT,
   THEME_STORAGE_KEY,
+  themeSelectionLocked,
   themes,
   tokensToCssVars,
   type BackdropId,
@@ -16,6 +19,7 @@ import {
 } from "@/design/themes";
 
 export function getStoredThemeId(): ThemeId {
+  if (themeSelectionLocked) return lockedThemeId;
   try {
     return resolveThemeId(localStorage.getItem(THEME_STORAGE_KEY));
   } catch {
@@ -24,6 +28,7 @@ export function getStoredThemeId(): ThemeId {
 }
 
 export function getStoredBackdropId(): BackdropId {
+  if (themeSelectionLocked) return lockedBackdropId;
   try {
     return resolveBackdropId(localStorage.getItem(BACKDROP_STORAGE_KEY));
   } catch {
@@ -44,10 +49,11 @@ export function readDocumentBackdropId(): BackdropId {
 }
 
 export function applyBackdrop(backdropId: BackdropId) {
-  const backdrop = getBackdrop(backdropId);
+  const id = themeSelectionLocked ? lockedBackdropId : backdropId;
+  const backdrop = getBackdrop(id);
   const root = document.documentElement;
 
-  root.setAttribute("data-backdrop", backdropId);
+  root.setAttribute("data-backdrop", id);
   root.setAttribute("data-backdrop-kind", backdrop.kind);
 
   if (backdrop.kind === "color") {
@@ -57,21 +63,22 @@ export function applyBackdrop(backdropId: BackdropId) {
   }
 
   try {
-    localStorage.setItem(BACKDROP_STORAGE_KEY, backdropId);
+    localStorage.setItem(BACKDROP_STORAGE_KEY, id);
   } catch {
     /* ignore */
   }
 
   window.dispatchEvent(
-    new CustomEvent(BACKDROP_CHANGE_EVENT, { detail: { backdropId } }),
+    new CustomEvent(BACKDROP_CHANGE_EVENT, { detail: { backdropId: id } }),
   );
 }
 
 export function applyTheme(themeId: ThemeId) {
-  const theme = themes[themeId];
+  const id = themeSelectionLocked ? lockedThemeId : themeId;
+  const theme = themes[id];
   const root = document.documentElement;
 
-  root.setAttribute("data-theme", themeId);
+  root.setAttribute("data-theme", id);
   root.style.colorScheme = theme.colorScheme;
 
   const vars = tokensToCssVars(theme.tokens);
@@ -80,7 +87,7 @@ export function applyTheme(themeId: ThemeId) {
   }
 
   try {
-    localStorage.setItem(THEME_STORAGE_KEY, themeId);
+    localStorage.setItem(THEME_STORAGE_KEY, id);
   } catch {
     /* ignore */
   }
@@ -94,7 +101,7 @@ export function applyTheme(themeId: ThemeId) {
   }
 
   window.dispatchEvent(
-    new CustomEvent(THEME_CHANGE_EVENT, { detail: { themeId } }),
+    new CustomEvent(THEME_CHANGE_EVENT, { detail: { themeId: id } }),
   );
 }
 
@@ -123,26 +130,29 @@ var THEME_KEY=${JSON.stringify(THEME_STORAGE_KEY)};
 var BG_KEY=${JSON.stringify(BACKDROP_STORAGE_KEY)};
 var catalog=${JSON.stringify(catalog)};
 var backdrops=${JSON.stringify(backdrops)};
-var fallback=${JSON.stringify(defaultThemeId)};
-var bgFallback=${JSON.stringify(defaultBackdropId)};
-var stored=localStorage.getItem(THEME_KEY);
-if(stored==="design3")stored="design2";
-var id=stored&&catalog[stored]?stored:fallback;
+var locked=${JSON.stringify(themeSelectionLocked)};
+var id=${JSON.stringify(lockedThemeId)};
+var bgId=${JSON.stringify(lockedBackdropId)};
+if(!locked){
+  var stored=localStorage.getItem(THEME_KEY);
+  if(stored==="design3")stored="design2";
+  id=stored&&catalog[stored]?stored:${JSON.stringify(defaultThemeId)};
+  var bgStored=localStorage.getItem(BG_KEY);
+  bgId=bgStored&&backdrops[bgStored]?bgStored:${JSON.stringify(defaultBackdropId)};
+}
 var theme=catalog[id];
 var root=document.documentElement;
 root.setAttribute("data-theme",id);
 root.style.colorScheme=theme.colorScheme;
 for(var k in theme.vars){if(Object.prototype.hasOwnProperty.call(theme.vars,k))root.style.setProperty(k,theme.vars[k]);}
-if(localStorage.getItem(THEME_KEY)!==id)localStorage.setItem(THEME_KEY,id);
+localStorage.setItem(THEME_KEY,id);
 if(theme.hasBackdropOptions){
-  var bgStored=localStorage.getItem(BG_KEY);
-  var bgId=bgStored&&backdrops[bgStored]?bgStored:bgFallback;
   var bg=backdrops[bgId];
   root.setAttribute("data-backdrop",bgId);
   root.setAttribute("data-backdrop-kind",bg.kind);
   if(bg.kind==="color")root.style.setProperty("--atmosphere-color",bg.value);
   else root.style.removeProperty("--atmosphere-color");
-  if(bgStored!==bgId)localStorage.setItem(BG_KEY,bgId);
+  localStorage.setItem(BG_KEY,bgId);
 }else{
   root.removeAttribute("data-backdrop");
   root.removeAttribute("data-backdrop-kind");
