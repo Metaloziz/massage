@@ -434,9 +434,25 @@ function readKeyValueSheet_(name) {
   values.slice(1).forEach(function (r) {
     var key = String(r[keyIdx] || '').trim();
     if (!key) return;
-    map[key] = String(r[valueIdx] == null ? '' : r[valueIdx]).trim();
+    map[key] = cellToString_(r[valueIdx]);
   });
   return map;
+}
+
+/**
+ * Ячейки с типом Date в Sheets через String(date) дают
+ * "Sat Oct 03 2026 00:00:00 GMT+0300 (...)" — форматируем по-русски.
+ */
+function cellToString_(v) {
+  if (v == null || v === '') return '';
+  if (Object.prototype.toString.call(v) === '[object Date]' && !isNaN(v.getTime())) {
+    var months = [
+      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+    ];
+    return v.getDate() + ' ' + months[v.getMonth()] + ' ' + v.getFullYear();
+  }
+  return String(v).trim();
 }
 
 function json_(obj) {

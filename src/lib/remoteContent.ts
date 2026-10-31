@@ -5,6 +5,7 @@ import {
   site as defaultSite,
   type SessionServiceId,
 } from "@/lib/content";
+import { formatDisplayDate, formatEducationPrice } from "@/lib/formatDisplay";
 
 export type SiteData = {
   name: string;
@@ -334,16 +335,24 @@ export function mergeRemoteContent(
 
   if (remote.education) {
     const e = remote.education;
+    const startDate = formatDisplayDate(
+      pickNonEmpty(e.startDate, next.education.startDate),
+    );
+    const endDate = formatDisplayDate(
+      pickNonEmpty(e.endDate, next.education.endDate),
+    );
     next.education = {
       ...next.education,
       schedule: pickNonEmpty(e.schedule, next.education.schedule),
-      startDate: pickNonEmpty(e.startDate, next.education.startDate),
-      endDate: pickNonEmpty(e.endDate, next.education.endDate),
-      price: pickNonEmpty(e.price, next.education.price),
+      startDate,
+      endDate,
+      price: formatEducationPrice(
+        pickNonEmpty(e.price, next.education.price),
+      ),
       place: pickNonEmpty(e.place, next.education.place),
       ctaLabel: pickNonEmpty(e.ctaLabel, next.education.ctaLabel),
       startDates: e.startDate?.trim()
-        ? [{ id: "remote-start", label: e.startDate.trim() }]
+        ? [{ id: "remote-start", label: startDate }]
         : next.education.startDates,
     };
   }
