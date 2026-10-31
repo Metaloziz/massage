@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Camera, MapPin, Phone, Send } from "lucide-react";
+import { MapPin, Phone, Send } from "lucide-react";
 import { navLinks } from "@/lib/content";
 import { useLocations, useSite } from "@/components/content/ContentProvider";
+import { InstagramIcon } from "@/components/icons/BrandIcons";
 import { useThemeFlags } from "@/hooks/useThemeId";
 
 export function Footer() {
@@ -102,7 +103,7 @@ export function Footer() {
                 className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-control)] border border-[var(--line)] transition-colors hover:border-accent hover:text-accent"
                 aria-label="Instagram"
               >
-                <Camera size={18} />
+                <InstagramIcon size={18} />
               </a>
               <a
                 href={site.social.telegram}
