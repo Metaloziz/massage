@@ -8,6 +8,7 @@ import { BookingProvider } from "@/components/booking/BookingProvider";
 import { ContentProvider } from "@/components/content/ContentProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getThemeBootstrapScript } from "@/design/applyTheme";
+import { assetPath } from "@/lib/assetPath";
 import { site } from "@/lib/content";
 import { ogImageUrl, seo, siteUrl } from "@/lib/seo";
 import "./globals.css";
@@ -44,14 +45,20 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  manifest: "/site.webmanifest",
+  manifest: assetPath("/site.webmanifest"),
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: assetPath("/favicon.svg"), type: "image/svg+xml" },
+      { url: assetPath("/icons/icon-192.png"), sizes: "192x192", type: "image/png" },
+      { url: assetPath("/icons/icon-512.png"), sizes: "512x512", type: "image/png" },
     ],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      {
+        url: assetPath("/apple-icon.png"),
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
   },
   themeColor: "#1e3a2f",
   appleWebApp: {
