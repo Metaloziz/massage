@@ -1,40 +1,84 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const reducedMotion = useReducedMotion();
-  const lenisRef = useRef<Lenis | null>(null);
+  const lenisRef = useRef<{ destroy: () => void } | null>(null);
 
   useEffect(() => {
     if (reducedMotion) return;
 
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
+    // Mobile: keep native scroll — Lenis costs main-thread for little gain.
+    const isCoarse =
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 767px), (hover: none)").matches;
+    if (isCoarse) return;
 
-    lenisRef.current = lenis;
-    lenis.on("scroll", ScrollTrigger.update);
+    let cancelled = false;
+    let removeTicker: (() => void) | undefined;
 
-    const tickerCallback = (time: number) => {
-      lenis.raf(time * 1000);
+    const start = async () => {
+      const [{ default: Lenis }, gsapMod, stMod] = await Promise.all([
+        import("lenis"),
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      if (cancelled) return;
+
+      const gsap = gsapMod.default;
+      const { ScrollTrigger } = stMod;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+
+      lenisRef.current = lenis;
+      lenis.on("scroll", ScrollTrigger.update);
+
+      const tickerCallback = (time: number) => {
+        lenis.raf(time * 1000);
+      };
+
+      gsap.ticker.add(tickerCallback);
+      gsap.ticker.lagSmoothing(0);
+
+      removeTicker = () => {
+        gsap.ticker.remove(tickerCallback);
+        lenis.destroy();
+        lenisRef.current = null;
+      };
     };
 
-    gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(0);
+    let idleId: number | undefined;
+    let timeoutId: number | undefined;
+
+    if (typeof window.requestIdleCallback === "function") {
+      idleId = window.requestIdleCallback(
+        () => {
+          void start();
+        },
+        { timeout: 2000 },
+      );
+    } else {
+      timeoutId = window.setTimeout(() => {
+        void start();
+      }, 1);
+    }
 
     return () => {
-      gsap.ticker.remove(tickerCallback);
-      lenis.destroy();
-      lenisRef.current = null;
+      cancelled = true;
+      if (idleId !== undefined && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+      removeTicker?.();
     };
   }, [reducedMotion]);
 

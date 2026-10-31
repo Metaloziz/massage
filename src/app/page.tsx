@@ -1,11 +1,27 @@
+import dynamic from "next/dynamic";
 import { Hero } from "@/components/sections/Hero";
 import { SoftEarthFeatures } from "@/components/sections/SoftEarthFeatures";
-import { About } from "@/components/sections/About";
-import { School } from "@/components/sections/School";
-import { Prep } from "@/components/sections/Prep";
-import { HomeServiceCards } from "@/components/sections/HomeServiceCards";
-import { Locations } from "@/components/sections/Locations";
-import { Testimonials } from "@/components/sections/Testimonials";
+
+const About = dynamic(() =>
+  import("@/components/sections/About").then((m) => m.About),
+);
+const School = dynamic(() =>
+  import("@/components/sections/School").then((m) => m.School),
+);
+const Prep = dynamic(() =>
+  import("@/components/sections/Prep").then((m) => m.Prep),
+);
+const HomeServiceCards = dynamic(() =>
+  import("@/components/sections/HomeServiceCards").then(
+    (m) => m.HomeServiceCards,
+  ),
+);
+const Locations = dynamic(() =>
+  import("@/components/sections/Locations").then((m) => m.Locations),
+);
+const Testimonials = dynamic(() =>
+  import("@/components/sections/Testimonials").then((m) => m.Testimonials),
+);
 
 export default function Home() {
   return (

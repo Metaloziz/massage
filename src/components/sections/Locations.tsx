@@ -117,7 +117,6 @@ function ImageLightbox({
             fill
             className="object-contain"
             sizes="(max-width: 896px) 100vw, 896px"
-            priority
           />
         </div>
       </div>

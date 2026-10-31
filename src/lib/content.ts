@@ -122,19 +122,19 @@ export const locations = [
     images: {
       cabinet: [
         {
-          src: "/locations/tyurli/cabinet-1.png",
+          src: "/locations/tyurli/cabinet-1.jpg",
           alt: "Массажный кабинет в Молодечно — рабочее пространство",
         },
         {
-          src: "/locations/tyurli/cabinet-2.png",
+          src: "/locations/tyurli/cabinet-2.jpg",
           alt: "Зона ожидания и вход в кабинет в Молодечно",
         },
         {
-          src: "/locations/tyurli/cabinet-3.png",
+          src: "/locations/tyurli/cabinet-3.jpg",
           alt: "Санузел и гардеробная в кабинете в Молодечно",
         },
         {
-          src: "/locations/tyurli/cabinet-4.png",
+          src: "/locations/tyurli/cabinet-4.jpg",
           alt: "Коридор кабинета в Молодечно",
         },
       ],
@@ -400,7 +400,7 @@ export const education = {
     "13-е занятие — экзамен",
   ],
   programPhoto: {
-    src: "/education/program.png",
+    src: "/education/program.jpg",
     alt: "Программа обучения классическому массажу",
     width: 1080,
     height: 1350,
@@ -470,6 +470,8 @@ export const testimonials = [
 ] as const;
 
 export const heroImage = "/hero/sasnouski-hero.jpg";
+export const heroImageWebp = "/hero/sasnouski-hero.webp";
+export const heroImageMobileWebp = "/hero/sasnouski-hero-800.webp";
 
 export const philosophy = {
   quote:

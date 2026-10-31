@@ -32,8 +32,8 @@ html[data-appearance="dark"] {
 /* —— Дизайн 2: soft earth (законсервирован) —— */
 [data-theme="design2"] {
   color-scheme: light;
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
-  --font-serif: var(--font-manrope), system-ui, sans-serif;
+  --font-sans: var(--font-manrope, var(--font-dm-sans)), system-ui, sans-serif;
+  --font-serif: var(--font-manrope, var(--font-dm-sans)), system-ui, sans-serif;
   --shadow-tile:
     2px 4px 8px rgba(42, 50, 40, 0.12),
     6px 12px 22px rgba(42, 50, 40, 0.2);
@@ -47,12 +47,12 @@ html[data-appearance="dark"] {
 
 [data-theme="design2"] body {
   background: transparent;
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-family: var(--font-manrope, var(--font-dm-sans)), system-ui, sans-serif;
 }
 
 [data-theme="design2"] .font-sans,
 [data-theme="design2"] .font-serif {
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-family: var(--font-manrope, var(--font-dm-sans)), system-ui, sans-serif;
 }
 
 [data-theme="design2"] .font-serif {

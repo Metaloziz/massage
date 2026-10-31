@@ -44,9 +44,9 @@ export function School() {
                   src={assetPath(schoolYasnost.photo)}
                   alt={schoolYasnost.title}
                   fill
-                  priority
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
+                  loading="lazy"
                 />
               </div>
             </div>
