@@ -6,6 +6,8 @@
     "dev": "next dev",
     "prebuild": "node scripts/generate-seo-files.mjs",
     "build": "next build",
+    "build:prod": "node ./scripts/run-build.mjs prod",
+    "build:pages": "node ./scripts/run-build.mjs pages",
     "start": "next start",
     "lint": "eslint"
   },

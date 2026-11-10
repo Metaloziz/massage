@@ -33,17 +33,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 Основной сайт: **https://sasnouski.by** (корень домена, без `BASE_PATH`).
 
-Сборка статики для прода:
+Сборка статики для прода (тот же хостинг, что zeuzyki — в document root `sasnouski.by`):
 
 ```bash
-# Windows (PowerShell)
-$env:SITE_URL="https://sasnouski.by"; npm run build
-
-# macOS / Linux
-SITE_URL=https://sasnouski.by npm run build
+npm run build:prod
 ```
 
-`BASE_PATH` не задавайте (пустой). Статика в `out/` — залейте на хост организации. DNS/CNAME для `sasnouski.by` настраиваются у регистратора.
+Нужен `.env.local` с `NEXT_PUBLIC_GAS_API_KEY` (см. `.env.example`). `BASE_PATH` не задавайте.
+
+Заливка (как zeuzyki → `zeuzyki.by`, только другой домен):
+
+1. `npm run build:prod`
+2. Содержимое папки `out/` → document root **sasnouski.by** (не в папку zeuzyki и не в `/massage`)
+3. Проверить https://sasnouski.by/ , `/services/`, `/education/`
+4. DNS/SSL у регистратора должны смотреть на этот root
 
 ## Превью: GitHub Pages
 
@@ -65,11 +68,7 @@ SITE_URL=https://sasnouski.by npm run build
 ### Локальная проверка сборки превью
 
 ```bash
-# Windows (PowerShell)
-$env:BASE_PATH="/massage"; $env:SITE_URL="https://metaloziz.github.io/massage"; npm run build
-
-# macOS / Linux
-BASE_PATH=/massage SITE_URL=https://metaloziz.github.io/massage npm run build
+npm run build:pages
 ```
 
 Статические файлы появятся в папке `out/`.
